@@ -34,27 +34,27 @@ const Footer = () => {
           </div>
 
           {/* Kontak */}
-          <div className="w-full lg:w-auto border-l-0 lg:border-l-4 border-white pl-0 lg:pl-4 flex flex-col gap-2 mb-8 lg:mb-0">
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-4 mt-2">Informasi Kontak</h3>
-            <div className="flex flex-col text-base sm:text-lg md:text-xl gap-4">
-              <div>
-                <div className="flex items-center gap-2 font-semibold">
+          <div className="w-full lg:w-auto border-l-0 lg:border-l-4 border-white pl-0 lg:pl-4 flex flex-col gap-2 mb-8 lg:mb-0 text-center lg:text-left">
+            <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-4 mt-[-30px] sm:mt-2">Informasi Kontak</h3>
+            <div className="flex flex-col text-base sm:text-lg md:text-xl gap-2 sm:gap-4 items-center lg:items-start">
+              <div className="flex flex-row sm:flex-col">
+                <div className="flex gap-2 font-semibold ">
                   <Phone className="w-5 h-5" />
-                  Phone
+                  <p className="text-base sm:text-lg md:text-xl hidden sm:block">Phone</p>
                 </div>
                 <div className="ml-7 text-white/80 text-sm sm:text-base">+62 898-8821-793</div>
               </div>
-              <div>
+              <div className="flex flex-row sm:flex-col">
                 <div className="flex items-center gap-2 font-semibold">
                   <Mail className="w-5 h-5" />
-                  Email
+                  <p className="text-base sm:text-lg md:text-xl hidden sm:block">Email</p>
                 </div>
                 <div className="ml-7 text-white/80 text-sm sm:text-base">@ikapemakeprimalang</div>
               </div>
-              <div>
+              <div className="flex flex-row sm:flex-col">
                 <div className="flex items-center gap-2 font-semibold">
-                  <MapPin className="w-5 h-5" />
-                  Address
+                  <MapPin className="w-5 h-5 hidden sm:block" />
+                  <p className="text-base sm:text-lg md:text-xl hidden sm:block">Address</p>
                 </div>
                 <div className="ml-7 w-full max-w-xs sm:max-w-sm md:max-w-md lg:w-[350px] text-white/80 text-sm sm:text-base">
                   Perumahan Permata Kencana Blok C no 22, Jl. Saxophone, Tunggulwulung, Kec. Lowokwaru, Kota Malang, Jawa Timur 65143
@@ -64,9 +64,9 @@ const Footer = () => {
           </div>
 
           {/* Media Sosial */}
-          <div className="w-full lg:w-auto border-l-0 lg:border-l-4 border-white pl-0 lg:pl-4 flex flex-col gap-2 mb-8 lg:mb-0">
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 mt-2">Media Sosial</h3>
-            <div className="flex flex-col text-base sm:text-lg gap-4 mt-2">
+          <div className="w-full lg:w-auto border-l-0 lg:border-l-4 border-white pl-0 lg:pl-4 flex flex-col gap-2 mb-0 sm:mb-8 lg:mb-0 text-center lg:text-left">
+            <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-0 sm:mb-2 mt-[-50px] sm:mt-2">Media Sosial</h3>
+            <div className="flex flex-col text-base sm:text-lg gap-2 sm:gap-4 mt-2 items-center lg:items-start">
               <Link href="https://www.instagram.com/ikapemakeprimalang/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex flex-row items-center gap-2">
                 <FaInstagram className="w-6 h-6 hover:text-[#00CCFF] transition-colors" />
                 <span>@ikapemakeprimalang</span>
@@ -83,9 +83,9 @@ const Footer = () => {
           </div>
 
           {/* Quick Link */}
-          <div className="w-full lg:w-auto pl-0 lg:pl-4 flex flex-col gap-2 mt-4">
+          <div className="w-full lg:w-auto pl-0 lg:pl-4 flex flex-col gap-2 mt-[-20px] sm:mt-4 text-center lg:text-left">
             <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 mt-2">Quick Link</h3>
-            <ul className="flex flex-col gap-2 items-start lg:items-end">
+            <ul className="flex flex-col gap-0 sm:gap-2 items-center lg:items-end">
               {quickLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="hover:underline hover:text-[#00CCFF] transition-colors">
