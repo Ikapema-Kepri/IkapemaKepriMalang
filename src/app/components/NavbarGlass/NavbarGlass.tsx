@@ -20,7 +20,7 @@ const NavbarGlass: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 px-2 sm:px-4 md:px-8 lg:px-24 py-2 sm:py-3 md:py-4 bg-transparent">
+    <header className="fixed top-0 left-0 w-full z-50 px-4 sm:px-6 md:px-8 lg:px-24 py-1 bg-transparent">
       <nav className="max-w-[1440px] mx-auto flex items-center justify-between">
         {/* Logo */}
         <a href="#beranda" aria-label="Logo IKAPEMA KEPRI—MALANG">
@@ -38,7 +38,7 @@ const NavbarGlass: React.FC = () => {
               <li key={link.label}>
                 <Link
                   href={link.href}
-                  className="text-white font-medium text-sm sm:text-base px-4 sm:px-6 md:px-8 py-2 md:py-4 rounded-full transition-colors duration-300 hover:bg-white/20"
+                  className="text-white font-medium text-sm sm:text-base md:text-xl px-4 sm:px-6 md:px-8 py-2 md:py-4 rounded-full transition-colors duration-300 hover:bg-white/20"
                 >
                   {link.label}
                 </Link>

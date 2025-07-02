@@ -32,7 +32,7 @@ const TentangSection: React.FC = () => {
           <div className="grid lg:grid-cols-2 gap-1 lg:gap-12 items-center">
             {/* Logo/Image section */}
             <div className="flex justify-center lg:justify-start">
-              <div className="w-100 h-100 relative flex justify-center items-center">
+              <div className="w-50 h-50 md:w-72 md:h-72 lg:w-100 lg:h-100 relative flex justify-center items-center">
                 <Image
                   src="/LogoIKAPEMA.svg" // Replace with your logo path
                   alt="IKAPEMA KEPRI MALANG Logo"
@@ -45,7 +45,7 @@ const TentangSection: React.FC = () => {
 
             {/* Content section */}
             <div className="space-y-6">
-              <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-black leading-tight">
+              <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-black leading-tight text-center lg:text-left">
                 Apa itu IKAPEMA KEPRI—MALANG?
               </h3>
 
