@@ -6,7 +6,7 @@ import BerandaPage from "./pages/BerandaPage";
 export default function Home() {
   return (
     <div className="bg-[#E5FAFF] min-h-screen flex flex-col">
-      <main>
+      <main className="flex-1 w-full max-w-[1920px]">
         <BerandaPage />
         </main>
     </div>
