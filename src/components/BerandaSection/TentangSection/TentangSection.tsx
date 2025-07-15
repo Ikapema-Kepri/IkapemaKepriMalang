@@ -3,7 +3,7 @@
 import type React from "react";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import Button from "@/app/components/UI/button";
+import Button from "@/components/UI/button";
 
 const TentangSection: React.FC = () => {
   const handleSelengkapnyaClick = () => {
