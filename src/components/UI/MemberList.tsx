@@ -1,7 +1,7 @@
 // components/MemberList.tsx
 "use client";
 import React, { useEffect, useState } from 'react';
-import { Anggota, ApiResponse } from '../types';
+import { Anggota, ApiResponse } from '../../types';
 
 const MemberList: React.FC = () => {
   const [members, setMembers] = useState<Anggota[]>([]);

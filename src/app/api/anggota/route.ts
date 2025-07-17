@@ -49,7 +49,7 @@ const handlers = {
     }
   },
 
-  async GET(_req: NextRequest) {
+  async GET(_: NextRequest) {
     try {
       const anggotaSnapshot = await getDocs(anggotaCol);
       const anggotaList = anggotaSnapshot.docs.map(doc => ({

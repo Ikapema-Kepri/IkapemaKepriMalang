@@ -1,5 +1,7 @@
-import AddMemberForm from '@/components/AddMemberForm';
-import MemberList from '@/components/MemberList';
+import AddMemberForm from '@/components/UI/AddMemberForm';
+import ImageUploader from '@/components/UI/ImageUploader';
+import MemberList from '@/components/UI/MemberList';
+
 
 const addMemberPage: React.FC = () => {
   return (
@@ -9,6 +11,7 @@ const addMemberPage: React.FC = () => {
           {/* Form di kiri, 1/3 layar */}
           <div className="w-full lg:w-1/3">
             <AddMemberForm />
+            <ImageUploader />
           </div>
           {/* List member di kanan, 2/3 layar */}
           <div className="w-full lg:w-2/3">

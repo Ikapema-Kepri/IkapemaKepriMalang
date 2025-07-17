@@ -2,7 +2,7 @@
 
 "use client";
 import React, { useState } from 'react';
-import { Anggota, ApiResponse } from '../types';
+import { Anggota, ApiResponse } from '../../types';
 
 interface AddMemberFormProps {
   onSuccess?: () => void;
