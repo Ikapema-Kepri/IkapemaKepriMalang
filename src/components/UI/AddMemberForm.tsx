@@ -86,6 +86,7 @@ const AddMemberForm: React.FC<AddMemberFormProps> = ({ onSuccess }) => {
             <option value="Binus">Binus</option>
             <option value="UNISMA">UNISMA</option>
             <option value="UNMER">UNMER</option>
+            <option value="ITN">ITN</option>
           </select>
         </div>
         <div>

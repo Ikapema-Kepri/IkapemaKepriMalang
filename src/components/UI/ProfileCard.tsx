@@ -30,14 +30,31 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
     >
       {/* Profile Image Container */}
       <div className="flex-1 flex items-center justify-center px-4 pt-0 pb-0">
-        <div className="relative w-full max-w-[200px] aspect-square">
-          <Image
-            src={imageUrl}
-            alt={`${name} profile picture`}
-            fill
-            className="object-cover rounded-lg"
-            priority
-          />
+        <div className="relative w-full max-w-[200px] aspect-square flex items-center justify-center">
+          {imageUrl ? (
+            <Image
+              src={imageUrl}
+              alt={`${name} profile picture`}
+              fill
+              className="object-cover rounded-lg"
+              priority
+            />
+          ) : (
+            <div className="flex items-center justify-center w-full h-full bg-gray-100 rounded-lg">
+              <svg
+                className="w-35 h-35 text-gray-300"
+                fill="none"
+                viewBox="0 0 64 64"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect width="64" height="64" rx="10" fill="#e5e7eb" />
+                <path
+                  d="M32 34c5.523 0 10-4.477 10-10S37.523 14 32 14s-10 4.477-10 10 4.477 10 10 10zm0 4c-6.627 0-20 3.314-20 10v4h40v-4c0-6.686-13.373-10-20-10z"
+                  fill="#cbd5e1"
+                />
+              </svg>
+            </div>
+          )}
         </div>
       </div>
 
@@ -49,7 +66,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         </h2>
 
         {/* Department */}
-        <p className="text-sm font-semibold text-gray-700">
+        <p className="text-base font-semibold text-gray-700">
           {department}
         </p>
 

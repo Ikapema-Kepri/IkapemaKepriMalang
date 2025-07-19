@@ -1,8 +1,11 @@
 "use client";
 
 import ProfileCard from "@/components/UI/ProfileCard";
+import ProfileCardSkeleton from "@/components/UI/ProfileCardSkeleton";
 import React, { useEffect, useState } from "react";
 import { Anggota, ApiResponse } from "../../types";
+
+const SKELETON_COUNT = 1;
 
 const AnggotaPage: React.FC = () => {
   const [members, setMembers] = useState<Anggota[]>([]);
@@ -46,19 +49,23 @@ const AnggotaPage: React.FC = () => {
   return (
     <div>
       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 md:py-16 lg:py-24 px-4 sm:px-6 md:px-8 lg:px-24">
-        {members.map((member) => (
-          <ProfileCard
-            key={member.id}
-            name={member.namaAnggota}
-            department={member.programStudi}
-            imageUrl={member.photoURL ? member.photoURL : "/Andreas.jpg"}
-            logoUrl={
-              member.universitas
-                ? `/logoKampus/${member.universitas}.svg`
-                : "/Andreas.jpg"
-            }
-          />
-        ))}
+        {loading
+          ? Array.from({ length: SKELETON_COUNT }).map((_, idx) => (
+              <ProfileCardSkeleton key={idx} />
+            ))
+          : members.map((member) => (
+              <ProfileCard
+                key={member.id}
+                name={member.namaAnggota}
+                department={member.programStudi}
+                imageUrl={member.photoURL || ""}
+                logoUrl={
+                  member.universitas
+                    ? `/logoKampus/${member.universitas}.svg`
+                    : "/Andreas.jpg"
+                }
+              />
+            ))}
       </section>
     </div>
   );
