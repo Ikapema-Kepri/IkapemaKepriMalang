@@ -19,30 +19,30 @@ const AnggotaPage: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function fetchMembers() {
+  async function fetchMembers(query?: string) {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("/api/anggota");
+      let url = "/api/anggota";
+      if (query && query.trim() !== "") {
+        url += `?search=${encodeURIComponent(query.trim())}`;
+      }
+      const response = await fetch(url);
       const data: ApiResponse<Anggota[]> = await response.json();
       if (!response.ok) {
         throw new Error(data.message || `HTTP error! status: ${response.status}`);
       }
-      if (data.data) {
-        setMembers(data.data);
-      } else {
-        setMembers([]);
-      }
+      setMembers(data.data ?? []);
     } catch (e: unknown) {
-      if (e instanceof Error) {
-        setError(e.message);
-      } else {
-        setError("Gagal memuat anggota.");
-      }
+      setError(e instanceof Error ? e.message : "Gagal memuat anggota.");
     } finally {
       setLoading(false);
     }
   }
+
+  const handleSearch = (query: string) => {
+    fetchMembers(query);
+  };
 
   if (error) return <p style={{ color: "red" }}>Error: {error}</p>;
   if (!loading && members.length === 0) return <p>Belum ada anggota.</p>;
@@ -51,17 +51,17 @@ const AnggotaPage: React.FC = () => {
     <div>
       <section className="flex gap-4 md:pt-12 lg:pt-24 px-4 sm:px-6 md:px-8 lg:px-24">
         <div className="text-center mb-12">
-                <div className="flex items-center justify-center gap-4 mb-8">
-                  <Image
-                    src="/heading/HeadingAnggota.svg"
-                    alt="Heading Anggota"
-                    width={454}
-                    height={100}
-                    className="h-10 md:h-20 lg:h-[80px] w-auto max-w-[90%]"
-                  />
-                </div>
-              </div>
-        <AnggotaSearchBar onSearch={(query) => console.log("Searching for:", query)} />
+          <div className="flex items-center justify-center gap-4 mb-8">
+            <Image
+              src="/heading/HeadingAnggota.svg"
+              alt="Heading Anggota"
+              width={454}
+              height={100}
+              className="h-10 md:h-20 lg:h-[80px] w-auto max-w-[90%]"
+            />
+          </div>
+        </div>
+        <AnggotaSearchBar onSearch={handleSearch} />
       </section>
       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 md:pb-16 lg:pb-24 md:pt-4 lg:pt-6 px-4 sm:px-6 md:px-8 lg:px-24">
         {loading

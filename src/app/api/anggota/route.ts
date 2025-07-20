@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../lib/firebase';
 import { collection, addDoc, getDocs, query, orderBy, limit } from 'firebase/firestore';
+import { Anggota } from '@/types';
 
 const anggotaCol = collection(db, 'anggota');
 
@@ -49,13 +50,25 @@ const handlers = {
     }
   },
 
-  async GET(_: NextRequest) {
+  async GET(req: NextRequest) {
     try {
+      const { search } = Object.fromEntries(req.nextUrl.searchParams.entries());
       const anggotaSnapshot = await getDocs(anggotaCol);
-      const anggotaList = anggotaSnapshot.docs.map(doc => ({
+      let anggotaList = anggotaSnapshot.docs.map(doc => ({
         id: doc.id,
-        ...doc.data()
+        ...(doc.data() as Anggota)
       }));
+
+      // Filter by search query (nama, universitas, programStudi)
+      if (search && search.trim() !== "") {
+        const q = search.trim().toLowerCase();
+        anggotaList = anggotaList.filter(
+          (a) =>
+            (a.namaAnggota && a.namaAnggota.toLowerCase().includes(q)) ||
+            (a.universitas && a.universitas.toLowerCase().includes(q)) ||
+            (a.programStudi && a.programStudi.toLowerCase().includes(q))
+        );
+      }
 
       return NextResponse.json({
         message: 'Daftar anggota berhasil diambil.',

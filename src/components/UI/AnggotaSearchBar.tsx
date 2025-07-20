@@ -9,7 +9,9 @@ const AnggotaSearchBar: React.FC<AnggotaSearchBarProps> = ({ onSearch }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (onSearch) onSearch(query);
+    if (onSearch) {
+      onSearch(query.trim());
+    }
   };
 
   return (
