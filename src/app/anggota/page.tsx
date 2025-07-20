@@ -4,6 +4,8 @@ import ProfileCard from "@/components/UI/ProfileCard";
 import ProfileCardSkeleton from "@/components/UI/ProfileCardSkeleton";
 import React, { useEffect, useState } from "react";
 import { Anggota, ApiResponse } from "../../types";
+import AnggotaSearchBar from "@/components/UI/AnggotaSearchBar";
+import Image from "next/image";
 
 const SKELETON_COUNT = 6;
 
@@ -47,7 +49,21 @@ const AnggotaPage: React.FC = () => {
 
   return (
     <div>
-      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 md:py-16 lg:py-24 px-4 sm:px-6 md:px-8 lg:px-24">
+      <section className="flex gap-4 md:pt-12 lg:pt-24 px-4 sm:px-6 md:px-8 lg:px-24">
+        <div className="text-center mb-12">
+                <div className="flex items-center justify-center gap-4 mb-8">
+                  <Image
+                    src="/heading/HeadingAnggota.svg"
+                    alt="Heading Anggota"
+                    width={454}
+                    height={100}
+                    className="h-10 md:h-20 lg:h-[80px] w-auto max-w-[90%]"
+                  />
+                </div>
+              </div>
+        <AnggotaSearchBar onSearch={(query) => console.log("Searching for:", query)} />
+      </section>
+      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 md:pb-16 lg:pb-24 md:pt-4 lg:pt-6 px-4 sm:px-6 md:px-8 lg:px-24">
         {loading
           ? Array.from({ length: SKELETON_COUNT }).map((_, idx) => (
               <ProfileCardSkeleton key={idx} />
