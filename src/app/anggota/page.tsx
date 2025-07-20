@@ -5,7 +5,7 @@ import ProfileCardSkeleton from "@/components/UI/ProfileCardSkeleton";
 import React, { useEffect, useState } from "react";
 import { Anggota, ApiResponse } from "../../types";
 
-const SKELETON_COUNT = 1;
+const SKELETON_COUNT = 6;
 
 const AnggotaPage: React.FC = () => {
   const [members, setMembers] = useState<Anggota[]>([]);
@@ -42,9 +42,8 @@ const AnggotaPage: React.FC = () => {
     }
   }
 
-  if (loading) return <p>Memuat anggota...</p>;
   if (error) return <p style={{ color: "red" }}>Error: {error}</p>;
-  if (members.length === 0) return <p>Belum ada anggota.</p>;
+  if (!loading && members.length === 0) return <p>Belum ada anggota.</p>;
 
   return (
     <div>
