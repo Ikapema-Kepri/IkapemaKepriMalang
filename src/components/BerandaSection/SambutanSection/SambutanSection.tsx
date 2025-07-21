@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const SambutanSection: React.FC = () => {
   return (
-    <section className="py-10 md:py-16 lg:py-24">
+    <section id="sambutan" className="py-10 md:py-16 lg:py-24">
       <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24">
         {/* Judul Section */}
         <div className="relative flex flex-col items-center justify-center text-center mb-8 md:mb-14 lg:mb-20">

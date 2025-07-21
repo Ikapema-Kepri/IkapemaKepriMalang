@@ -7,23 +7,34 @@ import TentangSection from '../../components/BerandaSection/TentangSection/Tenta
 import KegiatanSection from '../../components/BerandaSection/KegiatanSection/KegiatanSection';
 
 const Beranda: React.FC = () => {
+  // Fungsi scroll smooth ke section sambutan
+  const handleScrollToSambutan = () => {
+    const section = document.getElementById('sambutan');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="bg-[#E5FAFF]">
-      <section className="">
-          <HeroSctionPages />
-        </section>
-        <section className="">
-          <SambutanSection />
-        </section> 
-        <section>
-          <TentangSection />
-        </section>
-        <section>
-          <KegiatanSection />
-        </section>
-        <section>
-          <FaqSection />
-        </section>
+      <section>
+        <HeroSctionPages
+          onButtonClick={handleScrollToSambutan}
+          onScrollClick={handleScrollToSambutan}
+        />
+      </section>
+      <section>
+        <SambutanSection />
+      </section>
+      <section>
+        <TentangSection />
+      </section>
+      <section>
+        <KegiatanSection />
+      </section>
+      <section>
+        <FaqSection />
+      </section>
     </div>
   );
 };
