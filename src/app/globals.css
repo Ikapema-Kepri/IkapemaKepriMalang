@@ -2,7 +2,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #E5FAFF;
+  --background: #E5FAFF;;
   --foreground: #171717;
 }
 

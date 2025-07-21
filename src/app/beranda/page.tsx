@@ -8,7 +8,7 @@ import KegiatanSection from '../../components/BerandaSection/KegiatanSection/Keg
 
 const Beranda: React.FC = () => {
   return (
-    <div>
+    <div className="bg-[#E5FAFF]">
       <section className="">
           <HeroSctionPages />
         </section>

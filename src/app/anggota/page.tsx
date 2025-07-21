@@ -48,9 +48,8 @@ const AnggotaPage: React.FC = () => {
   if (!loading && members.length === 0) return <p>Belum ada anggota.</p>;
 
   return (
-    <div>
-      <section className="flex gap-4 md:pt-12 lg:pt-24 px-4 sm:px-6 md:px-8 lg:px-24">
-        <div className="text-center mb-12">
+    <div className="container pt-32 px-4 sm:px-6 md:px-8 lg:px-24">
+        <section className="text-center">
           <div className="flex items-center justify-center gap-4 mb-8">
             <Image
               src="/heading/HeadingAnggota.svg"
@@ -60,10 +59,11 @@ const AnggotaPage: React.FC = () => {
               className="h-10 md:h-20 lg:h-[80px] w-auto max-w-[90%]"
             />
           </div>
-        </div>
+        </section>
+      <section className="flex gap-4 md:pt-2 lg:pt-4">
         <AnggotaSearchBar onSearch={handleSearch} />
       </section>
-      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 md:pb-16 lg:pb-24 md:pt-4 lg:pt-6 px-4 sm:px-6 md:px-8 lg:px-24">
+      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 md:pb-16 lg:pb-24 md:pt-4 lg:pt-6">
         {loading
           ? Array.from({ length: SKELETON_COUNT }).map((_, idx) => (
               <ProfileCardSkeleton key={idx} />

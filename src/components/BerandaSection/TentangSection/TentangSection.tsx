@@ -13,7 +13,7 @@ const TentangSection: React.FC = () => {
 
   return (
     <section className="w-full py-16 px-6 md:px-16 lg:px-24">
-      <div className="mx-auto bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-500 rounded-3xl py-16 px-8">
+      <div className="mx-auto bg-gradient-to-b from-[#33D6FF] to-[#00A3CC] rounded-3xl py-16 px-8">
         <div className="max-w-5xl mx-auto">
           {/* Header with decorative title */}
           <div className="text-center mb-12">
@@ -50,13 +50,16 @@ const TentangSection: React.FC = () => {
               </h3>
 
               <p className="text-black/80 text-base md:text-lg leading-relaxed text-justify">
-                Lorem ipsum dolor sit amet consectetur. Dolor vitae turpis
-                tempus velit elit. Aliquet vitae sit nulla non sollicitudin
-                vitae est morbi. Tincidunt venenatis nec tempus vivamus libero
-                sit risus imperdiet tortor. Ac iaculis adipiscing ac non
-                curabitur amet tellus vitae iaculis. Lacinia eu a tristique
-                convallis. Nunc nunc pretium a tortor dolor cras. Arcu turpis
-                urna ut eu. Viverra vestibulum id risus donec.
+                Ikatan Pelajar Mahasiswa Kepulauan Riau-Malang (IKAPEMA
+                Kepri-Malang) adalah organisasi pelajar dan mahasiswa daerah
+                Provinsi Kepulauan Riau yang ada di Kota Malang. Organisasi ini
+                berlandaskan Pancasila dan UUD RI 1945 dan berasaskan
+                kekeluargaan serta bersifat kerukunan, kependidikan, dan
+                kemasyarakatan. Tujuan dibentuknya organisasi ini adalah untuk
+                menumbuhkan kesadaran, kecakapan, kecerdasan dan persaudaraan,
+                serta tanggung jawab anggota sebagai bentuk pengabdian kepada
+                daerah, bangsa dan negara. Anggota IKAPEMA Kepri-Malang terdiri
+                atas anggota biasa, luar biasa dan kehormatan.
               </p>
 
               <div className="pt-4">
