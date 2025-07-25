@@ -17,7 +17,7 @@ const FaqCard: React.FC<FaqCardProps> = ({ question, answer }) => {
       className={`
         w-full
         max-w-[1062px]
-        bg-white
+        bg-[#FFFFFF]
         rounded-[20px]
         transition-all duration-500
         shadow

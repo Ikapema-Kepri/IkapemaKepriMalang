@@ -3,6 +3,8 @@
 import React from "react";
 import QuoteIcon from "../../QuotesIcon/QuotesIcon";
 import Image from "next/image";
+import BlurText from "../../UI/BlurText";
+
 
 const SambutanSection: React.FC = () => {
   return (
@@ -31,15 +33,14 @@ const SambutanSection: React.FC = () => {
           {/* Kolom Kiri: Teks */}
           <div className="w-full md:w-1/2 lg:w-3/5">
             <QuoteIcon />
-            <p className="w-full max-w-none md:max-w-2xl lg:max-w-3xl my-4 text-gray-600 leading-relaxed text-justify text-base sm:text-lg md:text-xl">
-              Lorem ipsum dolor sit amet consectetur. Dolor vitae turpis tempus
-              velit. Aliquet vitae sit nulla non sollicitudin vitae est morbi.
-              Tincidunt venenatis nec tempus vivamus libero sit risus imperdiet
-              tortor. Ac iaculis adipiscing ac non curabitur amet tellus vitae
-              iaculis. Lacinia eu a tristique convallis. Nunc nunc pretium a
-              tortor dolor cras. Arcu turpis urna ut eu. Viverra vestibulum id
-              risus donec.
-            </p>
+            <BlurText 
+            text="Selamat datang kami ucapkan untuk seluruh keluarga besar IKAPEMA KEPRI MALANG. Dengan bangga kami persembahkan situs resmi website IKAPEMA kepada seluruh masyarakat khususnya keluarga besar IKAPEMA. Sebagai pengurus kami berkomitmen untuk senantiasa menjaga organisasi daerah ini untuk memperkuat silaturahmi, memfasilitasi pengembangan potensi anggota dan meningkatkan kesadaran sosial. Dalam website ini akan ditemukan informasi terkait program, kegiatan dan perkembangan dari IKAPEMA KEPRI MALANG. Kami juga membuka peluang untuk berbagai ide, pengalaman dan kreativitas. Terimakasih atas kunjungan anda. Menjalin Visi Membangun Negeri, Satu Untuk Semua, Semua Untuk Satu."
+            delay={50}
+            animateBy="words"
+            direction="top"
+            className="w-100% max-w-none md:max-w-xl lg:max-w-3xl my-4 text-gray-600 leading-relaxed text-justify text-lg sm:text-xl md:text-2xl">
+      
+            </BlurText>
             <div className="flex justify-end">
               <QuoteIcon className="transform -scale-x-100 -scale-y-100" />
             </div>
