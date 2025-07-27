@@ -168,7 +168,7 @@ const Slider: React.FC<SliderProps> = () => {
                 return (
                   <div
                     className={clsx(
-                      "relative h-[450px] bg-[#7d0a0a] shadow-xl rounded-xl overflow-hidden transition-all duration-700 ease-in-out select-none",
+                      "relative h-[450px] bg-[#005266] shadow-xl rounded-xl overflow-hidden transition-all duration-700 ease-in-out select-none",
                       {
                         "w-[720px] max-[800px]:w-[500px] max-[650px]:w-[400px] max-[520px]:w-[300px] border-4 border-[#007A99]":
                           isActive,
