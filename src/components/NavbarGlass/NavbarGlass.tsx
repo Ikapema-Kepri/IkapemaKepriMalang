@@ -9,7 +9,7 @@ interface NavLink {
 }
 
 const navLinks: NavLink[] = [
-  { label: 'Beranda', href: '/' },
+  { label: 'Beranda', href: '/beranda' },
   { label: 'Tentang', href: '/tentang' },
   { label: 'Program', href: '/program' },
   { label: 'Struktur', href: '/struktur' },

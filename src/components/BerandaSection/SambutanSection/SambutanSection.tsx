@@ -17,7 +17,7 @@ const SambutanSection: React.FC = () => {
             alt="Heading Sambutan"
             width={454}
             height={100}
-            className="h-10 md:h-20 lg:h-[80px] w-auto max-w-[90%]"
+            className="h-10 md:h-20 lg:h-[100px] w-auto max-w-[90%]"
             priority
           />
           <div className="absolute top-1/2 left-0 w-full h-px -z-10">
