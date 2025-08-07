@@ -51,8 +51,8 @@ const HeroSectionPages: React.FC<HeroSectionPagesProps> = ({
             src="/Hero.svg"
             alt="Background Pattern"
             layout="fill"
-            objectFit="cover" // Lebar menyesuaikan, tinggi cover, tidak kepotong bawah
-            objectPosition="bottom" // Fokus bagian bawah agar tidak kepotong
+            objectFit="cover" 
+            objectPosition="bottom" 
             priority
             className="pointer-events-none select-none"
           />
@@ -68,7 +68,7 @@ const HeroSectionPages: React.FC<HeroSectionPagesProps> = ({
           easing="ease-out"
           initialOpacity={0}
           delay={200}
-          repeatAnimation={true} // Enable repeat animation
+          repeatAnimation={true}
         >
           <ShinyText
             text={title}
