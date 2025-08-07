@@ -27,13 +27,13 @@ const NavbarGlass: React.FC = () => {
           <img
             src="/LogoIkapema.svg"
             alt="Logo IKAPEMA"
-            className="h-10 w-10 sm:h-14 sm:w-14 md:h-[70px] md:w-[70px] lg:h-[90px] lg:w-[90px]"
+            className="h-10 w-10 sm:h-14 sm:w-14 md:h-[50px] md:w-[50px] lg:h-[65px] lg:w-[65px]"
           />
         </a>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex bg-white/20 backdrop-blur-md shadow-lg rounded-full">
-          <ul className="flex items-center space-x-1 sm:space-x-2 md:space-x-4 px-2 sm:px-4 md:px-0 py-2 md:py-4">
+          <ul className="flex items-center px-2 sm:px-4 md:px-0 py-2 md:py-4">
             {navLinks.map((link) => (
               <li key={link.label}>
                 <Link

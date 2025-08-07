@@ -39,7 +39,7 @@ const FilosofiLogoCard: React.FC = () => {
         <div key={index} className="flex flex-col items-center justify-center gap-6 md:gap-8 lg:gap-12">
           {/* Title Card */}
           <div className="w-full max-w-[280px] sm:max-w-[400px] md:max-w-[480px] lg:max-w-[560px] h-[80px] sm:h-[90px] md:h-[95px] lg:h-[100px] bg-[#007A99] flex justify-center items-center text-center rounded-xl shadow-[2px_4px_8px_2px_rgba(0,0,0,0.25)]">
-            <h1 className="text-white text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold p-2 md:p-4 leading-tight">
+            <h1 className="text-white text-base sm:text-lg md:text-xl lg:text-2xl font-semibold p-2 md:p-4 leading-tight">
               {item.title}
             </h1>
           </div>
@@ -57,7 +57,7 @@ const FilosofiLogoCard: React.FC = () => {
           
           {/* Description Card */}
           <div className="w-full max-w-[280px] sm:max-w-[400px] md:max-w-[480px] lg:max-w-[560px] min-h-[120px] sm:min-h-[140px] md:min-h-[160px] lg:min-h-[200px] bg-[#FFFFFF] flex justify-center items-center text-center rounded-xl shadow-[2px_4px_8px_2px_rgba(0,0,0,0.25)] p-4">
-            <h2 className="text-[#005266] text-sm sm:text-base md:text-lg lg:text-2xl font-semibold leading-relaxed max-w-[90%]">
+            <h2 className="text-[#005266] text-xs sm:text-sm md:text-base lg:text-xl font-semibold leading-relaxed max-w-[90%]">
               {item.description}
             </h2>
           </div>

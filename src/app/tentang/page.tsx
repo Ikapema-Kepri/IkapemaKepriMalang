@@ -22,17 +22,17 @@ const PengurusPage: React.FC = () => {
               alt="Heading Tentang"
               width={454}
               height={100}
-              className="h-8 sm:h-12 md:h-16 lg:h-20 xl:h-[100px] w-auto max-w-[90%]"
+              className="h-8 sm:h-12 md:h-16 lg:h-20 xl:h-[75px] w-auto max-w-[90%]"
             />
           </div>
 
           {/* Title Text */}
-          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl font-extrabold text-[#00A3CC] mb-4 sm:mb-6 leading-tight">
+          <h1 className="text-xl sm:text-3xl md:text-5xl lg:text-5xl xl:text-7xl font-extrabold text-[#00A3CC] mb-4 sm:mb-6 leading-tight">
             IKAPEMA <br />KEPRI—MALANG
           </h1>
 
           {/* Subtitle Text */}
-          <p className="text-sm sm:text-lg md:text-2xl lg:text-3xl xl:text-4xl font-medium text-[#007A99] leading-relaxed px-2 sm:px-4">
+          <p className="text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-medium text-[#007A99] leading-relaxed px-2 sm:px-4">
             Menjalin Visi Membangun Negeri,<br />
             Satu Untuk Semua, Semua Untuk Satu.
           </p>
@@ -40,7 +40,7 @@ const PengurusPage: React.FC = () => {
       </section>
 
       {/* About Section */}
-      <section className="w-full py-12 sm:py-16 md:py-24 lg:py-32 xl:py-42 px-12 sm:px-14 md:px-16 lg:px-16 xl:px-32 bg-[#E5FAFF]">
+      <section className="w-full py-12 sm:py-16 md:py-24 lg:py-28 xl:py-32 px-12 sm:px-14 md:px-16 lg:px-16 xl:px-32 bg-[#E5FAFF]">
         <div className="flex flex-col lg:flex-row gap-6 md:gap-8 lg:gap-12 xl:gap-16 items-center">
           {/* Logo Container */}
           <div className="w-full lg:w-2/5 flex justify-center items-center">
@@ -57,7 +57,7 @@ const PengurusPage: React.FC = () => {
 
           {/* Description Text */}
           <div className="w-full lg:w-3/5">
-            <p className="text-[#007A99] text-sm sm:text-base md:text-xl lg:text-2xl xl:text-3xl leading-relaxed text-justify">
+            <p className="text-[#007A99] text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl leading-relaxed text-justify">
               Ikatan Pelajar Mahasiswa Kepulauan Riau-Malang (IKAPEMA Kepri-Malang)
               adalah organisasi pelajar dan mahasiswa daerah Provinsi Kepulauan Riau
               yang ada di Kota Malang. Organisasi ini berlandaskan Pancasila dan UUD
@@ -73,7 +73,7 @@ const PengurusPage: React.FC = () => {
       </section>
 
       {/* Filosofi Logo Section */}
-      <section className="relative w-full py-16 sm:py-24 md:py-32 lg:py-44 xl:py-56 px-4 sm:px-6 md:px-12 lg:px-16 xl:px-32 bg-[#E7FAFF]">
+      <section className="relative w-full py-16 sm:py-24 md:py-32 lg:py-36 px-4 sm:px-6 md:px-12 lg:px-16 xl:px-32 bg-[#E7FAFF]">
         <div className="text-center mb-12 sm:mb-16 md:mb-24 lg:mb-32 xl:mb-36">
           <div className="flex items-center justify-center gap-4 sm:gap-6 md:gap-8 mb-8">
             <Image
@@ -81,28 +81,14 @@ const PengurusPage: React.FC = () => {
               alt="Heading Filosofi Logo"
               width={454}
               height={100}
-              className="h-8 sm:h-12 md:h-16 lg:h-20 xl:h-[100px] w-auto max-w-[90%]"
+              className="h-8 sm:h-12 md:h-16 lg:h-20 xl:h-[75px] w-auto max-w-[90%]"
             />
           </div>
         </div>
         <FilosofiLogoCard />
       </section>
 
-      {/* Filosofi Warna Section */}
-      <section className="relative w-full py-16 sm:py-20 md:py-28 lg:py-36 xl:py-42 px-4 sm:px-6 md:px-12 lg:px-16 bg-[#E9FAFF]">
-        <div className="text-center mb-6 sm:mb-8 md:mb-12">
-          <div className="flex items-center justify-center gap-4 mb-6 sm:mb-8">
-            <Image
-              src="/heading/HeadingFilosofiWarna.svg"
-              alt="Heading Filosofi Warna"
-              width={454}
-              height={100}
-              className="h-8 sm:h-12 md:h-16 lg:h-20 xl:h-[100px] w-auto max-w-[90%]"
-            />
-          </div>
-        </div>
-        {/* Add your Filosofi Warna content here */}
-      </section>
+      
     </>
   );
 };

@@ -22,12 +22,12 @@ const Navbar: React.FC = () => {
 					<img
 						src="/LogoIkapema.svg"
 						alt="Logo IKAPEMA"
-						className="h-10 w-10 sm:h-14 sm:w-14 md:h-[70px] md:w-[70px] lg:h-[90px] lg:w-[90px]"
+						className="h-10 w-10 sm:h-14 sm:w-14 md:h-[50px] md:w-[50px] lg:h-[65px] lg:w-[65px]"
 					/>
 				</Link>
 
 				{/* Desktop Nav */}
-				<ul className="hidden md:flex items-center gap-2 sm:gap-4">
+				<ul className="hidden md:flex items-center gap-2 sm:gap-3">
 					{navLinks.map((link) => (
 						<li key={link.label}>
 							<Link
