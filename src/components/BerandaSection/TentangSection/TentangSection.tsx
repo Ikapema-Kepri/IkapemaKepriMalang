@@ -13,39 +13,39 @@ const TentangSection: React.FC = () => {
 
   return (
     <section className="w-full py-16 px-6 md:px-16 lg:px-24">
-      <div className="mx-auto bg-gradient-to-b from-[#00A3CC] to-[#005266] rounded-3xl py-16 px-8">
+      <div className="mx-auto bg-gradient-to-b from-[#00A3CC] to-[#005266] rounded-3xl py-16 px-8 md:px-12 lg:px-16">
         <div className="max-w-5xl mx-auto">
           {/* Header with decorative title */}
-          <div className="text-center mb-12">
-            <div className="flex items-center justify-center gap-4 mb-8">
+          <div className="text-center mb-4 md:mb-8 lg:mb-12">
+            <div className="flex items-center justify-center gap-4 mb-4 md:mb-6 lg:mb-8">
               <Image
                 src="/heading/HeadingTentang.svg"
                 alt="Heading Sambutan"
                 width={454}
                 height={100}
-                className="h-10 md:h-20 lg:h-[100px] w-auto max-w-[90%]"
+                className="h-10 md:h-20 lg:h-[75px] w-auto max-w-[90%]"
               />
             </div>
           </div>
 
           {/* Main content */}
-          <div className="grid lg:grid-cols-2 gap-1 lg:gap-12 items-center">
-            {/* Logo/Image section */}
-            <div className="flex justify-center lg:justify-start">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
+            {/* Logo/Image section - 2/5 width */}
+            <div className="w-full lg:w-2/5 flex justify-center lg:justify-start">
               <div className="w-50 h-50 md:w-72 md:h-72 lg:w-100 lg:h-100 relative flex justify-center items-center">
                 <Image
-                  src="/LogoIKAPEMA.svg" // Replace with your logo path
+                  src="/LogoIKAPEMA.svg"
                   alt="IKAPEMA KEPRI MALANG Logo"
-                  width={500}
-                  height={500}
-                  className="object-contain h-50 w-50 md:h-72 md:w-72 lg:h-[500px] lg:w-[500px]"
+                  width={450}
+                  height={450}
+                  className="object-contain h-50 w-50 md:h-72 md:w-72 lg:h-[400px] lg:w-[400px]"
                 />
               </div>
             </div>
 
-            {/* Content section */}
-            <div className="space-y-6">
-              <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#E5FAFF] leading-tight text-center lg:text-left">
+            {/* Content section - 3/5 width */}
+            <div className="w-full lg:w-3/5 space-y-6">
+              <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#E5FAFF] leading-tight text-center lg:text-left">
                 Apa itu IKAPEMA KEPRI—MALANG?
               </h3>
 

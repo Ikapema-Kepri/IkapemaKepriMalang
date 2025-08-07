@@ -28,9 +28,9 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         ${className}
       `}
     >
-      {/* Profile Image Container */}
-      <div className="flex-1 flex items-center justify-center px-4 pt-0 pb-0">
-        <div className="relative w-full max-w-[200px] aspect-square flex items-center justify-center">
+      {/* Profile Image Container - Fixed Height */}
+      <div className="h-[200px] flex items-center justify-center px-4 pt-4 pb-2">
+        <div className="relative w-full max-w-[160px] aspect-square flex items-center justify-center">
           {imageUrl ? (
             <Image
               src={imageUrl}
@@ -42,7 +42,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           ) : (
             <div className="flex items-center justify-center w-full h-full bg-gray-100 rounded-lg">
               <svg
-                className="w-35 h-35 text-gray-300"
+                className="w-12 h-16 text-gray-300"
                 fill="none"
                 viewBox="0 0 64 64"
                 xmlns="http://www.w3.org/2000/svg"
@@ -58,20 +58,22 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         </div>
       </div>
 
-      {/* Content Section */}
-      <div className="bg-white px-4 pb-4 flex flex-col space-y-2">
-        {/* Name */}
-        <h2 className="text-lg font-bold text-gray-900 leading-none">
-          {name}
-        </h2>
+      {/* Content Section - Fixed Height */}
+      <div className="h-[150px] bg-white px-4 pb-4 flex flex-col justify-between">
+        <div className="flex flex-col flex-shrink-0">
+          {/* Name */}
+          <h2 className="text-lg font-bold text-gray-900 leading-tight mb-2 line-clamp-2">
+            {name}
+          </h2>
 
-        {/* Department */}
-        <p className="text-base font-semibold text-gray-700">
-          {department}
-        </p>
+          {/* Department */}
+          <p className="text-base font-semibold text-gray-700 leading-tight line-clamp-2">
+            {department}
+          </p>
+        </div>
 
-        {/* Logo Placeholder */}
-        <div className="mt-0 flex items-end justify-end">
+        {/* Logo Placeholder - Fixed Position */}
+        <div className="flex items-end justify-end mt-auto pt-2 flex-shrink-0">
           {logoUrl ? (
             <Image
               src={logoUrl}

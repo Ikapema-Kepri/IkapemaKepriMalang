@@ -74,7 +74,7 @@ const HeroSectionPages: React.FC<HeroSectionPagesProps> = ({
             text={title}
             disabled={false}
             speed={3}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 tracking-wide"
+            className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 tracking-wide"
           />
         </FadeContent>
 
@@ -87,7 +87,7 @@ const HeroSectionPages: React.FC<HeroSectionPagesProps> = ({
           repeatAnimation={true} // Enable repeat animation
         >
           {/* Subtitle */}
-          <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-3 sm:mb-4 font-light opacity-90">
+          <p className="text-sm sm:text-lg md:text-xl lg:text-2xl mb-3 sm:mb-4 font-light opacity-90">
             {subtitle}
           </p>
 

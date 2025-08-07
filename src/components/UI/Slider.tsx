@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import clsx from "clsx";
-import { HiEye, HiEyeOff } from "react-icons/hi"; // Tambahkan ini di bagian import
+import { HiEye, HiEyeOff } from "react-icons/hi";
 
 // Import Swiper styles
 import "swiper/css";
@@ -130,10 +130,13 @@ const slideData: Slide[] = [
 const SwiperPaginationStyles = () => (
   <style>{`
     .swiper-pagination-bullet {
-      @apply w-4 h-4 rounded-full bg-[#0d6efd];
+      @apply w-2 h-2 sm:w-3 sm:h-3 md:w-3 md:h-3 lg:w-4 lg:h-4 rounded-full bg-[#0d6efd];
     }
     .swiper-pagination-bullet-active {
-      @apply w-8 rounded-2xl bg-[#6c757d] transition-all duration-700 ease-in-out;
+      @apply w-4 sm:w-5 md:w-6 lg:w-8 rounded-2xl bg-[#6c757d] transition-all duration-700 ease-in-out;
+    }
+    .swiper-pagination {
+      @apply bottom-4 sm:bottom-6 md:bottom-8 lg:bottom-10 xl:bottom-12;
     }
   `}</style>
 );
@@ -143,7 +146,7 @@ const Slider: React.FC<SliderProps> = () => {
 
   return (
     <main className="flex items-center justify-center max-w-screen max-h-screen bg-[#E5FAFF] font-['Noto_Sans'] overflow-hidden">
-      <div className="w-4/5">
+      <div className="w-full sm:w-11/12 md:w-4/5 lg:w-4/5">
         <SwiperPaginationStyles />
         <Swiper
           modules={[Pagination]}
@@ -154,11 +157,14 @@ const Slider: React.FC<SliderProps> = () => {
           speed={800}
           slideToClickedSlide
           pagination={{ clickable: true }}
-          className="!p-16"
+          className="!pb-12 !pt-4 !px-4 sm:!pb-16 sm:!pt-6 sm:!px-6 md:!pb-20 md:!pt-8 md:!px-8 lg:!pb-24 lg:!pt-10 lg:!px-10 xl:!pb-28 xl:!pt-12 xl:!px-12"
           breakpoints={{
-            320: { spaceBetween: 40 },
-            650: { spaceBetween: 30 },
-            1000: { spaceBetween: 20 },
+            320: { spaceBetween: 16 },
+            480: { spaceBetween: 20 },
+            640: { spaceBetween: 24 },
+            768: { spaceBetween: 28 },
+            1024: { spaceBetween: 32 },
+            1280: { spaceBetween: 24 },
           }}
         >
           {slideData.map((slide, index) => (
@@ -168,11 +174,15 @@ const Slider: React.FC<SliderProps> = () => {
                 return (
                   <div
                     className={clsx(
-                      "relative h-[450px] bg-[#005266] shadow-xl rounded-xl overflow-hidden transition-all duration-700 ease-in-out select-none",
+                      "relative bg-[#005266] shadow-xl rounded-xl overflow-hidden transition-all duration-700 ease-in-out select-none",
+                      // Responsive heights
+                      "h-[280px] sm:h-[320px] md:h-[360px] lg:h-[400px] xl:h-[450px]",
                       {
-                        "w-[720px] max-[800px]:w-[500px] max-[650px]:w-[400px] max-[520px]:w-[300px] border-4 border-[#007A99]":
+                        // Active widths - fully responsive
+                        "w-[240px] sm:w-[320px] md:w-[400px] lg:w-[480px] xl:w-[576px] border-2 sm:border-3 md:border-3 lg:border-4 border-[#007A99]":
                           isActive,
-                        "w-[300px]": !isActive,
+                        // Inactive widths - responsive
+                        "w-[160px] sm:w-[200px] md:w-[240px] lg:w-[260px] xl:w-[280px]": !isActive,
                       }
                     )}
                   >
@@ -187,10 +197,10 @@ const Slider: React.FC<SliderProps> = () => {
                     />
 
                     {/* Title shown on inactive slides */}
-                    <div className="absolute inset-0 flex flex-col justify-end p-6">
+                    <div className="absolute inset-0 flex flex-col justify-end p-2 sm:p-3 md:p-4 lg:p-5">
                       <h1
                         className={clsx(
-                          "text-3xl font-bold text-white transition-opacity duration-800",
+                          "text-xs sm:text-sm md:text-lg lg:text-xl xl:text-2xl font-bold text-white transition-opacity duration-800",
                           isActive
                             ? "opacity-0 delay-[-200ms]"
                             : "opacity-100 delay-1000"
@@ -203,25 +213,25 @@ const Slider: React.FC<SliderProps> = () => {
                     {/* Content shown only on the active slide */}
                     <div
                       className={clsx(
-                        "absolute inset-0 z-10 p-6 flex flex-col justify-center text-white bg-gradient-to-t from-black/70 via-black/40 to-transparent transition-opacity duration-800",
+                        "absolute inset-0 z-10 p-2 sm:p-3 md:p-4 lg:p-5 flex flex-col justify-center text-white bg-gradient-to-t from-black/70 via-black/40 to-transparent transition-opacity duration-800",
                         isActive && !isHide
                           ? "opacity-100 delay-500"
                           : "opacity-0 pointer-events-none"
                       )}
                     >
-                      {/* Title on active slide - posisinya fixed di atas */}
+                      {/* Title on active slide */}
                       {isActive && !isHide && (
-                        <h1 className="text-3xl font-bold mb-4 text-white drop-shadow-lg transition-all duration-700 absolute top-6 left-6 right-6 z-20">
+                        <h1 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold mb-1 sm:mb-2 md:mb-3 text-white drop-shadow-lg transition-all duration-700 absolute top-2 sm:top-3 md:top-4 lg:top-5 left-2 sm:left-3 md:left-4 lg:left-5 right-2 sm:right-3 md:right-4 lg:right-5 z-20">
                           {slide.title}
                         </h1>
                       )}
 
-                      {/* Description - diberi margin top agar selalu di bawah title, dan absolute supaya tidak terdorong ke bawah */}
+                      {/* Description */}
                       <div
                         className={clsx(
-                          "absolute left-6 right-6",
-                          // mt-[72px] agar selalu di bawah title (mb-4 pada title = 1rem + 2.25rem font = ~3.25rem)
-                          "mt-[72px]",
+                          "absolute left-2 sm:left-3 md:left-4 lg:left-5 right-2 sm:right-3 md:right-4 lg:right-5",
+                          // Responsive margin tops
+                          "mt-8 sm:mt-10 md:mt-12 lg:mt-14 xl:mt-16",
                           "transition-opacity duration-500",
                           isActive && !isHide
                             ? "opacity-100 delay-1000"
@@ -230,7 +240,9 @@ const Slider: React.FC<SliderProps> = () => {
                       >
                         <p
                           className={clsx(
-                            "border-l-6 border-[#007A99] pl-3 mr-12 text-base max-[650px]:text-base max-[520px]:text-sm font-light leading-relaxed transition-all duration-1000 opacity-0 translate-y-4",
+                            "border-l-2 sm:border-l-3 md:border-l-4 lg:border-l-5 border-[#007A99] pl-1 sm:pl-2 md:pl-3 mr-4 sm:mr-6 md:mr-8 lg:mr-10",
+                            "text-[0.65rem] sm:text-xs md:text-sm lg:text-base xl:text-lg font-light leading-relaxed",
+                            "transition-all duration-1000 opacity-0 translate-y-4",
                             isActive &&
                               !isHide &&
                               "opacity-100 translate-y-0 delay-[0.2s]"
@@ -243,16 +255,18 @@ const Slider: React.FC<SliderProps> = () => {
                       {/* Footer with categories */}
                       <div
                         className={clsx(
-                          "absolute bottom-5 left-6 right-6 flex items-center justify-between transition-opacity",
+                          "absolute bottom-2 sm:bottom-3 md:bottom-4 lg:bottom-5 left-2 sm:left-3 md:left-4 lg:left-5 right-2 sm:right-3 md:right-4 lg:right-5 flex items-center justify-between transition-opacity",
                           isActive && !isHide ? "opacity-100" : "opacity-0"
                         )}
                       >
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-1 sm:gap-1.5 md:gap-2">
                           {slide.categories.map((category, idx) => (
                             <span
                               key={idx}
                               className={clsx(
-                                "text-white text-xs max-[650px]:text-[0.7rem] px-4 py-1.5 max-[650px]:px-2 max-[650px]:py-1 border border-white/50 rounded-full shadow-lg opacity-0",
+                                "text-white text-[0.5rem] sm:text-[0.6rem] md:text-xs lg:text-sm",
+                                "px-1 py-0.5 sm:px-2 sm:py-1 md:px-3 md:py-1 lg:px-4 lg:py-1.5",
+                                "border border-white/50 rounded-full shadow-lg opacity-0",
                                 isActive &&
                                   !isHide &&
                                   "opacity-100 transition-opacity duration-800 ease-out",
@@ -280,7 +294,9 @@ const Slider: React.FC<SliderProps> = () => {
                           setHideContentIndex(isHide ? null : index)
                         }
                         className={clsx(
-                          "absolute top-4 right-4 z-20 px-4 py-2 rounded-lg bg-black/60 text-white text-sm font-semibold shadow transition hover:bg-black/80 flex items-center justify-center",
+                          "absolute top-1 sm:top-2 md:top-3 lg:top-4 right-1 sm:right-2 md:right-3 lg:right-4 z-20",
+                          "px-1 py-1 sm:px-2 sm:py-1 md:px-3 md:py-1.5 lg:px-4 lg:py-2",
+                          "rounded-md sm:rounded-lg bg-black/60 text-white text-[0.6rem] sm:text-xs md:text-sm font-semibold shadow transition hover:bg-black/80 flex items-center justify-center",
                           "backdrop-blur"
                         )}
                         aria-label={
@@ -288,9 +304,9 @@ const Slider: React.FC<SliderProps> = () => {
                         }
                       >
                         {isHide ? (
-                          <HiEye className="w-6 h-6" />
+                          <HiEye className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
                         ) : (
-                          <HiEyeOff className="w-6 h-6" />
+                          <HiEyeOff className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
                         )}
                       </button>
                     )}

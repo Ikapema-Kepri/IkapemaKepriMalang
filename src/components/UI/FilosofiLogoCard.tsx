@@ -22,7 +22,7 @@ const FilosofiData: FilosofiLogoCardProps[] = [
   {
     title: "Padi & Kapas",
     logoUrl: "filosofiLogo/PadiKapas.svg",
-    description: "Kemakmuran dan kesejahteraan rakyat Provinsi Kepulauan Riau",
+    description: "Kemakmuran dan kesejahteraan rakyat Provinsi Kepulauan Riau",
   },
   {
     title: "Buku",
@@ -32,29 +32,32 @@ const FilosofiData: FilosofiLogoCardProps[] = [
   },
 ];
 
-const FilosofiLogoCard: React.FC<FilosofiLogoCardProps> = ({
-  
-}) => {
+const FilosofiLogoCard: React.FC = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-32">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 lg:gap-32 px-4">
       {FilosofiData.map((item, index) => (
-        <div key={index} className="flex flex-col items-center justify-center gap-12">
-          <div className="w-[560px] h-[100px] bg-[#007A99] flex justify-center items-center text-center rounded-xl shadow-[2px_4px_8px_2px_rgba(0,0,0,0.25)]">
-            <h1 className="text-white text-3xl font-semibold p-4">
+        <div key={index} className="flex flex-col items-center justify-center gap-6 md:gap-8 lg:gap-12">
+          {/* Title Card */}
+          <div className="w-full max-w-[280px] sm:max-w-[400px] md:max-w-[480px] lg:max-w-[560px] h-[80px] sm:h-[90px] md:h-[95px] lg:h-[100px] bg-[#007A99] flex justify-center items-center text-center rounded-xl shadow-[2px_4px_8px_2px_rgba(0,0,0,0.25)]">
+            <h1 className="text-white text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold p-2 md:p-4 leading-tight">
               {item.title}
             </h1>
           </div>
-          <div className="flex flex-col">
+          
+          {/* Logo Image */}
+          <div className="flex flex-col items-center">
             <Image
               src={item.logoUrl}
               alt={item.title}
               width={350}
               height={350}
-              className="relative w-[350px] h-[350px]"
+              className="w-[200px] h-[200px] sm:w-[250px] sm:h-[250px] md:w-[300px] md:h-[300px] lg:w-[350px] lg:h-[350px] object-contain"
             />
           </div>
-          <div className="w-[560px] h-[200px] bg-[#FFFFFF] flex justify-center items-center text-center rounded-xl shadow-[2px_4px_8px_2px_rgba(0,0,0,0.25)] mt-4">
-            <h2 className="text-[#005266] text-2xl font-semibold">
+          
+          {/* Description Card */}
+          <div className="w-full max-w-[280px] sm:max-w-[400px] md:max-w-[480px] lg:max-w-[560px] min-h-[120px] sm:min-h-[140px] md:min-h-[160px] lg:min-h-[200px] bg-[#FFFFFF] flex justify-center items-center text-center rounded-xl shadow-[2px_4px_8px_2px_rgba(0,0,0,0.25)] p-4">
+            <h2 className="text-[#005266] text-sm sm:text-base md:text-lg lg:text-2xl font-semibold leading-relaxed max-w-[90%]">
               {item.description}
             </h2>
           </div>

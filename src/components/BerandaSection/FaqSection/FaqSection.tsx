@@ -47,13 +47,13 @@ const FaqSection = () => {
   return (
     <section className="flex px-4 sm:px-6 md:px-8 lg:px-16 xl:px-32 flex-col items-center gap-4 md:gap-6 ls:md-8 py-16">
       <div className="text-center mb-4 md:mb-8 lg:mb-12">
-        <div className="flex items-center justify-center gap-4 mb-8">
+        <div className="flex items-center justify-center gap-4 mb-4 md:mb-6 lg:mb-8">
           <Image
             src="/heading/HeadingFAQ.svg"
             alt="Heading Kegiatan"
             width={454}
             height={100}
-            className="h-10 md:h-20 lg:h-[100px] w-auto max-w-[90%]"
+            className="h-10 md:h-20 lg:h-[75px] w-auto max-w-[90%]"
           />
         </div>
       </div>
