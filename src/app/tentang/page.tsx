@@ -6,7 +6,7 @@ const PengurusPage: React.FC = () => {
     <>
       {/* Hero Section */}
       <section
-        className="relative w-full py-16 sm:py-20 md:py-32 lg:py-42 px-4 sm:px-6 md:px-12 lg:px-16 bg-[#E5FAFF]"
+        className="relative w-full py-16 sm:py-20 md:py-32 lg:py-32 px-4 sm:px-6 md:px-12 lg:px-16 bg-[#E5FAFF]"
         style={{
           backgroundImage: "url('/bg/BgTentang.svg')",
           backgroundSize: "cover",
