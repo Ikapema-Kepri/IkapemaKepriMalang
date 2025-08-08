@@ -16,7 +16,7 @@ export default function NotFound() {
               alt="Logo Ikapema"
               width={120}
               height={120}
-              className="opacity-80"
+              className="opacity-100"
               priority
             />
             <div className="absolute -inset-2 bg-white/20 rounded-full blur-xl"></div>

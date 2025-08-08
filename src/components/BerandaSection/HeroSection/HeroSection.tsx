@@ -20,9 +20,10 @@ const HeroSectionPages: React.FC<HeroSectionPagesProps> = ({
   title = "IKAPEMA KEPRI—MALANG",
   subtitle = (
     <>
-      Sebuah wadah berlandaskan kekeluargaan bagi mahasiswa
-      <br />
-      Kepulauan Riau di Kota Malang
+    <blockquote>
+
+      Menjalin Visi Membangun Negeri, Satu Untuk Semua, Semua Untuk Satu.
+    </blockquote>
     </>
   ),
   // description = "Kepulauan Riau di Kota Malang",
@@ -87,9 +88,9 @@ const HeroSectionPages: React.FC<HeroSectionPagesProps> = ({
           repeatAnimation={true} // Enable repeat animation
         >
           {/* Subtitle */}
-          <p className="text-sm sm:text-lg md:text-xl lg:text-2xl mb-3 sm:mb-4 font-light opacity-90">
-            {subtitle}
-          </p>
+          <div className="text-sm sm:text-lg md:text-xl lg:text-2xl mb-3 sm:mb-4 font-light opacity-90">
+            <i>{subtitle}</i>
+          </div>
 
           {/* Description */}
           {/* <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 font-light opacity-80">
