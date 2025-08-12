@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
@@ -18,13 +19,28 @@ const LoginForm: React.FC = () => {
     setLoading(true);
 
     try {
-      await login(email, password);
+      await login(email, password, rememberMe);
       router.push('/admin');
     } catch (error: unknown) {
+      console.error('Login error:', error);
+      
       if (error instanceof Error) {
-        setError(error.message);
+        // Handle specific Firebase auth errors
+        if (error.message.includes('api-key-not-valid')) {
+          setError('Konfigurasi Firebase tidak valid. Silakan hubungi administrator.');
+        } else if (error.message.includes('user-not-found')) {
+          setError('Email tidak terdaftar.');
+        } else if (error.message.includes('wrong-password')) {
+          setError('Password salah.');
+        } else if (error.message.includes('invalid-email')) {
+          setError('Format email tidak valid.');
+        } else if (error.message.includes('too-many-requests')) {
+          setError('Terlalu banyak percobaan login. Coba lagi nanti.');
+        } else {
+          setError(error.message);
+        }
       } else {
-        setError('Email atau password salah. Silakan coba lagi.');
+        setError('Terjadi kesalahan. Silakan coba lagi.');
       }
     } finally {
       setLoading(false);
@@ -32,7 +48,7 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#E5FAFF] to-[#B8E6FF]">
+    <div className="min-h-screen flex items-center py-24 justify-center bg-gradient-to-br from-[#E5FAFF] to-[#B8E6FF]">
       <div className="max-w-md w-full mx-4">
         <div className="bg-white rounded-2xl shadow-xl p-8">
           {/* Header */}
@@ -69,6 +85,21 @@ const LoginForm: React.FC = () => {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A3CC] focus:border-transparent transition"
                 placeholder="••••••••"
               />
+            </div>
+
+            {/* Remember Me Checkbox */}
+            <div className="flex items-center">
+              <input
+                id="remember-me"
+                name="remember-me"
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                className="h-4 w-4 text-[#00A3CC] focus:ring-[#00A3CC] border-gray-300 rounded"
+              />
+              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
+                Ingat saya
+              </label>
             </div>
 
             {error && (

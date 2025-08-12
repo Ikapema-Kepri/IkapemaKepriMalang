@@ -20,13 +20,13 @@ const SambutanSection: React.FC = () => {
 
   const isTextInView = useInView(textRef, {
     once: false, // Animasi terjadi setiap kali
-    margin: "-100px 0px -100px 0px",
+    margin: "0px 0px -100px 0px",
     amount: 0.3, // 30% element harus terlihat untuk trigger
   });
 
   const isImageInView = useInView(imageRef, {
     once: false, // Animasi terjadi setiap kali
-    margin: "-100px 0px -100px 0px",
+    margin: "0px 0px -100px 0px",
     amount: 0.3, // 30% element harus terlihat untuk trigger
   });
 
@@ -110,20 +110,20 @@ const SambutanSection: React.FC = () => {
           <div className="w-full md:w-1/2 lg:w-2/5 flex justify-center">
             <div
               ref={imageRef}
-              className={`relative w-50 h-50 sm:w-56 sm:h-56 md:w-72 md:h-72 lg:w-100 lg:h-100 transition-all duration-1200 ease-out ${
+              className={`relative flex flex-col items-center transition-all duration-1200 ease-out ${
                 isImageInView
                   ? "opacity-100 translate-x-0 scale-100"
                   : "opacity-0 translate-x-16 scale-95"
               }`}
             >
               {/* Gambar Ketum */}
-              <div className="absolute inset-0 flex items-center justify-center">
+              <div className="relative mb-4 sm:mb-6 md:mb-8 lg:mb-6">
                 <Image
                   src="/bg/FotoKetum.svg"
                   alt="Foto Sambutan"
                   width={400}
                   height={400}
-                  className={`w-50 h-50 sm:w-48 sm:h-48 md:w-72 md:h-72 lg:w-100 lg:h-100 transition-all duration-700 ease-out ${
+                  className={`w-48 h-48 sm:w-56 sm:h-56 md:w-72 md:h-72 lg:w-80 lg:h-80 xl:w-96 xl:h-96 transition-all duration-700 ease-out ${
                     isImageInView ? "hover:scale-105" : ""
                   }`}
                 />
@@ -131,19 +131,19 @@ const SambutanSection: React.FC = () => {
 
               {/* Nama dan Jabatan */}
               <div
-                className={`absolute -bottom-12 sm:-bottom-14 md:-bottom-16 lg:-bottom-20 left-1/2 transform -translate-x-1/2 text-center w-full transition-all duration-800 delay-700 ${
+                className={`text-center w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg px-2 transition-all duration-800 delay-700 ${
                   isImageInView
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-4"
                 }`}
               >
                 {/* Nama */}
-                <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-[#005266] mb-1 md:mb-2">
+                <h3 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-bold text-[#005266] mb-2 sm:mb-2 md:mb-3 lg:mb-2 leading-tight break-words">
                   Mgs Achmad Dachlan R
                 </h3>
 
                 {/* Jabatan */}
-                <p className="text-sm sm:text-base md:text-lg lg:text-xl font-medium text-gray-600">
+                <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-medium text-gray-600 leading-tight break-words">
                   Ketua Umum IKAPEMA KEPRI 2024/2025
                 </p>
               </div>
