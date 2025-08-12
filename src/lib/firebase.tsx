@@ -1,18 +1,19 @@
-
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB625Z0ZUXSNbuHjFdhUY5p5yNPA7scQTI",
-  authDomain: "ikapema-db.firebaseapp.com",
-  projectId: "ikapema-db",
-  storageBucket: "ikapema-db.firebasestorage.app",
-  messagingSenderId: "561627029495",
-  appId: "1:561627029495:web:52181d5a16114a562798f2",
-  measurementId: "G-71H08J4KRL"
+  apiKey: "AIzaSyDaeRjHfa6Azf49hyu6feW40dTaHbQ1iTg",
+  authDomain: "ikapema-db-7655e.firebaseapp.com",
+  projectId: "ikapema-db-7655e",
+  storageBucket: "ikapema-db-7655e.firebasestorage.app",
+  messagingSenderId: "813276364648",
+  appId: "1:813276364648:web:1747b4e46bb75d2d71a0dd",
+  measurementId: "G-KR6QBGSD4H"
 };
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
+const auth = getAuth(app);
 
-export { db }
+export { db, auth };

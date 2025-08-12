@@ -8,7 +8,7 @@ interface QuoteIconProps {
 
 const QuoteIcon: React.FC<QuoteIconProps> = ({ className }) => (
   <svg
-    className={`w-16 h-16 md:w-24 md:h-24 text-[#00CCFF] ${className}`}
+    className={`w-16 h-16 md:w-24 md:h-24 text-[#00A3CC] ${className}`}
     fill="currentColor"
     viewBox="0 0 448 512"
     xmlns="http://www.w3.org/2000/svg"

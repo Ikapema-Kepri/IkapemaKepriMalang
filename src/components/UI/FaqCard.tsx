@@ -5,7 +5,7 @@ import { ChevronDown } from "lucide-react";
 
 interface FaqCardProps {
   question: string;
-  answer: string;
+  answer: React.ReactNode;
 }
 
 const FaqCard: React.FC<FaqCardProps> = ({ question, answer }) => {
@@ -17,7 +17,7 @@ const FaqCard: React.FC<FaqCardProps> = ({ question, answer }) => {
       className={`
         w-full
         max-w-[1062px]
-        bg-white
+        bg-[#FFFFFF]
         rounded-[20px]
         transition-all duration-500
         shadow
