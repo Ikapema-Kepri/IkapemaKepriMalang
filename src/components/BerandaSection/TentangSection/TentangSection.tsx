@@ -6,11 +6,13 @@ import { ArrowRight } from "lucide-react";
 import Button from "@/components/UI/button";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import { useRouter } from "next/navigation";
 
 const TentangSection: React.FC = () => {
   const logoRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const isLogoInView = useInView(logoRef, {
     once: false, // Mengubah dari true ke false
@@ -26,13 +28,12 @@ const TentangSection: React.FC = () => {
 
   const isHeaderInView = useInView(headerRef, {
     once: false, // Mengubah dari true ke false
-    margin: "-100px 0px -100px 0px",
+    margin: "0px 0px -100px 0px",
     amount: 0.3, // Menambahkan threshold untuk trigger animasi
   });
 
   const handleSelengkapnyaClick = () => {
-    console.log("Selengkapnya button clicked");
-    // Add your navigation logic here
+    router.push("/tentang");
   };
 
   return (
@@ -128,7 +129,7 @@ const TentangSection: React.FC = () => {
                   size="md"
                   icon={ArrowRight}
                   iconPosition="right"
-                  className="transition-transform duration-300 hover:scale-105"
+                  className="transition-transform duration-300 hover:scale-105 cursor-pointer"
                 >
                   Selengkapnya
                 </Button>
