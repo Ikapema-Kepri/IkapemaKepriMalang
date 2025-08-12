@@ -13,6 +13,45 @@ const quickLinks = [
   { label: "Kontak", href: "/kontak" },
 ];
 
+const contactInfo = [
+  {
+    icon: Phone,
+    label: "Phone",
+    value: "+62 898-8821-793",
+  },
+  {
+    icon: Mail,
+    label: "Email",
+    value: "@ikapemakeprimalang",
+  },
+  {
+    icon: MapPin,
+    label: "Address",
+    value: "Perumahan Permata Kencana Blok C no 22, Jl. Saxophone, Tunggulwulung, Kec. Lowokwaru, Kota Malang, Jawa Timur 65143",
+  },
+];
+
+const socialMediaLinks = [
+  {
+    icon: FaInstagram,
+    href: "https://www.instagram.com/ikapemakeprimalang/",
+    label: "Instagram",
+    username: "@ikapemakeprimalang",
+  },
+  {
+    icon: FaYoutube,
+    href: "https://www.youtube.com/@ikapemakeprimalang7099",
+    label: "Youtube",
+    username: "ikapemakeprimalang",
+  },
+  {
+    icon: FaTiktok,
+    href: "https://www.tiktok.com/@ikapemakeprimalang",
+    label: "TikTok",
+    username: "@ikapemakeprimalang",
+  },
+];
+
 const Footer = () => {
   return (
     <footer className="w-full bg-[#005266] text-white" style={{ minHeight: 400 }}>
@@ -35,31 +74,28 @@ const Footer = () => {
 
           {/* Kontak */}
           <div className="w-full lg:w-auto border-l-0 lg:border-l-4 border-white pl-0 lg:pl-4 flex flex-col gap-2 mb-8 lg:mb-0 text-center lg:text-left">
-            <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-4 mt-[-30px] sm:mt-2">Informasi Kontak</h3>
+            <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-4 mt-[-30px] sm:mt-2 text-center lg:text-left">Informasi Kontak</h3>
             <div className="flex flex-col text-base sm:text-lg md:text-xl gap-2 sm:gap-4 items-center lg:items-start">
-              <div className="flex flex-row sm:flex-col">
-                <div className="flex gap-2 font-semibold ">
-                  <Phone className="w-5 h-5 hidden sm:block" />
-                  <p className="text-base sm:text-base md:text-lg hidden sm:block">Phone</p>
-                </div>
-                <div className="ml-7 text-white/80 text-xs sm:text-sm">+62 898-8821-793</div>
-              </div>
-              <div className="flex flex-row sm:flex-col">
-                <div className="flex items-center gap-2 font-semibold">
-                  <Mail className="w-5 h-5 hidden sm:block" />
-                  <p className="text-base sm:text-base md:text-lg hidden sm:block">Email</p>
-                </div>
-                <div className="ml-7 text-white/80 text-xs sm:text-sm lg:text:lg">@ikapemakeprimalang</div>
-              </div>
-              <div className="flex flex-row sm:flex-col">
-                <div className="flex items-center gap-2 font-semibold">
-                  <MapPin className="w-5 h-5 hidden sm:block" />
-                  <p className="text-base sm:text-base md:text-lg hidden sm:block">Address</p>
-                </div>
-                <div className="ml-7 w-full max-w-xs sm:max-w-sm md:max-w-md lg:w-[350px] text-white/80 text-xs sm:text-base lg:text:lg">
-                  Perumahan Permata Kencana Blok C no 22, Jl. Saxophone, Tunggulwulung, Kec. Lowokwaru, Kota Malang, Jawa Timur 65143
-                </div>
-              </div>
+              {contactInfo.map((contact, index) => {
+                const IconComponent = contact.icon;
+                return (
+                  <div key={index} className="flex flex-col items-center lg:items-start text-center lg:text-left w-full">
+                    {/* Label dengan Icon */}
+                    <div className="flex gap-2 font-semibold items-center justify-center lg:justify-start mb-1">
+                      <IconComponent className="w-5 h-5" />
+                      <p className="text-base sm:text-base md:text-lg">{contact.label}</p>
+                    </div>
+                    {/* Value */}
+                    <div className={`text-white/80 text-xs sm:text-sm ${
+                      contact.label === 'Address' 
+                        ? 'w-full max-w-xs sm:max-w-sm md:max-w-md lg:w-[350px] sm:text-base lg:text-lg text-center lg:text-left' 
+                        : 'text-center lg:text-left'
+                    }`}>
+                      {contact.value}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
@@ -67,18 +103,22 @@ const Footer = () => {
           <div className="w-full lg:w-auto border-l-0 lg:border-l-4 border-white pl-0 lg:pl-4 flex flex-col gap-2 mb-0 sm:mb-8 lg:mb-0 text-center lg:text-left">
             <h3 className="text-base sm:text-lg md:text-xl font-bold mb-0 sm:mb-2 mt-[-50px] sm:mt-2">Media Sosial</h3>
             <div className="flex flex-col text-sm sm:text-base gap-2 sm:gap-4 mt-2 items-center lg:items-start">
-              <Link href="https://www.instagram.com/ikapemakeprimalang/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex flex-row items-center gap-2">
-                <FaInstagram className="w-6 h-6 hover:text-[#00CCFF] transition-colors" />
-                <span>@ikapemakeprimalang</span>
-              </Link>
-              <Link href="https://www.youtube.com/@ikapemakeprimalang7099" target="_blank" rel="noopener noreferrer" aria-label="Youtube" className="flex flex-row items-center gap-2">
-                <FaYoutube className="w-6 h-6 hover:text-[#00CCFF] transition-colors" />
-                <span>ikapemakeprimalang</span>
-              </Link>
-              <Link href="https://www.tiktok.com/@ikapemakeprimalang" target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="flex flex-row items-center gap-2">
-                <FaTiktok className="w-6 h-6 hover:text-[#00CCFF] transition-colors" />
-                <span>@ikapemakeprimalang</span>
-              </Link>
+              {socialMediaLinks.map((social, index) => {
+                const IconComponent = social.icon;
+                return (
+                  <Link 
+                    key={index}
+                    href={social.href} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    aria-label={social.label} 
+                    className="flex flex-row items-center gap-2 hover:text-[#00CCFF] transition-colors"
+                  >
+                    <IconComponent className="w-6 h-6" />
+                    <span>{social.username}</span>
+                  </Link>
+                );
+              })}
             </div>
           </div>
 
@@ -97,7 +137,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="text-center text-white/70 text-xs sm:text-sm mt-0 mb-4 px-2">
-          Copyright© Eksternal IKAPEMA KEPRI—MALANG 2025, All Right Reserved.
+          Copyright© Eksternal IKAPEMA KEPRI—MALANG 2025, All Rights Reserved.
         </div>
       </div>
     </footer>

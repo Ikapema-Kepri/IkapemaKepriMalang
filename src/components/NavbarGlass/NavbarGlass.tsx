@@ -62,7 +62,7 @@ const NavbarGlass: React.FC = () => {
         </a>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex bg-white/20 backdrop-blur-md shadow-lg rounded-full relative">
+        <div className="hidden lg:flex bg-white/20 backdrop-blur-md shadow-lg rounded-full relative">
           <ul className="flex items-center">
             {navLinks.map((link) => (
               <li
@@ -137,7 +137,7 @@ const NavbarGlass: React.FC = () => {
         </div>
 
         {/* Hamburger Button for Mobile */}
-        <div className="md:hidden">
+        <div className="lg:hidden">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="p-2 text-white rounded-md transition-colors duration-300 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
@@ -186,7 +186,7 @@ const NavbarGlass: React.FC = () => {
       <div
         id="mobile-menu"
         className={`
-          md:hidden transition-all duration-300 ease-in-out
+          lg:hidden transition-all duration-300 ease-in-out
           ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}
         `}
       >
@@ -210,22 +210,18 @@ const NavbarGlass: React.FC = () => {
                     </span>
                   </div>
                 ) : link.dropdown ? (
-                  <div className="w-full">
-                    <div className="block w-full text-center text-white font-medium text-base sm:text-lg px-4 py-2 mb-2 bg-white/10 rounded-full">
-                      {link.label}
-                    </div>
-                    <div className="space-y-1 pl-4">
-                      {link.dropdown.map((item) => (
-                        <Link
-                          key={item.label}
-                          href={item.href}
-                          onClick={() => setIsMenuOpen(false)}
-                          className="block w-full text-center text-white font-medium text-sm hover:bg-white/20 px-4 py-2 rounded-full transition-colors duration-300"
-                        >
-                          {item.label}
-                        </Link>
-                      ))}
-                    </div>
+                  // Render dropdown items as separate menu items for mobile
+                  <div className="w-full space-y-1">
+                    {link.dropdown.map((item) => (
+                      <Link
+                        key={item.label}
+                        href={item.href}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="block w-full text-center text-white font-medium text-base sm:text-lg hover:bg-white/20 px-4 py-2 rounded-full transition-colors duration-300"
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
                   </div>
                 ) : null}
               </li>
