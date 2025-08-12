@@ -5,6 +5,7 @@ import HeroSctionPages from '../../components/BerandaSection/HeroSection/HeroSec
 import SambutanSection from '../../components/BerandaSection/SambutanSection/SambutanSection';
 import TentangSection from '../../components/BerandaSection/TentangSection/TentangSection';
 import KegiatanSection from '../../components/BerandaSection/KegiatanSection/KegiatanSection';
+import EmagzSection from '@/components/BerandaSection/EmagzSection/EmagzSection';
 
 const Beranda: React.FC = () => {
   // Fungsi scroll smooth ke section sambutan
@@ -31,6 +32,9 @@ const Beranda: React.FC = () => {
       </section>
       <section>
         <KegiatanSection />
+      </section>
+      <section>
+        <EmagzSection />
       </section>
       <section>
         <FaqSection />
