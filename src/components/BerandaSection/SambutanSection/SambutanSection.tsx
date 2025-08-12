@@ -128,6 +128,25 @@ const SambutanSection: React.FC = () => {
                   }`}
                 />
               </div>
+
+              {/* Nama dan Jabatan */}
+              <div
+                className={`absolute -bottom-12 sm:-bottom-14 md:-bottom-16 lg:-bottom-20 left-1/2 transform -translate-x-1/2 text-center w-full transition-all duration-800 delay-700 ${
+                  isImageInView
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-4"
+                }`}
+              >
+                {/* Nama */}
+                <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-[#005266] mb-1 md:mb-2">
+                  Mgs Achmad Dachlan R
+                </h3>
+
+                {/* Jabatan */}
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl font-medium text-gray-600">
+                  Ketua Umum IKAPEMA KEPRI 2024/2025
+                </p>
+              </div>
             </div>
           </div>
         </div>
