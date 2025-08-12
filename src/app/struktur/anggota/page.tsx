@@ -3,7 +3,7 @@
 import ProfileCard from "@/components/UI/ProfileCard";
 import ProfileCardSkeleton from "@/components/UI/ProfileCardSkeleton";
 import React, { useEffect, useState } from "react";
-import { Anggota, ApiResponse } from "../../types";
+import { Anggota, ApiResponse } from "../../../types";
 import AnggotaSearchBar from "@/components/UI/AnggotaSearchBar";
 import Image from "next/image";
 
