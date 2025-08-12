@@ -16,6 +16,9 @@ const PengurusPage: React.FC = () => {
 
   // State untuk mengontrol animasi FilosofiCard
   const [isFilosofiCardAnimated, setIsFilosofiCardAnimated] = useState(false);
+  
+  // State untuk mengontrol fade-in background saat pertama render
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
 
   // useInView hooks untuk setiap section
   const isHeroInView = useInView(heroRef, {
@@ -23,12 +26,6 @@ const PengurusPage: React.FC = () => {
     margin: "-100px 0px -100px 0px",
     amount: 0.3,
   });
-
-  // const isAboutInView = useInView(aboutRef, {
-  //   once: false,
-  //   margin: "-100px 0px -100px 0px",
-  //   amount: 0.2,
-  // });
 
   const isLogoInView = useInView(logoRef, {
     once: false,
@@ -56,6 +53,16 @@ const PengurusPage: React.FC = () => {
     amount: 0.1,
   });
 
+  // Effect untuk mengontrol fade-in background saat pertama render
+  useEffect(() => {
+    // Trigger fade-in setelah component mount
+    const timer = setTimeout(() => {
+      setIsPageLoaded(true);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   // Effect untuk mengontrol animasi FilosofiCard
   useEffect(() => {
     if (isFilosofiCardInViewport) {
@@ -72,7 +79,11 @@ const PengurusPage: React.FC = () => {
   }, [isFilosofiCardInViewport]);
 
   return (
-    <>
+    <div 
+      className={`transition-opacity duration-1000 ease-out ${
+        isPageLoaded ? "opacity-100" : "opacity-0"
+      }`}
+    >
       {/* Hero Section */}
       <section
         className="relative w-full py-16 sm:py-20 md:py-32 lg:py-32 px-4 sm:px-6 md:px-12 lg:px-16 bg-[#E5FAFF]"
@@ -85,16 +96,16 @@ const PengurusPage: React.FC = () => {
       >
         <div
           ref={heroRef}
-          className={`text-center mb-8 md:mb-12 transition-all duration-1200 ease-out ${
-            isHeroInView
+          className={`text-center mb-8 md:mb-12 transition-all duration-1200 ease-out delay-300 ${
+            isHeroInView && isPageLoaded
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-12"
           }`}
         >
           {/* Heading Image */}
           <div
-            className={`flex items-center justify-center gap-4 mb-6 sm:mb-8 transition-all duration-800 delay-200 ${
-              isHeroInView
+            className={`flex items-center justify-center gap-4 mb-6 sm:mb-8 transition-all duration-800 delay-500 ${
+              isHeroInView && isPageLoaded
                 ? "opacity-100 translate-y-0 scale-100"
                 : "opacity-0 translate-y-8 scale-95"
             }`}
@@ -110,8 +121,8 @@ const PengurusPage: React.FC = () => {
 
           {/* Title Text */}
           <h1
-            className={`text-xl sm:text-3xl md:text-5xl lg:text-5xl xl:text-7xl font-extrabold text-[#00A3CC] mb-4 sm:mb-6 leading-tight transition-all duration-800 delay-400 ${
-              isHeroInView
+            className={`text-xl sm:text-3xl md:text-5xl lg:text-5xl xl:text-7xl font-extrabold text-[#00A3CC] mb-4 sm:mb-6 leading-tight transition-all duration-800 delay-700 ${
+              isHeroInView && isPageLoaded
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-6"
             }`}
@@ -121,8 +132,8 @@ const PengurusPage: React.FC = () => {
 
           {/* Subtitle Text */}
           <p
-            className={`text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-medium text-[#007A99] leading-relaxed px-2 sm:px-4 transition-all duration-800 delay-600 ${
-              isHeroInView
+            className={`text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-medium text-[#007A99] leading-relaxed px-2 sm:px-4 transition-all duration-800 delay-900 ${
+              isHeroInView && isPageLoaded
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-4"
             }`}
@@ -144,7 +155,7 @@ const PengurusPage: React.FC = () => {
             <div
               ref={logoRef}
               className={`relative flex justify-center items-center transition-all duration-1200 ease-out ${
-                isLogoInView
+                isLogoInView && isPageLoaded
                   ? "opacity-100 -translate-x-0 scale-100"
                   : "opacity-0 -translate-x-16 scale-95"
               }`}
@@ -155,7 +166,7 @@ const PengurusPage: React.FC = () => {
                 width={500}
                 height={500}
                 className={`object-contain w-30 h-30 sm:w-48 sm:h-48 md:w-80 md:h-80 lg:w-96 lg:h-96 xl:w-[500px] xl:h-[500px] transition-transform duration-700 ease-out ${
-                  isLogoInView ? "hover:scale-105" : ""
+                  isLogoInView && isPageLoaded ? "hover:scale-105" : ""
                 }`}
               />
             </div>
@@ -165,7 +176,7 @@ const PengurusPage: React.FC = () => {
           <div
             ref={textRef}
             className={`w-full lg:w-3/5 transition-all duration-1200 ease-out ${
-              isTextInView
+              isTextInView && isPageLoaded
                 ? "opacity-100 translate-x-0"
                 : "opacity-0 translate-x-16"
             }`}
@@ -191,14 +202,14 @@ const PengurusPage: React.FC = () => {
         <div
           ref={filosofiHeaderRef}
           className={`text-center mb-12 sm:mb-16 md:mb-24 lg:mb-32 xl:mb-36 transition-all duration-1000 ease-out ${
-            isFilosofiHeaderInView
+            isFilosofiHeaderInView && isPageLoaded
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-8"
           }`}
         >
           <div
             className={`flex items-center justify-center gap-4 sm:gap-6 md:gap-8 mb-8 transition-all duration-800 delay-300 ${
-              isFilosofiHeaderInView
+              isFilosofiHeaderInView && isPageLoaded
                 ? "opacity-100 translate-y-0 scale-100"
                 : "opacity-0 translate-y-6 scale-95"
             }`}
@@ -217,7 +228,7 @@ const PengurusPage: React.FC = () => {
         <div
           ref={filosofiCardRef}
           className={`transition-all duration-1200 ease-out ${
-            isFilosofiCardInViewport && isFilosofiCardAnimated
+            isFilosofiCardInViewport && isFilosofiCardAnimated && isPageLoaded
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-12"
           }`}
@@ -225,7 +236,7 @@ const PengurusPage: React.FC = () => {
           <FilosofiLogoCard />
         </div>
       </section>
-    </>
+    </div>
   );
 };
 
