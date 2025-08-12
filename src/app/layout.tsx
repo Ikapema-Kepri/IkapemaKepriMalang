@@ -26,13 +26,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="w-full max-w-[100vw] overflow-x-hidden">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        className={`${geistSans.variable} ${geistMono.variable} antialiased w-full max-w-[100vw] overflow-x-hidden min-h-screen`}>
         <AuthProvider>
           <NavbarClientWrapper />
-          <main>
-          {children}
+          <main className="w-full max-w-[100vw] overflow-x-hidden">
+            {children}
           </main>
           <Footer />
         </AuthProvider>

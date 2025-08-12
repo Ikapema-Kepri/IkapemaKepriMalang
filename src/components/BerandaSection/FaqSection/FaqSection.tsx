@@ -60,7 +60,7 @@ const FaqSection = () => {
 
 	const isFaqListInView = useInView(faqListRef, {
 		once: false, // Animasi terjadi setiap kali
-		margin: "-100px 0px -100px 0px",
+		margin: "0px 0px -100px 0px",
 		amount: 0.2, // 20% element harus terlihat untuk trigger
 	});
 

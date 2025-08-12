@@ -51,7 +51,7 @@ const Navbar: React.FC = () => {
 
   return (
     <header className="fixed top-0 left-0 w-full z-50">
-      <nav className="w-full bg-[#005266] px-4 sm:px-6 md:px-8 lg:px-24 py-1 flex items-center justify-between">
+      <nav className="bg-[#005266] px-4 sm:px-6 md:px-8 lg:px-24 py-1 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" aria-label="Logo IKAPEMA KEPRI—MALANG">
           <img
@@ -62,7 +62,7 @@ const Navbar: React.FC = () => {
         </Link>
 
         {/* Desktop Nav */}
-        <ul className="hidden md:flex items-center gap-2 sm:gap-3">
+        <ul className="hidden lg:flex items-center gap-2 sm:gap-3">
           {navLinks.map((link) => (
             <li 
               key={link.label}
@@ -131,7 +131,7 @@ const Navbar: React.FC = () => {
 
         {/* Hamburger */}
         <button
-          className="md:hidden p-2 text-white rounded focus:outline-none"
+          className="lg:hidden p-2 text-white rounded focus:outline-none"
           onClick={() => setOpen((v) => !v)}
           aria-label="Buka menu"
         >
@@ -169,7 +169,7 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Menu */}
       <div
-        className={`md:hidden transition-all duration-300 bg-gradient-to-r from-[#005266] to-[#00A3CC] px-4 ${
+        className={`w-full lg:hidden transition-all duration-300 bg-gradient-to-r from-[#005266] to-[#00A3CC] px-4 ${
           open
             ? 'max-h-96 py-2 opacity-100 visible'
             : 'max-h-0 opacity-0 invisible'
@@ -192,22 +192,18 @@ const Navbar: React.FC = () => {
                   <span className="block text-xs text-yellow-300 mt-1">Coming Soon</span>
                 </div>
               ) : link.dropdown ? (
-                <div className="w-full">
-                  <div className="block w-full text-center text-white font-medium px-4 py-2 mb-2 bg-white/10 rounded-full">
-                    {link.label}
-                  </div>
-                  <div className="space-y-1 pl-4">
-                    {link.dropdown.map((item) => (
-                      <Link
-                        key={item.label}
-                        href={item.href}
-                        onClick={() => setOpen(false)}
-                        className="block w-full text-center text-white font-medium text-sm hover:bg-white/20 px-4 py-2 rounded-full transition-colors duration-300"
-                      >
-                        {item.label}
-                      </Link>
-                    ))}
-                  </div>
+                // Render dropdown items as separate menu items for mobile
+                <div className="w-full space-y-1">
+                  {link.dropdown.map((item) => (
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      className="block w-full text-center text-white font-medium px-4 py-2 rounded-full hover:bg-white/20 transition-colors"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
                 </div>
               ) : null}
             </li>

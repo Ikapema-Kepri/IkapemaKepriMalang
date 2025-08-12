@@ -17,7 +17,7 @@ const Beranda: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#E5FAFF]">
+    <div className="w-screen bg-[#E5FAFF]">
       <section>
         <HeroSctionPages
           onButtonClick={handleScrollToSambutan}

@@ -5,6 +5,8 @@ import { MoveDown } from "lucide-react";
 import Image from "next/image";
 import ShinyText from "@/components/UI/ShinyText";
 import FadeContent from "@/components/UI/FadeContent";
+import { useInView } from "framer-motion";
+import { useRef } from "react";
 
 interface HeroSectionPagesProps {
   title?: string;
@@ -32,30 +34,41 @@ const HeroSectionPages: React.FC<HeroSectionPagesProps> = ({
   onScrollClick,
   backgroundImage,
 }) => {
+  const backgroundRef = useRef<HTMLDivElement>(null);
+
+  const isBackgroundInView = useInView(backgroundRef, {
+    once: false,
+    margin: "0px 0px 0px 0px",
+    amount: 0.1,
+  });
+
   return (
     <section
       className="relative w-full min-h-screen flex flex-col items-center justify-center bg-[#E5FAFF] text-white overflow-hidden"
-      style={{
-        backgroundImage: "/Hero.svg",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
     >
       {/* Background Overlay */}
       <div className="absolute inset-0 bg-transparent bg-opacity-40 z-10"></div>
 
       {/* Placeholder Background Pattern */}
       {!backgroundImage && (
-        <div className="absolute inset-0 w-full h-full">
+        <div 
+          ref={backgroundRef}
+          className="absolute inset-0 w-full h-full"
+        >
           <Image
             src="/Hero.svg"
             alt="Background Pattern"
-            layout="fill"
-            objectFit="cover" 
-            objectPosition="bottom" 
+            fill
+            sizes="100vw"
             priority
-            className="pointer-events-none select-none"
+            className={`pointer-events-none select-none transition-all duration-3000 ease-out object-cover object-center sm:object-center md:object-center lg:object-bottom xl:object-bottom ${
+              isBackgroundInView
+                ? "opacity-100 scale-100"
+                : "opacity-0 scale-105"
+            }`}
+            style={{
+              objectPosition: 'center bottom',
+            }}
           />
         </div>
       )}

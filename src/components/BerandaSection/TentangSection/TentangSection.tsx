@@ -16,13 +16,13 @@ const TentangSection: React.FC = () => {
 
   const isLogoInView = useInView(logoRef, {
     once: false, // Mengubah dari true ke false
-    margin: "-100px 0px -100px 0px",
+    margin: "0px 0px -100px 0px",
     amount: 0.3, // Menambahkan threshold untuk trigger animasi
   });
 
   const isContentInView = useInView(contentRef, {
     once: false, // Mengubah dari true ke false
-    margin: "-100px 0px -100px 0px",
+    margin: "0px 0px -100px 0px",
     amount: 0.3, // Menambahkan threshold untuk trigger animasi
   });
 
