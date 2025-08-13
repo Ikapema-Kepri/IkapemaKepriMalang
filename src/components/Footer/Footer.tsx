@@ -58,7 +58,7 @@ const Footer = () => {
       <div className="max-w-[1440px] mx-auto h-full flex flex-col justify-center">
         <div className="flex flex-col lg:flex-row h-full items-start justify-between gap-6 px-4 sm:px-6 md:px-12 lg:px-12 py-8 md:py-12">
           {/* Logo */}
-          <div className="flex flex-col items-center lg:items-center w-full lg:w-auto mb-8 lg:mb-0">
+          <div className="flex flex-col items-center lg:items-center w-full lg:w-auto mb-8 lg:mb-8 xl:mb-0">
             <Image
               src="/LogoIkapema.svg"
               alt="Logo IKAPEMA"

@@ -169,7 +169,7 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Menu */}
       <div
-        className={`w-full lg:hidden transition-all duration-300 bg-gradient-to-r from-[#005266] to-[#00A3CC] px-4 ${
+        className={`w-full lg:hidden transition-all duration-300 bg-gradient-to-r from-[#005266] to-[#005266] px-4 ${
           open
             ? 'max-h-96 py-2 opacity-100 visible'
             : 'max-h-0 opacity-0 invisible'
