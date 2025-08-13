@@ -25,11 +25,11 @@ const AnggotaSearchBar: React.FC<AnggotaSearchBarProps> = ({ onSearch }) => {
         placeholder="Cari anggota"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="rounded-[8px] lg:rounded-[16px] h-[32px] lg:h-[64px] w-[1434px] px-6 text-sm md:text-base lg:text-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00A3CC] transition"
+        className="rounded-[8px] lg:rounded-[16px] h-[32px] lg:h-[64px] w-[1434px] px-6 text-sm md:text-base lg:text-lg border border-gray-500 focus:outline-none focus:ring-2 focus:ring-[#00A3CC] transition"
       />
       <button
         type="submit"
-        className="rounded-[8px] lg:rounded-[16px] h-[32px] lg:h-[64px] w-[268px] bg-gradient-to-r from-[#005266] to-[#00A3CC] text-white font-semibold text-base md:text-lg lg:text-xl shadow hover:from-[#00394d] hover:to-[#008fb3] transition"
+        className="rounded-[6px] lg:rounded-[16px] h-[32px] lg:h-[64px] w-[268px] bg-gradient-to-r from-[#005266] to-[#00A3CC] text-white font-medium lg:font-semibold text-sm md:text-lg lg:text-xl shadow hover:from-[#00394d] hover:to-[#008fb3] transition"
       >
         Cari
       </button>
