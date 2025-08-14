@@ -73,7 +73,7 @@ const TentangSection: React.FC = () => {
                 }`}
               >
                 <Image
-                  src="/LogoIKAPEMA.svg"
+                  src="/LogoIkapema.svg"
                   alt="IKAPEMA KEPRI MALANG Logo"
                   width={450}
                   height={450}

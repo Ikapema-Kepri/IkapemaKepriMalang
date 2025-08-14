@@ -161,7 +161,7 @@ const PengurusPage: React.FC = () => {
               }`}
             >
               <Image
-                src="/LogoIKAPEMA.svg"
+                src="/LogoIkapema.svg"
                 alt="IKAPEMA KEPRI MALANG Logo"
                 width={500}
                 height={500}
