@@ -13,30 +13,30 @@ const SambutanSection: React.FC = () => {
   const imageRef = useRef<HTMLDivElement>(null);
 
   const isHeaderInView = useInView(headerRef, {
-    once: false, // Animasi terjadi setiap kali
-    margin: "0px 0px -100px 0px",
-    amount: 1, // 30% element harus terlihat untuk trigger
+    once: false, // Animasi hanya sekali untuk menghindari glitch
+    margin: "0px 0px -50px 0px",
+    amount: 0.5, // 50% element harus terlihat untuk trigger
   });
 
   const isTextInView = useInView(textRef, {
-    once: false, // Animasi terjadi setiap kali
-    margin: "0px 0px -100px 0px",
-    amount: 0.3, // 30% element harus terlihat untuk trigger
+    once: false, // Animasi hanya sekali untuk stabilitas
+    margin: "0px 0px -80px 0px",
+    amount: 0.2, // Threshold lebih rendah untuk trigger lebih awal
   });
 
   const isImageInView = useInView(imageRef, {
-    once: false, // Animasi terjadi setiap kali
-    margin: "0px 0px -100px 0px",
-    amount: 0.3, // 30% element harus terlihat untuk trigger
+    once: false, // Animasi hanya sekali untuk stabilitas
+    margin: "0px 0px -80px 0px",
+    amount: 0.2, // Threshold lebih rendah untuk trigger lebih awal
   });
 
   return (
     <section id="sambutan" className="py-10 md:py-16 lg:py-24">
-      <div className="container mx-auto px-12 sm:px-12 md:px-14 lg:px-16 xl:px-32">
+      <div className="container mx-auto px-12 sm:px-12 md:px-12 lg:px-16 xl:px-32">
         {/* Judul Section */}
         <div
           ref={headerRef}
-          className={`relative flex flex-col items-center justify-center text-center mb-8 md:mb-14 lg:mb-20 transition-all duration-1000 ease-out ${
+          className={`relative flex flex-col items-center justify-center text-center mb-6 md:mb-8 lg:mb-10 transition-all duration-1000 ease-out ${
             isHeaderInView
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-8"
@@ -58,10 +58,10 @@ const SambutanSection: React.FC = () => {
           {/* Kolom Kiri: Teks */}
           <div
             ref={textRef}
-            className={`w-full md:w-1/2 lg:w-3/5 transition-all duration-1200 ease-out ${
+            className={`w-full md:w-1/2 lg:w-3/5 transition-all duration-1000 ease-out ${
               isTextInView
-                ? "opacity-100 -translate-x-0"
-                : "opacity-0 -translate-x-16"
+                ? "opacity-100 translate-x-0"
+                : "opacity-0 -translate-x-12"
             }`}
           >
             <div
@@ -105,10 +105,10 @@ const SambutanSection: React.FC = () => {
           <div className="w-full md:w-1/2 lg:w-2/5 flex justify-center">
             <div
               ref={imageRef}
-              className={`relative flex flex-col items-center transition-all duration-1200 ease-out ${
+              className={`relative flex flex-col items-center transition-all duration-1000 ease-out ${
                 isImageInView
                   ? "opacity-100 translate-x-0 scale-100"
-                  : "opacity-0 translate-x-16 scale-95"
+                  : "opacity-0 translate-x-12 scale-95"
               }`}
             >
               {/* Gambar Ketum */}
@@ -126,7 +126,7 @@ const SambutanSection: React.FC = () => {
 
               {/* Nama dan Jabatan */}
               <div
-                className={`text-center w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg px-2 transition-all duration-800 delay-700 ${
+                className={`text-center w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg px-2 transition-all duration-800 delay-300 ${
                   isImageInView
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-4"

@@ -21,9 +21,9 @@ const EmagzSection: React.FC = () => {
   });
 
   return (
-    <section className="flex px-4 sm:px-6 md:px-8 lg:px-16 xl:px-32 flex-col items-center gap-4 md:gap-6 py-16 bg-[#E5FAFF]">
+    <section className="flex px-4 sm:px-6 md:px-8 lg:px-16 xl:px-32 flex-col items-center  py-16 bg-[#E5FAFF]">
       {/* Header Section */}
-      <div className="text-center mb-8 md:mb-12">
+      <div className="text-center mb-4 md:mb-8 lg:mb-12">
         <div
           ref={headerRef}
           className={`flex items-center justify-center gap-4 mb-6 md:mb-8 transition-all duration-1000 ease-out ${
