@@ -55,7 +55,7 @@ const TentangSection: React.FC = () => {
                 alt="Heading Tentang"
                 width={454}
                 height={100}
-                className="h-10 md:h-20 lg:h-[75px] w-auto max-w-[90%]"
+                className="h-13 md:h-22 lg:h-[75px] w-auto max-w-[90%]"
               />
             </div>
           </div>

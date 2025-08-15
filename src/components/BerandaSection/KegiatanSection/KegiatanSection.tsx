@@ -24,7 +24,7 @@ const KegiatanSection: React.FC = () => {
   return (
     <section className="w-full py-16 px-6 md:px-16 lg:px-16 bg-[#E5FAFF]">
       {/* Header Section */}
-      <div className="text-center mb-0 md:mb-8 lg:mb-12">
+      <div className="text-center gap-4 md:gap-6 lg:gap-8">
         <div
           ref={headerRef}
           className={`flex items-center justify-center gap-4 mb-0 md:mb-6 lg:mb-8 transition-all duration-1000 ease-out ${
@@ -38,7 +38,7 @@ const KegiatanSection: React.FC = () => {
             alt="Heading Kegiatan"
             width={454}
             height={100}
-            className="h-10 md:h-20 lg:h-[75px] w-auto max-w-[90%]"
+            className="h-13 md:h-22 lg:h-[75px] w-auto max-w-[90%]"
           />
         </div>
       </div>
