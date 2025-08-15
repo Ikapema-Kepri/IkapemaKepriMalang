@@ -50,12 +50,7 @@ const SambutanSection: React.FC = () => {
             className="h-10 md:h-20 lg:h-[75px] w-auto max-w-[90%]"
             priority
           />
-          <div className="absolute top-1/2 left-0 w-full h-px -z-10">
-            <div className="flex justify-between items-center w-full max-w-lg mx-auto">
-              <span className="w-1/3 h-px bg-gray-300"></span>
-              <span className="w-1/3 h-px bg-gray-300"></span>
-            </div>
-          </div>
+          
         </div>
 
         {/* Konten Utama */}
