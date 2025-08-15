@@ -63,7 +63,7 @@ const AnggotaPage: React.FC = () => {
       <section className="flex gap-4 md:pt-2 lg:pt-4">
         <AnggotaSearchBar onSearch={handleSearch} />
       </section>
-      <section className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 lg:gap-4 md:pb-16 lg:pb-24 md:pt-4 lg:pt-6 justify-items-center">
+      <section className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 lg:gap-4 pb-8 md:pb-16 lg:pb-24 md:pt-4 lg:pt-6 justify-items-center">
         {loading
           ? Array.from({ length: SKELETON_COUNT }).map((_, idx) => (
               <ProfileCardSkeleton key={idx} />

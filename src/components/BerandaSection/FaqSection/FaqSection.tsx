@@ -65,9 +65,9 @@ const FaqSection = () => {
 	});
 
 	return (
-		<section className="flex px-4 sm:px-6 md:px-8 lg:px-16 xl:px-32 flex-col items-center gap-4 md:gap-6 ls:md-8 py-16">
+		<section className="flex px-4 sm:px-6 md:px-8 lg:px-16 xl:px-32 flex-col items-center gap-4 md:gap-6 lg:gap-8 py-16">
 			{/* Header Section */}
-			<div className="text-center mb-4 md:mb-8 lg:mb-12">
+			<div className="text-center ">
 				<div
 					ref={headerRef}
 					className={`flex items-center justify-center gap-4 mb-4 md:mb-6 lg:mb-8 transition-all duration-1000 ease-out ${
@@ -81,7 +81,7 @@ const FaqSection = () => {
 						alt="Heading FAQ"
 						width={454}
 						height={100}
-						className="h-10 md:h-20 lg:h-[75px] w-auto max-w-[90%]"
+						className="h-13 md:h-22 lg:h-[75px] w-auto max-w-[90%]"
 					/>
 				</div>
 			</div>
