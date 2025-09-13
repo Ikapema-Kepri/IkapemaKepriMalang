@@ -146,17 +146,18 @@ const Slider: React.FC<SliderProps> = () => {
 
   return (
     <main className="flex items-center justify-center max-w-screen max-h-screen bg-[#E5FAFF] font-['Noto_Sans'] overflow-hidden">
-      <div className="w-full sm:w-11/12 md:w-4/5 lg:w-4/5">
+      <div className="w-full sm:w-full md:w-11/12 lg:w-11/12 xl:w-10/12">
         <SwiperPaginationStyles />
         <Swiper
           modules={[Pagination]}
           grabCursor
-          initialSlide={2}
+          initialSlide={Math.floor(slideData.length / 2)}
           centeredSlides={true}
           slidesPerView="auto"
           speed={800}
           slideToClickedSlide
           pagination={{ clickable: true }}
+          loop={true}
           className="!pb-12 !pt-4 !px-4 sm:!pb-16 sm:!pt-6 sm:!px-6 md:!pb-20 md:!pt-8 md:!px-8 lg:!pb-24 lg:!pt-10 lg:!px-10 xl:!pb-28 xl:!pt-12 xl:!px-12"
           breakpoints={{
             320: { spaceBetween: 16 },
@@ -175,14 +176,12 @@ const Slider: React.FC<SliderProps> = () => {
                   <div
                     className={clsx(
                       "relative bg-[#005266] shadow-xl rounded-xl overflow-hidden transition-all duration-700 ease-in-out select-none",
-                      // Responsive heights
-                      "h-[280px] sm:h-[320px] md:h-[360px] lg:h-[400px] xl:h-[450px]",
                       {
-                        // Active widths - fully responsive
-                        "w-[240px] sm:w-[320px] md:w-[400px] lg:w-[480px] xl:w-[576px] border-2 sm:border-3 md:border-3 lg:border-4 border-[#007A99]":
+                        // Active: 16:9 ratio with border
+                        "w-[320px] h-[180px] sm:w-[384px] sm:h-[216px] md:w-[480px] md:h-[270px] lg:w-[576px] lg:h-[324px] xl:w-[672px] xl:h-[378px] border-2 sm:border-3 md:border-3 lg:border-4 border-[#007A99]":
                           isActive,
-                        // Inactive widths - responsive
-                        "w-[160px] sm:w-[200px] md:w-[240px] lg:w-[260px] xl:w-[280px]": !isActive,
+                        // Inactive: Same height as active but narrower width
+                        "w-[240px] h-[180px] sm:w-[288px] sm:h-[216px] md:w-[360px] md:h-[270px] lg:w-[432px] lg:h-[324px] xl:w-[504px] xl:h-[378px]": !isActive,
                       }
                     )}
                   >
@@ -200,7 +199,7 @@ const Slider: React.FC<SliderProps> = () => {
                     <div className="absolute inset-0 flex flex-col justify-end p-2 sm:p-3 md:p-4 lg:p-5">
                       <h1
                         className={clsx(
-                          "text-xs sm:text-sm md:text-lg lg:text-xl xl:text-2xl font-bold text-white transition-opacity duration-800",
+                          "text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold text-white transition-opacity duration-800",
                           isActive
                             ? "opacity-0 delay-[-200ms]"
                             : "opacity-100 delay-1000"
@@ -230,8 +229,8 @@ const Slider: React.FC<SliderProps> = () => {
                       <div
                         className={clsx(
                           "absolute left-2 sm:left-3 md:left-4 lg:left-5 right-2 sm:right-3 md:right-4 lg:right-5",
-                          // Responsive margin tops
-                          "mt-8 sm:mt-10 md:mt-12 lg:mt-14 xl:mt-16",
+                          // Adjusted margin tops for 16:9 ratio
+                          "mt-6 sm:mt-8 md:mt-10 lg:mt-12 xl:mt-14",
                           "transition-opacity duration-500",
                           isActive && !isHide
                             ? "opacity-100 delay-1000"
