@@ -38,41 +38,41 @@ const slideData: Slide[] = [
     title: "I-Fest",
     description:
       "kegiatan perlombaan Futsal antar mahasiswa anggota forum daerah di Malang Raya dengan tujuan untuk mempererat ikatan sosial antara mahasiswa dari berbagai perguruan tinggi yang tergabung dalam forum mahasiswa daerah di Malang Raya. Kegiatan ini juga bertujuan mendukung gaya hidup sehat dan aktif, serta memberikan panggung bagi bakat-bakat olahraga dalam bidang futsal.",
-    image: "/kegiatan/IkapemaFestival.png",
+    image: "/kegiatan/IkapemaFestival.svg",
     categories: ["Bidang Eksternal"],
   },
   {
     title: "SOTR",
     description: "SAHU",
-    image: "/kegiatan/SahurOnTheRoad.png",
+    image: "/kegiatan/SahurOnTheRoad.svg",
     categories: ["Agenda"],
   },
   {
     title: "IPMI",
     description:
       "Kegiatan yang dilakukan oleh anggota Ikapema Kepri-Malang untuk melakukan aksi nyata dengan kegiatan menanam pohon sebagai bentuk kepedulian terhadap bumi",
-    image: "/kegiatan/IkapemaPeduliBumi.png",
+    image: "/kegiatan/IkapemaPeduliBumi.svg",
     categories: ["Departemen Pengabdian Masyarakat"],
   },
   {
     title: "Final Camp",
     description:
       "Kegiatan yang dilakukan oleh anggota Asrama Ikapema Kepri-Malang untuk pengukuhan anggota baru asrama secara resmi dan juga untuk bonding bersama dan melepas kepenatan sejenak.",
-    image: "/kegiatan/FinalCamp.png",
+    image: "/kegiatan/FinalCamp.svg",
     categories: ["Departemen Asrama"],
   },
   {
     title: "Makrab",
     description:
       "Wadah silaturahmi untuk seluruh mahasiswa yang berasal dari Kepulauan Riau dan sedang berkuliah di Malang Raya. Di sini kita bakalan FULL HAVE FUN INCLUDE KEBERSAMAAN dengan teman-teman seperantauan!",
-    image: "/kegiatan/MalamKeakraban.png",
+    image: "/kegiatan/MalamKeakraban.svg",
     categories: ["Bidang Internal"],
   },
   {
     title: "IKUMA",
     description:
       "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
-    image: "/kegiatan/IkapemaPeduliSesama.png",
+    image: "/kegiatan/IkapemaPeduliSesama.svg",
     categories: ["Departemen Pengabdian Masyarakat"],
   },
   {
