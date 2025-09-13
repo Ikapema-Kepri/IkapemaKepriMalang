@@ -21,108 +21,108 @@ type SliderProps = Record<string, never>;
 
 const slideData: Slide[] = [
   {
-    title: "Kampung Budaya",
+    title: "Ikapema Goes to Kampung Budaya",
     description:
       "Kampung Budaya dari Universitas Brawijaya atau yang lebih dikenal dengan KamBud merupakan wadah untuk meneruskan warisan budaya Indonesia. Kambud ini sendiri sering diikuti oleh Ikapema-Kepri Malang.",
-    image: "/kegiatan/KampungBudaya.png",
-    categories: ["Kategori 1", "Kategori 2"],
+    image: "/kegiatan/KampungBudaya.svg",
+    categories: ["Departemen Kominfo"],
   },
   {
     title: "I-Holiday",
     description:
       "I - Holiday atau Ikapema Holiday merupakan kegiatan jalan-jalan bareng yang dilaksanakan untuk para anggota Ikapema tujuannya untuk bonding dan melepas penat setelah kuliah.",
-    image: "/kegiatan/IkapemaHoliday.png",
-    categories: ["Kategori 1", "Kategori 2"],
+    image: "/kegiatan/IkapemaHoliday.svg",
+    categories: ["Agenda"],
   },
   {
     title: "I-Fest",
     description:
       "kegiatan perlombaan Futsal antar mahasiswa anggota forum daerah di Malang Raya dengan tujuan untuk mempererat ikatan sosial antara mahasiswa dari berbagai perguruan tinggi yang tergabung dalam forum mahasiswa daerah di Malang Raya. Kegiatan ini juga bertujuan mendukung gaya hidup sehat dan aktif, serta memberikan panggung bagi bakat-bakat olahraga dalam bidang futsal.",
     image: "/kegiatan/IkapemaFestival.png",
-    categories: ["Kategori 1", "Kategori 2"],
+    categories: ["Bidang Eksternal"],
   },
   {
     title: "SOTR",
     description: "SAHU",
     image: "/kegiatan/SahurOnTheRoad.png",
-    categories: ["Kategori 1", "Kategori 2"],
+    categories: ["Agenda"],
   },
   {
     title: "IPMI",
     description:
       "Kegiatan yang dilakukan oleh anggota Ikapema Kepri-Malang untuk melakukan aksi nyata dengan kegiatan menanam pohon sebagai bentuk kepedulian terhadap bumi",
     image: "/kegiatan/IkapemaPeduliBumi.png",
-    categories: ["Kategori 1", "Kategori 2"],
+    categories: ["Departemen Pengabdian Masyarakat"],
   },
   {
     title: "Final Camp",
     description:
       "Kegiatan yang dilakukan oleh anggota Asrama Ikapema Kepri-Malang untuk pengukuhan anggota baru asrama secara resmi dan juga untuk bonding bersama dan melepas kepenatan sejenak.",
     image: "/kegiatan/FinalCamp.png",
-    categories: ["Kategori 1", "Kategori 2"],
+    categories: ["Departemen Asrama"],
   },
   {
     title: "Makrab",
     description:
       "Wadah silaturahmi untuk seluruh mahasiswa yang berasal dari Kepulauan Riau dan sedang berkuliah di Malang Raya. Di sini kita bakalan FULL HAVE FUN INCLUDE KEBERSAMAAN dengan teman-teman seperantauan!",
     image: "/kegiatan/MalamKeakraban.png",
-    categories: ["Kategori 1", "Kategori 2"],
+    categories: ["Bidang Internal"],
   },
   {
     title: "IKUMA",
     description:
       "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
     image: "/kegiatan/IkapemaPeduliSesama.png",
-    categories: ["Kategori 1", "Kategori 2"],
+    categories: ["Departemen Pengabdian Masyarakat"],
   },
   {
     title: "Ikapema Goes to School",
     description:
       "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
-    image: "/LogoIkapema.svg",
-    categories: ["Kategori 1", "Kategori 2"],
+    image: "/kegiatan/IGS.svg",
+    categories: ["Departemen Kominfo"],
   },
   {
     title: "ODI",
     description:
       "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
-    image: "/LogoIkapema.svg",
-    categories: ["Kategori 1", "Kategori 2"],
+    image: "/kegiatan/ODI.svg",
+    categories: ["Departemen PSDA"],
   },
   {
     title: "Ikapema Day",
     description:
       "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
-    image: "/LogoIkapema.svg",
-    categories: ["Kategori 1", "Kategori 2"],
+    image: "/kegiatan/IkapemaDay.svg",
+    categories: ["Departemen Minat & Bakat"],
   },
   {
     title: "TO-PH",
     description:
       "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
-    image: "/LogoIkapema.svg",
-    categories: ["Kategori 1", "Kategori 2"],
+    image: "/kegiatan/TOPH.svg",
+    categories: ["Agenda"],
   },
   {
     title: "Pelantikan Pengurus Harian",
     description:
       "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
-    image: "/LogoIkapema.svg",
-    categories: ["Kategori 1", "Kategori 2"],
+    image: "/kegiatan/PelantikanPH.svg",
+    categories: ["Agenda"],
   },
   {
     title: "Fun Sport",
     description:
       "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
-    image: "/LogoIkapema.svg",
-    categories: ["Kategori 1", "Kategori 2"],
+    image: "/kegiatan/FunSport.svg",
+    categories: ["Departemen Minat & Bakat"],
   },
   {
     title: "Gathering",
     description:
       "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
-    image: "/LogoIkapema.svg",
-    categories: ["Kategori 1", "Kategori 2"],
+    image: "/kegiatan/Gathering.svg",
+    categories: ["Agenda"],
   }
 ];
 

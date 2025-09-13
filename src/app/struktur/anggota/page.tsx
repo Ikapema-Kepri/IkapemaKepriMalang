@@ -73,6 +73,7 @@ const AnggotaPage: React.FC = () => {
                 key={member.id}
                 name={member.namaAnggota}
                 department={member.programStudi}
+                angkatan={member.angkatan}
                 imageUrl={member.photoURL || ""}
                 logoUrl={
                   member.universitas
