@@ -23,41 +23,41 @@ const slideData: Slide[] = [
   {
     title: "Ikapema Goes to Kampung Budaya",
     description:
-      "Kampung Budaya dari Universitas Brawijaya atau yang lebih dikenal dengan KamBud merupakan wadah untuk meneruskan warisan budaya Indonesia. Kambud ini sendiri sering diikuti oleh Ikapema-Kepri Malang.",
+      "Ikapema Goes to Kampung Budaya merupakan wadah bagi Ikapema untuk menunjukan eksistensi budaya khas Kepulauan Riau.",
     image: "/kegiatan/KampungBudaya.svg",
     categories: ["Departemen Kominfo"],
   },
   {
     title: "I-Holiday",
     description:
-      "I - Holiday atau Ikapema Holiday merupakan kegiatan jalan-jalan bareng yang dilaksanakan untuk para anggota Ikapema tujuannya untuk bonding dan melepas penat setelah kuliah.",
+      "I - Holiday atau Ikapema Holiday merupakan kegiatan liburan yang dilaksanakan bersama dengan anggota Ikapema. Tujuannya untuk memperat kekeluargaan dan melepas penat selama perkuliahan.",
     image: "/kegiatan/IkapemaHoliday.svg",
     categories: ["Agenda"],
   },
   {
     title: "I-Fest",
     description:
-      "kegiatan perlombaan Futsal antar mahasiswa anggota forum daerah di Malang Raya dengan tujuan untuk mempererat ikatan sosial antara mahasiswa dari berbagai perguruan tinggi yang tergabung dalam forum mahasiswa daerah di Malang Raya. Kegiatan ini juga bertujuan mendukung gaya hidup sehat dan aktif, serta memberikan panggung bagi bakat-bakat olahraga dalam bidang futsal.",
+      "Kegiatan perlombaan futsal antar mahasiswa anggota forum daerah di Malang Raya. Kegiatan ini bertujuan mendukung gaya hidup sehat dan aktif, serta memberikan panggung bagi bakat-bakat olahraga dalam bidang futsal.",
     image: "/kegiatan/IkapemaFestival.svg",
     categories: ["Bidang Eksternal"],
   },
   {
     title: "SOTR",
-    description: "SAHU",
+    description: "Sahur On The Road (SOTR) merupakan kegiatan yang dilakukan oleh anggota Ikapema Kepri-Malang untuk melakukan aksi nyata dengan kegiatan membagikan makanan sahur kepada para pekerja malam dan kaum dhuafa di sekitar Kota Malang.",
     image: "/kegiatan/SahurOnTheRoad.svg",
     categories: ["Agenda"],
   },
   {
     title: "IPMI",
     description:
-      "Kegiatan yang dilakukan oleh anggota Ikapema Kepri-Malang untuk melakukan aksi nyata dengan kegiatan menanam pohon sebagai bentuk kepedulian terhadap bumi",
+      "IPMI merupakan aksi nyata dari Ikapema Kepri-Malang untuk peduli terhadap lingkungan dengan cara menanam pohon di area yang membutuhkan penghijauan.",
     image: "/kegiatan/IkapemaPeduliBumi.svg",
     categories: ["Departemen Pengabdian Masyarakat"],
   },
   {
     title: "Final Camp",
     description:
-      "Kegiatan yang dilakukan oleh anggota Asrama Ikapema Kepri-Malang untuk pengukuhan anggota baru asrama secara resmi dan juga untuk bonding bersama dan melepas kepenatan sejenak.",
+      "Kegiatan yang dilakukan oleh anggota Asrama Ikapema Kepri-Malang untuk pengukuhan anggota baru asrama secara resmi. Kegiatan ini juga bertujuan untuk bonding dan melepas kepenatan sejenak.",
     image: "/kegiatan/FinalCamp.svg",
     categories: ["Departemen Asrama"],
   },
@@ -85,44 +85,44 @@ const slideData: Slide[] = [
   {
     title: "ODI",
     description:
-      "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
+      "Merupakan kegiatan pendidikan dan pelatihan anggota baru Ikapema Kepri-Malang yang bertujuan untuk mengenalkan orientasi, menumbuhkan jiwa kepemimpinan dan kekeluargaan, serta meningkatkan keterampilan anggota baru dalam berbagai aspek.",
     image: "/kegiatan/ODI.svg",
     categories: ["Departemen PSDA"],
   },
   {
     title: "Ikapema Day",
     description:
-      "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
+      "Merupakan kegiatan olahraga tahunan yang mempertandingkan antar angkatan di Ikapema Kepri-Malang. Kegiatan ini juga bertujuan untuk mempererat kekeluargaan antar angkatan",
     image: "/kegiatan/IkapemaDay.svg",
     categories: ["Departemen Minat & Bakat"],
   },
   {
-    title: "TO-PH",
+    title: "Training Organization - Pengurus Harian",
     description:
-      "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
+      "Kegiatan pelatihan yang diselenggarakan untuk anggota Ikapema Kepri-Malang yang terpilih menjadi Pengurus Harian. Kegiatan ini bertujuan untuk membekali para pengurus dengan pengetahuan, keterampilan, dan sikap yang diperlukan dalam menjalankan tanggung jawab mereka sebagai pemimpin organisasi.",
     image: "/kegiatan/TOPH.svg",
     categories: ["Agenda"],
   },
   {
     title: "Pelantikan Pengurus Harian",
     description:
-      "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
+      "Merupakan kegiatan resmi yang menandai pengukuhan dan pengesahan anggota Ikapema Kepri-Malang yang telah terpilih sebagai Pengurus Harian. Kegiatan ini bertujuan untuk memberikan legitimasi kepada para pengurus dalam menjalankan tugas dan tanggung jawab mereka selama masa jabatan.",
     image: "/kegiatan/PelantikanPH.svg",
     categories: ["Agenda"],
   },
   {
     title: "Fun Sport",
     description:
-      "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
+      "Agenda bulanan yang diadakan dengan tujuan untuk mengajak seluruh anggota Ikapema Kepri-Malang agar tetap aktif berolahraga dan menjaga kesehatan tubuh, serta mempererat kekeluargaan antar anggota melalui kegiatan yang menyenangkan.",
     image: "/kegiatan/FunSport.svg",
     categories: ["Departemen Minat & Bakat"],
   },
   {
     title: "Gathering",
     description:
-      "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
+      "Kegiatan yang diadakan untuk mempererat hubungan antar anggota Ikapema Kepri-Malang melalui berbagai aktivitas yang menyenangkan dan interaktif, sehingga tercipta suasana kekeluargaan yang hangat dan solid di antara seluruh anggota.",
     image: "/kegiatan/Gathering.svg",
-    categories: ["Agenda"],
+    categories: ["PSDA"],
   }
 ];
 
