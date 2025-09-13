@@ -4,6 +4,7 @@ export interface Anggota {
   namaAnggota: string;
   universitas: string;
   programStudi: string;
+  angkatan: string;
   photoURL?: string | null; // Opsional dan bisa null
 }
 

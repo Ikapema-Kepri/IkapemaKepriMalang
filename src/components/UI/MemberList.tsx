@@ -57,6 +57,7 @@ const MemberList: React.FC = () => {
       namaAnggota: member.namaAnggota,
       universitas: member.universitas,
       programStudi: member.programStudi,
+      angkatan: member.angkatan,
       photoURL: member.photoURL || '',
     });
   };
@@ -158,6 +159,15 @@ const MemberList: React.FC = () => {
                 />
                 <input
                   type="text"
+                  name="angkatan"
+                  value={editData.angkatan || ''}
+                  onChange={handleEditChange}
+                  className="w-full mb-2 px-3 py-1 border rounded"
+                  placeholder="Angkatan (contoh: 2020)"
+                  required
+                />
+                <input
+                  type="text"
                   name="photoURL"
                   value={editData.photoURL || ''}
                   onChange={handleEditChange}
@@ -185,6 +195,7 @@ const MemberList: React.FC = () => {
                 <div className="font-semibold text-lg text-[#005266]">{member.namaAnggota}</div>
                 <div className="text-sm text-gray-600 mt-1">{member.universitas}</div>
                 <div className="text-xs text-gray-500">{member.programStudi}</div>
+                <div className="text-xs text-gray-500 font-medium">Angkatan {member.angkatan}</div>
                 <div className="flex gap-2 mt-4 justify-center">
                   <button
                     className="bg-[#00A3CC] text-white px-3 py-1 rounded hover:bg-[#005266] transition"

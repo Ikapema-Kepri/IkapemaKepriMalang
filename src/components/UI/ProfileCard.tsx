@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 
 interface ProfileCardProps {
@@ -7,6 +7,7 @@ interface ProfileCardProps {
   imageUrl: string;
   logoUrl?: string;
   className?: string;
+  angkatan?: string; // Tambahkan prop angkatan
 }
 
 const ProfileCard: React.FC<ProfileCardProps> = ({
@@ -15,7 +16,48 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   imageUrl,
   logoUrl,
   className = '',
+  angkatan, // Tambahkan angkatan parameter
 }) => {
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  // Function untuk format department dengan angkatan
+  const formatDepartmentWithAngkatan = (dept: string, angkatan?: string) => {
+    if (!angkatan) return dept;
+    
+    // Ambil 2 digit terakhir dari angkatan
+    const lastTwoDigits = angkatan.slice(-2);
+    return `${dept} ${lastTwoDigits}'`;
+  };
+
+  // Function untuk mendapatkan nama universitas berdasarkan logoUrl
+  const getUniversityName = (logoUrl?: string) => {
+    if (!logoUrl) return '';
+    
+    const logoMapping: { [key: string]: string } = {
+      'UMM': 'Universitas Muhammadiyah Malang', // Pindahkan UMM ke atas
+      'UB': 'Universitas Brawijaya',
+      'UM': 'Universitas Negeri Malang', // UM setelah UMM
+      'Polinema': 'Politeknik Negeri Malang',
+      'UIN': 'Universitas Islam Negeri Maulana Malik Ibrahim Malang',
+      'Binus': 'Binus University',
+      'UNISMA': 'Universitas Islam Malang',
+      'UNMER': 'Universitas Merdeka Malang'
+    };
+
+    // Urutkan key berdasarkan panjang (terpanjang dulu) untuk menghindari partial match
+    const sortedKeys = Object.keys(logoMapping).sort((a, b) => b.length - a.length);
+    
+    for (const key of sortedKeys) {
+      if (logoUrl.toLowerCase().includes(key.toLowerCase())) {
+        return logoMapping[key];
+      }
+    }
+    
+    return '';
+  };
+
+  const universityName = getUniversityName(logoUrl);
+
   return (
     <div 
       className={`
@@ -26,7 +68,6 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         bg-white 
         rounded-xl sm:rounded-2xl
         shadow-lg 
-        overflow-hidden
         relative
         mb-1 lg:mb-0 xl:mb-2
 
@@ -34,7 +75,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
       `}
     >
       {/* Profile Image Container - Responsive Height */}
-      <div className="h-[75px] sm:h-[130px] lg:h-[130px] xl:h-[140px] flex items-center justify-center px-3 sm:px-4 pt-6 sm:pt-7 md:pt-8 pb-2">
+      <div className="h-[75px] sm:h-[130px] lg:h-[130px] xl:h-[140px] flex items-center justify-center px-3 sm:px-4 pt-6 sm:pt-7 md:pt-8 pb-2 overflow-hidden">
         <div className="relative w-full max-w-[70px] sm:max-w-[120px] lg:max-w-[120px] xl:max-w-[130px] aspect-square flex items-center justify-center">
           {imageUrl ? (
             <Image
@@ -64,35 +105,49 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
       </div>
 
       {/* Content Section - Text Only */}
-      <div className="px-3 sm:px-4 pb-8 sm:pb-10 md:pb-12 pt-3 sm:pt-3.5 md:pt-4">
-        <div className="text-start">
+      <div className="px-3 sm:px-4 pb-8 sm:pb-10 md:pb-12 pt-3 sm:pt-3.5 md:pt-4 overflow-hidden">
+        <div className="text-start flex flex-col">
           {/* Name */}
-          <h2 className="text-[9px] sm:text-sm font-bold text-gray-900 leading-none lg:leading-tight mb-0 lg:mb-1 line-clamp-2 min-h-[1.5rem] sm:min-h-[2rem] md:min-h-[2rem] lg:min-h-[2.5rem]">
+          <h2 className="text-[9px] sm:text-sm font-bold text-gray-900 leading-none lg:leading-tight line-clamp-2">
             {name}
           </h2>
 
-          {/* Department */}
-          <p className="text-[7px] sm:text-xs font-semibold text-gray-700 leading-none lg:leading-tight line-clamp-2 min-h-[1.5rem] sm:min-h-[1.75rem] md:min-h-[2rem]">
-            {department}
+          {/* Department with Angkatan - positioned relative to name */}
+          <p className="text-[7px] sm:text-xs font-semibold text-gray-700 leading-none lg:leading-tight line-clamp-2 mt-1 sm:mt-1.5">
+            {formatDepartmentWithAngkatan(department, angkatan)}
           </p>
         </div>
       </div>
 
       {/* Logo - Fixed Position at Bottom Right */}
       <div className="absolute bottom-2 sm:bottom-2.5 md:bottom-3 right-2 sm:right-2.5 md:right-3">
-        {logoUrl ? (
-          <Image
-            src={logoUrl}
-            alt="Logo"
-            width={25}
-            height={25}
-            className="object-contain sm:w-[30px] sm:h-[30px] md:w-[32px] md:h-[32px] xl:w-[35px] xl:h-[35px]"
-          />
-        ) : (
-          <div className="w-[25px] h-[25px] sm:w-[28px] sm:h-[28px] md:w-[30px] md:h-[30px] bg-blue-600 rounded-full flex items-center justify-center">
-            <div className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 bg-yellow-400 rounded-full"></div>
-          </div>
-        )}
+        <div 
+          className="relative"
+          onMouseEnter={() => setShowTooltip(true)}
+          onMouseLeave={() => setShowTooltip(false)}
+        >
+          {logoUrl ? (
+            <Image
+              src={logoUrl}
+              alt="Logo"
+              width={25}
+              height={25}
+              className="object-contain sm:w-[30px] sm:h-[30px] md:w-[32px] md:h-[32px] xl:w-[35px] xl:h-[35px] cursor-pointer"
+            />
+          ) : (
+            <div className="w-[25px] h-[25px] sm:w-[28px] sm:h-[28px] md:w-[30px] md:h-[30px] bg-blue-600 rounded-full flex items-center justify-center cursor-pointer">
+              <div className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 bg-yellow-400 rounded-full"></div>
+            </div>
+          )}
+          
+          {/* Tooltip - Positioned below logo and centered */}
+          {showTooltip && universityName && (
+            <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-2 py-1 bg-[#CCF5FF] text-[#005266] text-[8px] sm:text-[10px] rounded whitespace-nowrap z-50 shadow-lg border border-[#005266]/20">
+              {universityName}
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-[#CCF5FF]"></div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
