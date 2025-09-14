@@ -19,6 +19,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   angkatan, // Tambahkan angkatan parameter
 }) => {
   const [showTooltip, setShowTooltip] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   // Function untuk format department dengan angkatan
   const formatDepartmentWithAngkatan = (dept: string, angkatan?: string) => {
@@ -58,6 +59,29 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
 
   const universityName = getUniversityName(logoUrl);
 
+  // Handle image load error
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
+  // Placeholder component (sama seperti di skeleton)
+  const ImagePlaceholder = () => (
+    <div className="flex items-center justify-center w-full h-full bg-gray-200 rounded-lg">
+      <svg
+        className="w-8 h-9 sm:w-9 sm:h-10 md:w-10 md:h-12 text-gray-300"
+        fill="none"
+        viewBox="0 0 64 64"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect width="64" height="64" rx="10" fill="#e5e7eb" />
+        <path
+          d="M32 34c5.523 0 10-4.477 10-10S37.523 14 32 14s-10 4.477-10 10 4.477 10 10 10zm0 4c-6.627 0-20 3.314-20 10v4h40v-4c0-6.686-13.373-10-20-10z"
+          fill="#cbd5e1"
+        />
+      </svg>
+    </div>
+  );
+
   return (
     <div 
       className={`
@@ -77,29 +101,17 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
       {/* Profile Image Container - Responsive Height */}
       <div className="h-[75px] sm:h-[130px] lg:h-[130px] xl:h-[140px] flex items-center justify-center px-3 sm:px-4 pt-6 sm:pt-7 md:pt-8 pb-2 overflow-hidden">
         <div className="relative w-full max-w-[70px] sm:max-w-[120px] lg:max-w-[120px] xl:max-w-[130px] aspect-square flex items-center justify-center">
-          {imageUrl ? (
+          {imageUrl && !imageError ? (
             <Image
               src={imageUrl}
               alt={`${name} profile picture`}
               fill
               className="object-cover rounded-lg"
               priority
+              onError={handleImageError}
             />
           ) : (
-            <div className="flex items-center justify-center w-full h-full bg-gray-100 rounded-lg">
-              <svg
-                className="w-8 h-9 sm:w-9 sm:h-10 md:w-10 md:h-12 text-gray-300"
-                fill="none"
-                viewBox="0 0 64 64"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect width="64" height="64" rx="10" fill="#e5e7eb" />
-                <path
-                  d="M32 34c5.523 0 10-4.477 10-10S37.523 14 32 14s-10 4.477-10 10 4.477 10 10 10zm0 4c-6.627 0-20 3.314-20 10v4h40v-4c0-6.686-13.373-10-20-10z"
-                  fill="#cbd5e1"
-                />
-              </svg>
-            </div>
+            <ImagePlaceholder />
           )}
         </div>
       </div>
