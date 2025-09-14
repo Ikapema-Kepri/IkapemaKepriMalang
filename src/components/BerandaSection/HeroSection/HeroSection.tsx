@@ -88,7 +88,7 @@ const HeroSectionPages: React.FC<HeroSectionPagesProps> = ({
             text={title}
             disabled={false}
             speed={3}
-            className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 tracking-wide"
+            className="font-londona text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold mb-6 sm:mb-8 tracking-wide"
           />
         </FadeContent>
 

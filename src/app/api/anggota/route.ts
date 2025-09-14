@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../lib/firebase';
 import { collection, addDoc, getDocs, query, orderBy, limit } from 'firebase/firestore';
-import { Anggota } from '@/types';
+import { Anggota, PaginationInfo } from '@/types';
 
 const anggotaCol = collection(db, 'anggota');
 
@@ -52,7 +52,10 @@ const handlers = {
 
   async GET(req: NextRequest) {
     try {
-      const { search } = Object.fromEntries(req.nextUrl.searchParams.entries());
+      const { search, page = '1', limit = '24' } = Object.fromEntries(req.nextUrl.searchParams.entries());
+      const currentPage = parseInt(page);
+      const pageLimit = parseInt(limit);
+      
       const anggotaSnapshot = await getDocs(anggotaCol);
       let anggotaList = anggotaSnapshot.docs.map(doc => ({
         id: doc.id,
@@ -70,9 +73,25 @@ const handlers = {
         );
       }
 
+      // Calculate pagination
+      const totalItems = anggotaList.length;
+      const totalPages = Math.ceil(totalItems / pageLimit);
+      const startIndex = (currentPage - 1) * pageLimit;
+      const endIndex = startIndex + pageLimit;
+      const paginatedData = anggotaList.slice(startIndex, endIndex);
+
+      const pagination: PaginationInfo = {
+        currentPage,
+        totalPages,
+        totalItems,
+        hasNext: currentPage < totalPages,
+        hasPrev: currentPage > 1
+      };
+
       return NextResponse.json({
         message: 'Daftar anggota berhasil diambil.',
-        data: anggotaList
+        data: paginatedData,
+        pagination
       });
     } catch (error: unknown) {
       return NextResponse.json(

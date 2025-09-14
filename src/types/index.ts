@@ -4,7 +4,16 @@ export interface Anggota {
   namaAnggota: string;
   universitas: string;
   programStudi: string;
+  angkatan: string;
   photoURL?: string | null; // Opsional dan bisa null
+}
+
+export interface PaginationInfo {
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  hasNext: boolean;
+  hasPrev: boolean;
 }
 
 export interface ApiResponse<T = unknown> {
@@ -12,4 +21,5 @@ export interface ApiResponse<T = unknown> {
   data?: T;
   error?: string;
   id?: string;
+  pagination?: PaginationInfo;
 }
