@@ -23,41 +23,41 @@ const slideData: Slide[] = [
   {
     title: "Ikapema Goes to Kampung Budaya",
     description:
-      "Kampung Budaya dari Universitas Brawijaya atau yang lebih dikenal dengan KamBud merupakan wadah untuk meneruskan warisan budaya Indonesia. Kambud ini sendiri sering diikuti oleh Ikapema-Kepri Malang.",
+      "Ikapema Goes to Kampung Budaya merupakan wadah bagi Ikapema untuk menunjukan eksistensi budaya khas Kepulauan Riau.",
     image: "/kegiatan/KampungBudaya.svg",
     categories: ["Departemen Kominfo"],
   },
   {
     title: "I-Holiday",
     description:
-      "I - Holiday atau Ikapema Holiday merupakan kegiatan jalan-jalan bareng yang dilaksanakan untuk para anggota Ikapema tujuannya untuk bonding dan melepas penat setelah kuliah.",
+      "I - Holiday atau Ikapema Holiday merupakan kegiatan liburan yang dilaksanakan bersama dengan anggota Ikapema. Tujuannya untuk memperat kekeluargaan dan melepas penat selama perkuliahan.",
     image: "/kegiatan/IkapemaHoliday.svg",
     categories: ["Agenda"],
   },
   {
     title: "I-Fest",
     description:
-      "kegiatan perlombaan Futsal antar mahasiswa anggota forum daerah di Malang Raya dengan tujuan untuk mempererat ikatan sosial antara mahasiswa dari berbagai perguruan tinggi yang tergabung dalam forum mahasiswa daerah di Malang Raya. Kegiatan ini juga bertujuan mendukung gaya hidup sehat dan aktif, serta memberikan panggung bagi bakat-bakat olahraga dalam bidang futsal.",
+      "Kegiatan perlombaan futsal antar mahasiswa anggota forum daerah di Malang Raya. Kegiatan ini bertujuan mendukung gaya hidup sehat dan aktif, serta memberikan panggung bagi bakat-bakat olahraga dalam bidang futsal.",
     image: "/kegiatan/IkapemaFestival.svg",
     categories: ["Bidang Eksternal"],
   },
   {
     title: "SOTR",
-    description: "SAHU",
+    description: "Sahur On The Road (SOTR) merupakan kegiatan yang dilakukan oleh anggota Ikapema Kepri-Malang untuk melakukan aksi nyata dengan kegiatan membagikan makanan sahur kepada para pekerja malam dan kaum dhuafa di sekitar Kota Malang.",
     image: "/kegiatan/SahurOnTheRoad.svg",
     categories: ["Agenda"],
   },
   {
     title: "IPMI",
     description:
-      "Kegiatan yang dilakukan oleh anggota Ikapema Kepri-Malang untuk melakukan aksi nyata dengan kegiatan menanam pohon sebagai bentuk kepedulian terhadap bumi",
+      "IPMI merupakan aksi nyata dari Ikapema Kepri-Malang untuk peduli terhadap lingkungan dengan cara menanam pohon di area yang membutuhkan penghijauan.",
     image: "/kegiatan/IkapemaPeduliBumi.svg",
     categories: ["Departemen Pengabdian Masyarakat"],
   },
   {
     title: "Final Camp",
     description:
-      "Kegiatan yang dilakukan oleh anggota Asrama Ikapema Kepri-Malang untuk pengukuhan anggota baru asrama secara resmi dan juga untuk bonding bersama dan melepas kepenatan sejenak.",
+      "Kegiatan yang dilakukan oleh anggota Asrama Ikapema Kepri-Malang untuk pengukuhan anggota baru asrama secara resmi. Kegiatan ini juga bertujuan untuk bonding dan melepas kepenatan sejenak.",
     image: "/kegiatan/FinalCamp.svg",
     categories: ["Departemen Asrama"],
   },
@@ -85,44 +85,44 @@ const slideData: Slide[] = [
   {
     title: "ODI",
     description:
-      "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
+      "Merupakan kegiatan pendidikan dan pelatihan anggota baru Ikapema Kepri-Malang yang bertujuan untuk mengenalkan orientasi, menumbuhkan jiwa kepemimpinan dan kekeluargaan, serta meningkatkan keterampilan anggota baru dalam berbagai aspek.",
     image: "/kegiatan/ODI.svg",
     categories: ["Departemen PSDA"],
   },
   {
     title: "Ikapema Day",
     description:
-      "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
+      "Merupakan kegiatan olahraga tahunan yang mempertandingkan antar angkatan di Ikapema Kepri-Malang. Kegiatan ini juga bertujuan untuk mempererat kekeluargaan antar angkatan",
     image: "/kegiatan/IkapemaDay.svg",
     categories: ["Departemen Minat & Bakat"],
   },
   {
-    title: "TO-PH",
+    title: "Training Organization - Pengurus Harian",
     description:
-      "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
+      "Kegiatan pelatihan yang diselenggarakan untuk anggota Ikapema Kepri-Malang yang terpilih menjadi Pengurus Harian. Kegiatan ini bertujuan untuk membekali para pengurus dengan pengetahuan, keterampilan, dan sikap yang diperlukan dalam menjalankan tanggung jawab mereka sebagai pemimpin organisasi.",
     image: "/kegiatan/TOPH.svg",
     categories: ["Agenda"],
   },
   {
     title: "Pelantikan Pengurus Harian",
     description:
-      "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
+      "Merupakan kegiatan resmi yang menandai pengukuhan dan pengesahan anggota Ikapema Kepri-Malang yang telah terpilih sebagai Pengurus Harian. Kegiatan ini bertujuan untuk memberikan legitimasi kepada para pengurus dalam menjalankan tugas dan tanggung jawab mereka selama masa jabatan.",
     image: "/kegiatan/PelantikanPH.svg",
     categories: ["Agenda"],
   },
   {
     title: "Fun Sport",
     description:
-      "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
+      "Agenda bulanan yang diadakan dengan tujuan untuk mengajak seluruh anggota Ikapema Kepri-Malang agar tetap aktif berolahraga dan menjaga kesehatan tubuh, serta mempererat kekeluargaan antar anggota melalui kegiatan yang menyenangkan.",
     image: "/kegiatan/FunSport.svg",
     categories: ["Departemen Minat & Bakat"],
   },
   {
     title: "Gathering",
     description:
-      "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
+      "Kegiatan yang diadakan untuk mempererat hubungan antar anggota Ikapema Kepri-Malang melalui berbagai aktivitas yang menyenangkan dan interaktif, sehingga tercipta suasana kekeluargaan yang hangat dan solid di antara seluruh anggota.",
     image: "/kegiatan/Gathering.svg",
-    categories: ["Agenda"],
+    categories: ["PSDA"],
   }
 ];
 
@@ -146,17 +146,18 @@ const Slider: React.FC<SliderProps> = () => {
 
   return (
     <main className="flex items-center justify-center max-w-screen max-h-screen bg-[#E5FAFF] font-['Noto_Sans'] overflow-hidden">
-      <div className="w-full sm:w-11/12 md:w-4/5 lg:w-4/5">
+      <div className="w-full sm:w-full md:w-11/12 lg:w-11/12 xl:w-10/12">
         <SwiperPaginationStyles />
         <Swiper
           modules={[Pagination]}
           grabCursor
-          initialSlide={2}
+          initialSlide={Math.floor(slideData.length / 2)}
           centeredSlides={true}
           slidesPerView="auto"
           speed={800}
           slideToClickedSlide
           pagination={{ clickable: true }}
+          loop={true}
           className="!pb-12 !pt-4 !px-4 sm:!pb-16 sm:!pt-6 sm:!px-6 md:!pb-20 md:!pt-8 md:!px-8 lg:!pb-24 lg:!pt-10 lg:!px-10 xl:!pb-28 xl:!pt-12 xl:!px-12"
           breakpoints={{
             320: { spaceBetween: 16 },
@@ -175,14 +176,12 @@ const Slider: React.FC<SliderProps> = () => {
                   <div
                     className={clsx(
                       "relative bg-[#005266] shadow-xl rounded-xl overflow-hidden transition-all duration-700 ease-in-out select-none",
-                      // Responsive heights
-                      "h-[280px] sm:h-[320px] md:h-[360px] lg:h-[400px] xl:h-[450px]",
                       {
-                        // Active widths - fully responsive
-                        "w-[240px] sm:w-[320px] md:w-[400px] lg:w-[480px] xl:w-[576px] border-2 sm:border-3 md:border-3 lg:border-4 border-[#007A99]":
+                        // Active: 16:9 ratio with border
+                        "w-[320px] h-[180px] sm:w-[384px] sm:h-[216px] md:w-[480px] md:h-[270px] lg:w-[576px] lg:h-[324px] xl:w-[672px] xl:h-[378px] border-2 sm:border-3 md:border-3 lg:border-4 border-[#007A99]":
                           isActive,
-                        // Inactive widths - responsive
-                        "w-[160px] sm:w-[200px] md:w-[240px] lg:w-[260px] xl:w-[280px]": !isActive,
+                        // Inactive: Same height as active but narrower width
+                        "w-[240px] h-[180px] sm:w-[288px] sm:h-[216px] md:w-[360px] md:h-[270px] lg:w-[432px] lg:h-[324px] xl:w-[504px] xl:h-[378px]": !isActive,
                       }
                     )}
                   >
@@ -200,7 +199,7 @@ const Slider: React.FC<SliderProps> = () => {
                     <div className="absolute inset-0 flex flex-col justify-end p-2 sm:p-3 md:p-4 lg:p-5">
                       <h1
                         className={clsx(
-                          "text-xs sm:text-sm md:text-lg lg:text-xl xl:text-2xl font-bold text-white transition-opacity duration-800",
+                          "text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold text-white transition-opacity duration-800",
                           isActive
                             ? "opacity-0 delay-[-200ms]"
                             : "opacity-100 delay-1000"
@@ -230,8 +229,8 @@ const Slider: React.FC<SliderProps> = () => {
                       <div
                         className={clsx(
                           "absolute left-2 sm:left-3 md:left-4 lg:left-5 right-2 sm:right-3 md:right-4 lg:right-5",
-                          // Responsive margin tops
-                          "mt-8 sm:mt-10 md:mt-12 lg:mt-14 xl:mt-16",
+                          // Adjusted margin tops for 16:9 ratio
+                          "mt-6 sm:mt-8 md:mt-10 lg:mt-12 xl:mt-14",
                           "transition-opacity duration-500",
                           isActive && !isHide
                             ? "opacity-100 delay-1000"
