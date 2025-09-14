@@ -22,7 +22,7 @@ const AddMemberForm: React.FC<AddMemberFormProps> = ({ onSuccess }) => {
     setError('');
 
     try {
-      const newMember: Anggota = { namaAnggota, universitas, programStudi, photoURL: photoURL || null };
+      const newMember: Anggota = { namaAnggota, universitas, programStudi, angkatan: '', photoURL: photoURL || null };
       const response = await fetch('/api/anggota', {
         method: 'POST',
         headers: {
