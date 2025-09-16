@@ -51,13 +51,13 @@ const Navbar: React.FC = () => {
 
   return (
     <header className="fixed top-0 left-0 w-full z-50">
-      <nav className="bg-[#005266] px-4 sm:px-6 md:px-8 lg:px-24 py-1 flex items-center justify-between">
+      <nav className="bg-[#005266] px-[1.6vh] sm:px-[2.4vh] md:px-[3.2vh] lg:px-[9.6vh] py-[0.4vh ] flex items-center justify-between">
         {/* Logo */}
         <Link href="/" aria-label="Logo IKAPEMA KEPRI—MALANG">
           <img
             src="/LogoIkapema.svg"
             alt="Logo IKAPEMA"
-            className="h-10 w-10 sm:h-14 sm:w-14 md:h-[50px] md:w-[50px] lg:h-[65px] lg:w-[65px]"
+            className="h-10 w-10 sm:h-14 sm:w-14 md:h-[50px] md:w-[50px] lg:h-[6.5vh] lg:w-[6.5vh]"
           />
         </Link>
 
