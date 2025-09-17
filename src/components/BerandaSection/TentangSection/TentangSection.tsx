@@ -129,7 +129,7 @@ const TentangSection: React.FC = () => {
                   size="md"
                   icon={ArrowRight}
                   iconPosition="right"
-                  className="transition-transform duration-300 hover:scale-105 cursor-pointer"
+                  className="transition-transform text-[#005266] duration-300 hover:scale-105 cursor-pointer"
                 >
                   Selengkapnya
                 </Button>

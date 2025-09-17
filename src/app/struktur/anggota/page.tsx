@@ -139,9 +139,9 @@ const AnggotaPage: React.FC = () => {
   };
 
   return (
-    <div className="container pt-32 px-4 sm:px-6 md:px-8 lg:px-24 bg-[#E5FAFF] min-h-screen">
+    <div className="container pt-26 px-4 sm:px-6 md:px-8 lg:px-24 bg-[#E5FAFF] min-h-screen">
       <section className="text-center">
-        <div className="flex items-center justify-center gap-4 mb-8">
+        <div className="flex items-center justify-center gap-4">
           <Image
             src="/heading/HeadingAnggota.svg"
             alt="Heading Anggota"
@@ -172,26 +172,33 @@ const AnggotaPage: React.FC = () => {
       {!loading && pagination.totalItems > 0 && !error && (
         <div className="text-center font-bold text-sm text-[#002933]">
           Menampilkan {members.length} dari {pagination.totalItems} anggota
-          {searchQuery && ` (pencarian: "${searchQuery}")`}
         </div>
       )}
 
       <section className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 lg:gap-4 md:pt-4 lg:pt-6 justify-items-center">
-        {loading && !error
-          ? Array.from({ length: SKELETON_COUNT }).map((_, idx) => <ProfileCardSkeleton key={idx} />)
-          : !error &&
-            members.map((member) => (
-              <ProfileCard
-                key={member.id}
-                name={member.namaAnggota}
-                department={member.programStudi}
-                angkatan={member.angkatan}
-                imageUrl={member.photoURL || ""}
-                logoUrl={
-                  member.universitas ? `/logoKampus/${member.universitas}.svg` : "/Andreas.jpg"
-                }
-              />
-            ))}
+        {loading && !error ? (
+          <div className="col-span-full w-full mb-20">
+            <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 lg:gap-4">
+              {Array.from({ length: SKELETON_COUNT }).map((_, idx) => (
+                <ProfileCardSkeleton key={idx} />
+              ))}
+            </div>
+          </div>
+        ) : (
+          !error &&
+          members.map((member) => (
+            <ProfileCard
+              key={member.id}
+              name={member.namaAnggota}
+              department={member.programStudi}
+              angkatan={member.angkatan}
+              imageUrl={member.photoURL || ""}
+              logoUrl={
+                member.universitas ? `/logoKampus/${member.universitas}.svg` : "/Andreas.jpg"
+              }
+            />
+          ))
+        )}
       </section>
 
       {/* Pagination Controls */}
