@@ -37,36 +37,36 @@ const TentangSection: React.FC = () => {
   };
 
   return (
-    <section className="w-full py-16 px-6 md:px-16 lg:px-24">
-      <div className="mx-auto bg-gradient-to-b from-[#00A3CC] to-[#005266] rounded-3xl py-16 px-8 md:px-12 lg:px-16">
-        <div className="max-w-5xl mx-auto">
+    <section className="w-full py-16 px-6 md:px-16 lg:px-[15.815vh]">
+      <div className="mx-auto bg-gradient-to-b from-[#00A3CC] to-[#005266] rounded-3xl py-16 px-8 md:px-[7.908vh] lg:px-[10.544vh]">
+        <div className="max-w-[168.699vh] mx-auto">
           {/* Header with decorative title */}
           <div
             ref={headerRef}
-            className={`text-center mb-4 md:mb-8 lg:mb-12 transition-all duration-1000 ease-out ${
+            className={`text-center mb-4 md:mb-8 lg:mb-[7.908vh] transition-all duration-1000 ease-out ${
               isHeaderInView
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-8"
             }`}
           >
-            <div className="flex items-center justify-center gap-4 mb-4 md:mb-6 lg:mb-8">
+            <div className="flex items-center justify-center gap-[2.636vh] mb-4 md:mb-6 lg:mb-[5.272vh]">
               <Image
                 src="/heading/HeadingTentang.svg"
                 alt="Heading Tentang"
                 width={454}
                 height={100}
-                className="h-13 md:h-22 lg:h-[75px] w-auto max-w-[90%]"
+                className="h-13 md:h-22 lg:h-[12.356vh] w-auto max-w-[90%]"
               />
             </div>
           </div>
 
           {/* Main content */}
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-[7.908vh] items-center">
             {/* Logo/Image section - 2/5 width */}
             <div className="w-full lg:w-2/5 flex justify-center lg:justify-start">
               <div
                 ref={logoRef}
-                className={`w-50 h-50 md:w-72 md:h-72 lg:w-100 lg:h-100 relative flex justify-center items-center transition-all duration-1200 ease-out ${
+                className={`w-50 h-50 md:w-[288px] md:h-[288px] lg:w-[65.898vh] lg:h-[65.898vh] relative flex justify-center items-center transition-all duration-1200 ease-out ${
                   isLogoInView
                     ? "opacity-100 translate-x-0 scale-100"
                     : "opacity-0 -translate-x-16 scale-95"
@@ -77,7 +77,7 @@ const TentangSection: React.FC = () => {
                   alt="IKAPEMA KEPRI MALANG Logo"
                   width={450}
                   height={450}
-                  className={`object-contain h-50 w-50 md:h-72 md:w-72 lg:h-[400px] lg:w-[400px] transition-all duration-700 ease-out ${
+                  className={`object-contain h-50 w-50 md:h-[288px] md:w-[288px] lg:h-[65.898vh] lg:w-[65.898vh] transition-all duration-700 ease-out ${
                     isLogoInView ? "" : ""
                   }`}
                 />
@@ -93,7 +93,7 @@ const TentangSection: React.FC = () => {
                   : "opacity-0 translate-x-16"
               }`}
             >
-              <h3 className={`text-xl md:text-2xl lg:text-3xl font-bold text-[#E5FAFF] leading-tight text-center lg:text-left transition-all duration-800 delay-200 ${
+              <h3 className={`text-xl md:text-2xl lg:text-[4.942vh] font-bold text-[#E5FAFF] leading-tight text-center lg:text-left transition-all duration-800 delay-200 ${
                 isContentInView 
                   ? "opacity-100 translate-y-0" 
                   : "opacity-0 translate-y-4"
@@ -101,7 +101,7 @@ const TentangSection: React.FC = () => {
                 Apa itu IKAPEMA KEPRI—MALANG?
               </h3>
 
-              <p className={`text-[#E5FAFF] text-lg md:text-xl leading-relaxed text-justify transition-all duration-800 delay-400 ${
+              <p className={`text-[#E5FAFF] text-lg md:text-[3.295vh] leading-relaxed text-justify transition-all duration-800 delay-400 ${
                 isContentInView 
                   ? "opacity-100 translate-y-0" 
                   : "opacity-0 translate-y-4"
@@ -118,7 +118,7 @@ const TentangSection: React.FC = () => {
                 atas anggota biasa, luar biasa dan kehormatan.
               </p>
 
-              <div className={`pt-4 transition-all duration-800 delay-600 ${
+              <div className={`pt-[2.636vh] transition-all duration-800 delay-600 ${
                 isContentInView 
                   ? "opacity-100 translate-y-0" 
                   : "opacity-0 translate-y-4"
