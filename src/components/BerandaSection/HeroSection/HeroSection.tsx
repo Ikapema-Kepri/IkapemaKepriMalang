@@ -74,7 +74,7 @@ const HeroSectionPages: React.FC<HeroSectionPagesProps> = ({
       )}
 
       {/* Main Content */}
-      <div className="relative z-20 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full max-w-[1440px]">
+      <div className="relative z-20 text-center px-4 sm:px-6 lg:px-[5.728vh] max-w-4xl mx-auto w-full max-w-[257.755vh]">
         {/* Main Title */}
         <FadeContent
           blur={false}
@@ -88,7 +88,7 @@ const HeroSectionPages: React.FC<HeroSectionPagesProps> = ({
             text={title}
             disabled={false}
             speed={3}
-            className="font-londona text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold mb-6 sm:mb-8 tracking-wide"
+            className="font-londona text-2xl sm:text-4xl md:text-5xl lg:text-[10.74vh] font-semibold mb-6 sm:mb-[5.728vh] tracking-wide"
           />
         </FadeContent>
 
@@ -101,7 +101,7 @@ const HeroSectionPages: React.FC<HeroSectionPagesProps> = ({
           repeatAnimation={true} // Enable repeat animation
         >
           {/* Subtitle */}
-          <div className="text-sm sm:text-lg md:text-xl lg:text-2xl mb-3 sm:mb-4 font-light opacity-90">
+          <div className="text-sm sm:text-lg md:text-xl lg:text-[4.296vh] mb-3 sm:mb-[2.864vh] font-light opacity-90">
             <i>{subtitle}</i>
           </div>
 
@@ -113,7 +113,7 @@ const HeroSectionPages: React.FC<HeroSectionPagesProps> = ({
           {/* CTA Button */}
           <button
             onClick={onButtonClick}
-            className="inline-flex items-center gap-3 bg-white text-[#007A99] not-only:px-8 py-2 mt-8 rounded-full text-lg font-medium hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="inline-flex items-center gap-[2.148vh] bg-white text-[#007A99] not-only:px-[5.728vh] py-[1.432vh] mt-[5.728vh] rounded-full text-[3.222vh] font-medium hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
           >
             {buttonText}
             <svg
@@ -133,7 +133,7 @@ const HeroSectionPages: React.FC<HeroSectionPagesProps> = ({
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+      <div className="absolute bottom-[5.728vh] left-1/2 transform -translate-x-1/2 z-20">
         <FadeContent
           blur={false}
           duration={1500}
@@ -146,8 +146,8 @@ const HeroSectionPages: React.FC<HeroSectionPagesProps> = ({
           onClick={onScrollClick}
           className="flex flex-col items-center text-white opacity-70 hover:opacity-100 transition-opacity duration-300 group"
         >
-          <span className="text-base mb-2 font-light">Our Information</span>
-          <div className="w-8 h-8 border-2 border-white rounded-[10px] rotate-45 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+          <span className="text-[2.864vh] mb-[1.432vh] font-light">Our Information</span>
+          <div className="w-[5.728vh] h-[5.728vh] border-2 border-white rounded-[10px] rotate-45 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
             <MoveDown size={16} className="animate-bounce rotate-[-45deg]" />
           </div>
         </button>
@@ -155,10 +155,10 @@ const HeroSectionPages: React.FC<HeroSectionPagesProps> = ({
       </div>
 
       {/* Decorative Elements */}
-      <div className="absolute top-1/4 left-8 w-2 h-2 bg-white rounded-full opacity-60 animate-pulse hidden lg:block"></div>
-      <div className="absolute top-1/3 right-12 w-3 h-3 bg-white rounded-full opacity-40 animate-pulse hidden lg:block"></div>
-      <div className="absolute bottom-1/4 left-16 w-1 h-1 bg-white rounded-full opacity-80 animate-pulse hidden lg:block"></div>
-      <div className="absolute bottom-1/3 right-8 w-2 h-2 bg-white rounded-full opacity-50 animate-pulse hidden lg:block"></div>
+      <div className="absolute top-1/4 left-8 w-[1.432vh] h-[1.432vh] bg-white rounded-full opacity-60 animate-pulse hidden lg:block"></div>
+      <div className="absolute top-1/3 right-12 w-[2.148vh] h-[2.148vh] bg-white rounded-full opacity-40 animate-pulse hidden lg:block"></div>
+      <div className="absolute bottom-1/4 left-16 w-[0.716vh] h-[0.716vh] bg-white rounded-full opacity-80 animate-pulse hidden lg:block"></div>
+      <div className="absolute bottom-1/3 right-8 w-[1.432vh] h-[1.432vh] bg-white rounded-full opacity-50 animate-pulse hidden lg:block"></div>
     </section>
   );
 };

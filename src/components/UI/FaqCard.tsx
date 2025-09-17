@@ -16,7 +16,7 @@ const FaqCard: React.FC<FaqCardProps> = ({ question, answer }) => {
     <div
       className={`
         w-full
-        max-w-[1062px]
+        max-w-[174.959vh]
         bg-[#FFFFFF]
         rounded-[20px]
         transition-all duration-500
@@ -24,7 +24,7 @@ const FaqCard: React.FC<FaqCardProps> = ({ question, answer }) => {
         relative
         overflow-hidden
         border-l-[8px] md:border-l-[16px] lg:border-l-[20px] border-[#007A99]
-        my-2
+        my-[1.318vh]
       `}
       style={{
         boxShadow: active
@@ -33,7 +33,7 @@ const FaqCard: React.FC<FaqCardProps> = ({ question, answer }) => {
       }}
     >
       {/* Pertanyaan & Arrow dalam satu baris */}
-      <div className="flex flex-row items-center px-4 py-4 md:px-8 md:py-6 relative z-10 bg-white">
+      <div className="flex flex-row items-center px-4 py-4 md:px-[5.272vh] md:py-[3.954vh] relative z-10 bg-white">
         <span
           className={`flex-1 text-base md:text-lg font-semibold transition-colors duration-300 ${
             active ? "text-[#007A99]" : "text-gray-800"
@@ -50,11 +50,11 @@ const FaqCard: React.FC<FaqCardProps> = ({ question, answer }) => {
         >
           {active ? (
             <ChevronDown
-              className="w-6 h-6 md:w-7 md:h-7 transition-transform duration-300 rotate-180 text-blue-600"
+              className="w-6 h-6 md:w-[4.613vh] md:h-[4.613vh] transition-transform duration-300 rotate-180 text-blue-600"
             />
           ) : (
             <ChevronDown
-              className="w-6 h-6 md:w-7 md:h-7 transition-transform duration-300 text-gray-500 group-hover:text-blue-600"
+              className="w-6 h-6 md:w-[4.613vh] md:h-[4.613vh] transition-transform duration-300 text-gray-500 group-hover:text-blue-600"
             />
           )}
         </button>
@@ -76,7 +76,7 @@ const FaqCard: React.FC<FaqCardProps> = ({ question, answer }) => {
           overflow: "hidden",
         }}
       >
-        <div className="text-gray-700 text-sm md:text-base px-4 md:px-8 pt-0 pb-4">
+        <div className="text-gray-700 text-base md:text-lg px-4 md:px-8 pt-0 pb-4">
           {answer}
         </div>
       </div>

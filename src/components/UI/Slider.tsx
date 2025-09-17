@@ -178,10 +178,10 @@ const Slider: React.FC<SliderProps> = () => {
                       "relative bg-[#005266] shadow-xl rounded-xl overflow-hidden transition-all duration-700 ease-in-out select-none",
                       {
                         // Active: 16:9 ratio with border
-                        "w-[320px] h-[180px] sm:w-[384px] sm:h-[216px] md:w-[480px] md:h-[270px] lg:w-[576px] lg:h-[324px] xl:w-[672px] xl:h-[378px] border-2 sm:border-3 md:border-3 lg:border-4 border-[#007A99]":
+                        "w-[320px] h-[180px] sm:w-[384px] sm:h-[216px] md:w-[480px] md:h-[270px] lg:w-[576px] lg:h-[324px] xl:w-[110.708vh] xl:h-[62.273vh] border-2 sm:border-3 md:border-3 lg:border-4 border-[#007A99]":
                           isActive,
                         // Inactive: Same height as active but narrower width
-                        "w-[240px] h-[180px] sm:w-[288px] sm:h-[216px] md:w-[360px] md:h-[270px] lg:w-[432px] lg:h-[324px] xl:w-[504px] xl:h-[378px]": !isActive,
+                        "w-[240px] h-[180px] sm:w-[288px] sm:h-[216px] md:w-[360px] md:h-[270px] lg:w-[432px] lg:h-[324px] xl:w-[83.031vh] xl:h-[62.273vh]": !isActive,
                       }
                     )}
                   >
@@ -196,10 +196,10 @@ const Slider: React.FC<SliderProps> = () => {
                     />
 
                     {/* Title shown on inactive slides */}
-                    <div className="absolute inset-0 flex flex-col justify-end p-2 sm:p-3 md:p-4 lg:p-5">
+                    <div className="absolute inset-0 flex flex-col justify-end p-2 sm:p-3 md:p-4 lg:p-[3.295vh]">
                       <h1
                         className={clsx(
-                          "text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold text-white transition-opacity duration-800",
+                          "text-xs sm:text-sm md:text-base lg:text-[2.965vh] xl:text-[3.295vh] font-bold text-white transition-opacity duration-800",
                           isActive
                             ? "opacity-0 delay-[-200ms]"
                             : "opacity-100 delay-1000"
@@ -212,7 +212,7 @@ const Slider: React.FC<SliderProps> = () => {
                     {/* Content shown only on the active slide */}
                     <div
                       className={clsx(
-                        "absolute inset-0 z-10 p-2 sm:p-3 md:p-4 lg:p-5 flex flex-col justify-center text-white bg-gradient-to-t from-black/70 via-black/40 to-transparent transition-opacity duration-800",
+                        "absolute inset-0 z-10 p-2 sm:p-3 md:p-4 lg:p-[3.295vh] flex flex-col justify-center text-white bg-gradient-to-t from-black/70 via-black/40 to-transparent transition-opacity duration-800",
                         isActive && !isHide
                           ? "opacity-100 delay-500"
                           : "opacity-0 pointer-events-none"
@@ -220,7 +220,7 @@ const Slider: React.FC<SliderProps> = () => {
                     >
                       {/* Title on active slide */}
                       {isActive && !isHide && (
-                        <h1 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold mb-1 sm:mb-2 md:mb-3 text-white drop-shadow-lg transition-all duration-700 absolute top-2 sm:top-3 md:top-4 lg:top-5 left-2 sm:left-3 md:left-4 lg:left-5 right-2 sm:right-3 md:right-4 lg:right-5 z-20">
+                        <h1 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-[3.954vh] font-bold mb-1 sm:mb-2 md:mb-[1.977vh] text-white drop-shadow-lg transition-all duration-700 absolute top-2 sm:top-3 md:top-4 lg:top-[3.295vh] left-2 sm:left-3 md:left-4 lg:left-5 right-2 sm:right-3 md:right-4 lg:right-5 z-20">
                           {slide.title}
                         </h1>
                       )}
@@ -230,7 +230,7 @@ const Slider: React.FC<SliderProps> = () => {
                         className={clsx(
                           "absolute left-2 sm:left-3 md:left-4 lg:left-5 right-2 sm:right-3 md:right-4 lg:right-5",
                           // Adjusted margin tops for 16:9 ratio
-                          "mt-6 sm:mt-8 md:mt-10 lg:mt-12 xl:mt-14",
+                          "mt-6 sm:mt-8 md:mt-10 lg:mt-[1.977vh] xl:mt-[9.226vh]",
                           "transition-opacity duration-500",
                           isActive && !isHide
                             ? "opacity-100 delay-1000"
@@ -263,8 +263,8 @@ const Slider: React.FC<SliderProps> = () => {
                             <span
                               key={idx}
                               className={clsx(
-                                "text-white text-[0.5rem] sm:text-[0.6rem] md:text-xs lg:text-sm",
-                                "px-1 py-0.5 sm:px-2 sm:py-1 md:px-3 md:py-1 lg:px-4 lg:py-1.5",
+                                "text-white text-[0.5rem] sm:text-[0.6rem] md:text-xs lg:text-[2.306vh]",
+                                "px-1 py-0.5 sm:px-2 sm:py-1 md:px-3 md:py-1 lg:px-[2.636vh] lg:py-[0.988vh]",
                                 "border border-white/50 rounded-full shadow-lg opacity-0",
                                 isActive &&
                                   !isHide &&
