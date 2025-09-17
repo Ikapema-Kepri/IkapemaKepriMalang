@@ -3,8 +3,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import clsx from "clsx";
 import { HiEye, HiEyeOff } from "react-icons/hi";
-
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 
