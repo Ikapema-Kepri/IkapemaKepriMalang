@@ -62,7 +62,7 @@ const Navbar: React.FC = () => {
         </Link>
 
         {/* Desktop Nav */}
-        <ul className="hidden lg:flex items-center gap-2 sm:gap-[2.148vh]">
+        <ul className="hidden lg:flex items-center">
           {navLinks.map((link) => (
             <li 
               key={link.label}
@@ -72,14 +72,14 @@ const Navbar: React.FC = () => {
                 // Regular link
                 <Link
                   href={link.href}
-                  className="text-white font-medium text-sm sm:text-[3.58vh] px-[2.864vh] py-[1.432vh] rounded-full hover:text-[#33D6FF] transition-colors"
+                  className="text-white font-medium text-xs sm:text-sm md:text-[3vh] px-2 sm:px-3 md:px-[4vh] py-2 md:py-[3vh] rounded-full hover:text-[#33D6FF] transition-colors duration-300"
                 >
                   {link.label}
                 </Link>
               ) : link.isComingSoon ? (
                 // Coming Soon link
                 <div className="relative group">
-                  <span className="text-white font-medium text-sm sm:text-[3.58vh] px-[2.864vh] py-[1.432vh] rounded-full hover:text-[#33D6FF] transition-colors cursor-not-allowed opacity-70">
+                  <span className="text-white font-medium text-xs sm:text-sm md:text-[3vh] px-2 sm:px-3 md:px-[4vh] py-2 md:py-[2.864vh] rounded-full hover:text-[#33D6FF] transition-colors duration-300 cursor-not-allowed opacity-70">
                     {link.label}
                   </span>
                   {/* Coming Soon Tooltip */}
@@ -93,11 +93,11 @@ const Navbar: React.FC = () => {
                 <div className="relative">
                   <button
                     onClick={() => handleDropdownClick(link.label)}
-                    className="text-white font-medium text-sm text-[3.58vh] px-[2.864vh] py-[1.432vh] rounded-full hover:text-[#33D6FF] transition-colors cursor-pointer flex items-center focus:outline-none"
+                    className="text-white font-medium text-xs sm:text-sm md:text-[3vh] px-2 sm:px-3 md:px-[4vh] py-2 md:py-[2.864vh] rounded-full hover:text-[#33D6FF] transition-colors duration-300 cursor-pointer flex items-center focus:outline-none"
                   >
                     {link.label}
                     <svg
-                      className={`ml-[0.716vh] w-[2.864vh] h-[2.864vh] transition-transform duration-300 ${
+                      className={`ml-[0.5vh] w-[2.2vh] h-[2.2vh] transition-transform duration-300 ${
                         dropdownOpen === link.label ? 'rotate-180' : ''
                       }`}
                       fill="none"
@@ -110,17 +110,23 @@ const Navbar: React.FC = () => {
                   
                   {/* Dropdown Menu */}
                   {dropdownOpen === link.label && (
-                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-48 bg-[#005266] shadow-lg rounded-xl overflow-hidden border border-[#33D6FF]/20 z-50">
-                      {link.dropdown.map((item) => (
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-1 w-max bg-[#005266] shadow-lg rounded-xl overflow-hidden border border-[#33D6FF]/20 z-50">
+                      {link.dropdown.map((item, index) => (
                         <Link
                           key={item.label}
                           href={item.href}
                           onClick={() => setDropdownOpen(null)}
-                          className="block px-4 py-3 text-white font-medium hover:bg-[#33D6FF]/20 transition-colors duration-300 first:rounded-t-xl last:rounded-b-xl"
+                          className={`block text-white font-medium text-xs sm:text-sm md:text-[3vh] px-2 sm:px-3 md:px-[4vh] py-2 md:py-[2.864vh] hover:bg-[#33D6FF]/30 transition-colors duration-300 ${
+                            index === 0 ? 'rounded-t-xl' : ''
+                          } ${
+                            index === link.dropdown!.length - 1 ? 'rounded-b-xl' : ''
+                          }`}
                         >
                           {item.label}
                         </Link>
                       ))}
+                      {/* Connecting triangle */}
+                      <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-[#005266] rotate-45 border-l border-t border-[#33D6FF]/20"></div>
                     </div>
                   )}
                 </div>
