@@ -97,7 +97,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
       <div 
         className={`
           profile-card-16-10
-          w-[90px] h-[160px] 
+          w-[87px] h-[160px] 
           sm:w-[165px] sm:h-[255px]
           lg:w-[155px] lg:h-[255px]
           xl:w-[28.007vh] xl:h-[44.481vh]
@@ -112,7 +112,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         `}
       >
         {/* Profile Image Container - Responsive Height */}
-        <div className="h-[75px] sm:h-[130px] lg:h-[130px] xl:h-[23.064vh] flex items-center justify-center px-3 sm:px-[2.636vh] pt-6 sm:pt-7 md:pt-[5.272vh] pb-[1.318vh] overflow-hidden">
+        <div className="h-[75px] sm:h-[130px] lg:h-[130px] xl:h-[23.064vh] flex items-center justify-center px-2 sm:px-[2.636vh] pt-5 sm:pt-7 md:pt-[5.272vh] pb-[1.318vh] overflow-hidden">
           <div className="relative w-full max-w-[70px] sm:max-w-[120px] lg:max-w-[120px] xl:max-w-[21.417vh] aspect-square flex items-center justify-center">
             {imageUrl && !imageError ? (
               <Image
@@ -130,7 +130,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         </div>
 
         {/* Content Section - Text Only */}
-        <div className="px-3 sm:px-[2.636vh] pb-8 sm:pb-10 md:pb-[7.908vh] pt-3 sm:pt-3.5 md:pt-[2.636vh] overflow-hidden">
+        <div className="px-3 sm:px-[2.636vh] pb-8 sm:pb-10 md:pb-[7.908vh] pt-1.5 sm:pt-3.5 md:pt-[2.636vh] overflow-hidden">
           <div className="text-start flex flex-col">
             {/* Name */}
             <h2 className="text-[9px] sm:text-[2.306vh] font-bold text-gray-900 leading-none lg:leading-tight line-clamp-2">
@@ -138,7 +138,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             </h2>
 
             {/* Department with Angkatan - positioned relative to name */}
-            <p className="text-[7px] sm:text-[1.977vh] font-semibold text-gray-700 leading-none lg:leading-tight line-clamp-2 mt-1 sm:mt-[0.988vh]">
+            <p className="text-[7px] sm:text-[1.977vh] font-semibold text-gray-700 leading-none lg:leading-tight line-clamp-3 mt-1 sm:mt-[0.988vh]">
               {formatDepartmentWithAngkatan(department, angkatan)}
             </p>
           </div>
