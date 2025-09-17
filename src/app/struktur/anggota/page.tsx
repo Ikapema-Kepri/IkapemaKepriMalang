@@ -177,7 +177,25 @@ const AnggotaPage: React.FC = () => {
         </div>
       )}
 
-      <section className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 lg:gap-4 pt-2 md:pt-4 lg:pt-6 justify-items-center">
+      {/* No members found notification */}
+      {!loading && !error && members.length === 0 && (
+        <div className="text-center py-12">
+          <p className="text-[#002933] mb-4 font-semibold">Anggota Tidak Ditemukan</p>
+          {searchQuery && (
+            <button
+              onClick={() => {
+                setSearchQuery("");
+                fetchMembers("", 1);
+              }}
+              className="px-4 py-2 bg-[#00A3CC] text-white font-semibold text-sm rounded-full hover:bg-[#005266] transition-colors"
+            >
+              Lihat Semua Anggota
+            </button>
+          )}
+        </div>
+      )}
+
+      <section className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 lg:gap-4 pt-2 md:pt-4 lg:pt-6 justify-items-center mb-8">
         {loading && !error ? (
           <div className="col-span-full w-full mb-20">
             <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 lg:gap-4">
@@ -188,6 +206,7 @@ const AnggotaPage: React.FC = () => {
           </div>
         ) : (
           !error &&
+          members.length > 0 &&
           members.map((member) => (
             <ProfileCard
               key={member.id}
@@ -205,6 +224,11 @@ const AnggotaPage: React.FC = () => {
 
       {/* Pagination Controls */}
       {!error && renderPagination()}
+      
+      {/* Additional margin when no pagination */}
+      {!error && pagination.totalPages <= 1 && (
+        <div className="bg-[#E5FAFF] h-16"></div>
+      )}
     </div>
   );
 };

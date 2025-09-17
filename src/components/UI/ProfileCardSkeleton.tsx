@@ -11,9 +11,9 @@ const ProfileCardSkeleton: React.FC = () => (
       }
     `}</style>
 
-    <div className="profile-card-16-10 w-[90px] h-[160px] sm:w-[165px] sm:h-[255px] lg:w-[155px] lg:h-[255px] xl:w-[28.007vh] xl:h-[44.481vh] bg-white rounded-xl sm:rounded-2xl shadow-lg relative mb-1 lg:mb-0 xl:mb-2 transition-transform duration-200 ease-in-out animate-pulse">
+    <div className="profile-card-16-10 w-[87px] h-[160px] sm:w-[165px] sm:h-[255px] lg:w-[155px] lg:h-[255px] xl:w-[28.007vh] xl:h-[44.481vh] bg-white rounded-xl sm:rounded-2xl shadow-lg relative mb-1 lg:mb-0 xl:mb-2 transition-transform duration-200 ease-in-out animate-pulse">
       {/* Profile Image Container - Responsive Height */}
-      <div className="h-[75px] sm:h-[130px] lg:h-[130px] xl:h-[23.064vh] flex items-center justify-center px-3 sm:px-[2.636vh] pt-6 sm:pt-7 md:pt-[5.272vh] pb-[1.318vh] overflow-hidden">
+      <div className="h-[75px] sm:h-[130px] lg:h-[130px] xl:h-[23.064vh] flex items-center justify-center px-2 sm:px-[2.636vh] pt-5 sm:pt-7 md:pt-[5.272vh] pb-[1.318vh] overflow-hidden">
         <div className="relative w-full max-w-[70px] sm:max-w-[120px] lg:max-w-[120px] xl:max-w-[21.417vh] aspect-square flex items-center justify-center">
           <div className="flex items-center justify-center w-full h-full bg-gray-200 rounded-lg">
             <svg
@@ -32,7 +32,7 @@ const ProfileCardSkeleton: React.FC = () => (
       </div>
 
       {/* Content Section - Text Only */}
-      <div className="px-3 sm:px-[2.636vh] pb-8 sm:pb-10 md:pb-[7.908vh] pt-3 sm:pt-3.5 md:pt-[2.636vh] overflow-hidden">
+      <div className="px-3 sm:px-[2.636vh] pb-8 sm:pb-10 md:pb-[7.908vh] pt-1.5 sm:pt-3.5 md:pt-[2.636vh] overflow-hidden">
         <div className="text-start flex flex-col">
           {/* Name Skeleton */}
           <div className="mb-1 sm:mb-[0.988vh]">
