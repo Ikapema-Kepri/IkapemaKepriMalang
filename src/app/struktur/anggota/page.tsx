@@ -137,11 +137,8 @@ const AnggotaPage: React.FC = () => {
     );
   };
 
-  if (error) return <p style={{ color: "red" }}>Error: {error}</p>;
-  if (!loading && members.length === 0 && pagination.totalItems === 0) return <p>Belum ada anggota.</p>;
-
   return (
-    <div className="container pt-32 px-4 sm:px-6 md:px-8 lg:px-24 bg-[#E5FAFF]">
+    <div className="container pt-32 px-4 sm:px-6 md:px-8 lg:px-24 bg-[#E5FAFF] min-h-screen">
       <section className="text-center">
         <div className="flex items-center justify-center gap-4 mb-8">
           <Image
@@ -154,12 +151,23 @@ const AnggotaPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="flex gap-4 md:pt-2 lg:pt-4">
+      <section className="flex gap-4 md:pt-2 lg:pt-4 flex-col">
         <AnggotaSearchBar onSearch={handleSearch} />
+        {error && (
+          <div className="flex flex-col items-center mt-2">
+            <span className="text-red-600 text-sm mb-2">Gagal memuat anggota: {error}</span>
+            <button
+              onClick={() => fetchMembers(searchQuery, pagination.currentPage)}
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+            >
+              Coba Lagi
+            </button>
+          </div>
+        )}
       </section>
 
       {/* Pagination Info */}
-      {!loading && pagination.totalItems > 0 && (
+      {!loading && pagination.totalItems > 0 && !error && (
         <div className="text-center text-sm text-gray-600 mt-4">
           Menampilkan {members.length} dari {pagination.totalItems} anggota
           {searchQuery && ` (pencarian: "${searchQuery}")`}
@@ -167,9 +175,10 @@ const AnggotaPage: React.FC = () => {
       )}
 
       <section className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 lg:gap-4 md:pt-4 lg:pt-6 justify-items-center">
-        {loading
+        {loading && !error
           ? Array.from({ length: SKELETON_COUNT }).map((_, idx) => <ProfileCardSkeleton key={idx} />)
-          : members.map((member) => (
+          : !error &&
+            members.map((member) => (
               <ProfileCard
                 key={member.id}
                 name={member.namaAnggota}
@@ -184,7 +193,7 @@ const AnggotaPage: React.FC = () => {
       </section>
 
       {/* Pagination Controls */}
-      {renderPagination()}
+      {!error && renderPagination()}
     </div>
   );
 };
