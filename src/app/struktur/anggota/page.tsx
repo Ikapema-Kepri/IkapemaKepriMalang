@@ -80,24 +80,25 @@ const AnggotaPage: React.FC = () => {
     }
 
     return (
-      <div className="flex justify-center items-center gap-2 mt-8 pb-8">
+      <div className="flex justify-center items-center gap-1 sm:gap-2 mt-8 pb-8">
         <button
           onClick={() => handlePageChange(pagination.currentPage - 1)}
           disabled={!pagination.hasPrev}
-          className="px-3 py-2 rounded-full bg-[#00A3CC] text-white disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-[#005266] transition-colors"
+          className="px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm rounded-full bg-[#00A3CC] text-white disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-[#005266] transition-colors"
         >
-          Previous
+          <span className="hidden sm:inline">Previous</span>
+          <span className="sm:hidden">Prev</span>
         </button>
 
         {startPage > 1 && (
           <>
             <button
               onClick={() => handlePageChange(1)}
-              className="px-5 py-2 rounded-full bg-white border border-gray-300 hover:bg-gray-50 transition-colors"
+              className="px-2 py-1 sm:px-5 sm:py-2 text-xs sm:text-sm rounded-full bg-white border border-gray-300 hover:bg-gray-50 transition-colors"
             >
               1
             </button>
-            {startPage > 2 && <span className="px-2">...</span>}
+            {startPage > 2 && <span className="px-1 sm:px-2 text-xs sm:text-base">...</span>}
           </>
         )}
 
@@ -105,7 +106,7 @@ const AnggotaPage: React.FC = () => {
           <button
             key={page}
             onClick={() => handlePageChange(page)}
-            className={`px-4 py-2 rounded-full transition-colors ${
+            className={`px-2 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm rounded-full transition-colors ${
               page === pagination.currentPage
                 ? "bg-[#00A3CC] text-white"
                 : "bg-white border border-gray-300 hover:bg-gray-50"
@@ -117,10 +118,10 @@ const AnggotaPage: React.FC = () => {
 
         {endPage < pagination.totalPages && (
           <>
-            {endPage < pagination.totalPages - 1 && <span className="px-2">...</span>}
+            {endPage < pagination.totalPages - 1 && <span className="px-1 sm:px-2 text-xs sm:text-base">...</span>}
             <button
               onClick={() => handlePageChange(pagination.totalPages)}
-              className="px-5 py-2 rounded-lg bg-white border border-gray-300 hover:bg-gray-50 transition-colors"
+              className="px-2 py-1 sm:px-5 sm:py-2 text-xs sm:text-sm rounded-full bg-white border border-gray-300 hover:bg-gray-50 transition-colors"
             >
               {pagination.totalPages}
             </button>
@@ -130,16 +131,17 @@ const AnggotaPage: React.FC = () => {
         <button
           onClick={() => handlePageChange(pagination.currentPage + 1)}
           disabled={!pagination.hasNext}
-          className="px-3 py-2 rounded-full bg-[#00A3CC] text-white disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-[#005266] transition-colors"
+          className="px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm rounded-full bg-[#00A3CC] text-white disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-[#005266] transition-colors"
         >
-          Next
+          <span className="hidden sm:inline">Next</span>
+          <span className="sm:hidden">Next</span>
         </button>
       </div>
     );
   };
 
   return (
-    <div className="w-full pt-[17.133vh] px-[2%] sm:px-[3%] md:px-[4%] lg:px-[6%] xl:px-[8%] bg-[#E5FAFF] min-h-screen">
+    <div className="w-full pt-[12.5vh] sm:pt-[13.5vh] md:pt-[14.5vh] lg:pt-[17.133vh] px-[4%] sm:px-[3%] md:px-[4%] lg:px-[6%] xl:px-[8%] bg-[#E5FAFF] min-h-screen">
       <section className="text-center">
         <div className="flex items-center justify-center gap-4">
           <Image
@@ -175,7 +177,7 @@ const AnggotaPage: React.FC = () => {
         </div>
       )}
 
-      <section className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 lg:gap-4 md:pt-4 lg:pt-6 justify-items-center">
+      <section className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 lg:gap-4 pt-2 md:pt-4 lg:pt-6 justify-items-center">
         {loading && !error ? (
           <div className="col-span-full w-full mb-20">
             <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 lg:gap-4">
