@@ -230,7 +230,7 @@ const Slider: React.FC<SliderProps> = () => {
                         className={clsx(
                           "absolute left-2 sm:left-3 md:left-4 lg:left-5 right-2 sm:right-3 md:right-4 lg:right-5",
                           // Adjusted margin tops for 16:9 ratio
-                          "mt-6 sm:mt-8 md:mt-10 lg:mt-[1.977vh] xl:mt-[9.226vh]",
+                          "-mt-4 sm:mt-0 md:mt-2 lg:mt-[1.977vh] xl:mt-[9.226vh]",
                           "transition-opacity duration-500",
                           isActive && !isHide
                             ? "opacity-100 delay-1000"

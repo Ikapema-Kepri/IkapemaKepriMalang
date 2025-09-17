@@ -93,19 +93,36 @@ const TentangSection: React.FC = () => {
                   : "opacity-0 translate-x-16"
               }`}
             >
-              <h3 className={`text-xl md:text-2xl lg:text-[4.942vh] font-bold text-[#E5FAFF] leading-tight text-center lg:text-left transition-all duration-800 delay-200 ${
-                isContentInView 
-                  ? "opacity-100 translate-y-0" 
-                  : "opacity-0 translate-y-4"
-              }`}>
+              <h3 
+                className={`text-xl md:text-2xl lg:text-[4.942vh] font-bold text-[#E5FAFF] leading-tight text-center lg:text-left transition-all duration-800 delay-200 ${
+                  isContentInView 
+                    ? "opacity-100 translate-y-0" 
+                    : "opacity-0 translate-y-4"
+                }`}
+                style={{
+                  fontSize: window?.matchMedia?.('(min-aspect-ratio: 1.6) and (max-aspect-ratio: 1.8)')?.matches 
+                    ? 'calc(1.7 * 1em)' 
+                    : undefined
+                }}
+              >
                 Apa itu IKAPEMA KEPRI—MALANG?
               </h3>
 
-              <p className={`text-[#E5FAFF] text-lg md:text-[3.295vh] leading-relaxed text-justify transition-all duration-800 delay-400 ${
-                isContentInView 
-                  ? "opacity-100 translate-y-0" 
-                  : "opacity-0 translate-y-4"
-              }`}>
+              <p 
+                className={`text-[#E5FAFF] text-lg md:text-[3.295vh] leading-relaxed text-justify transition-all duration-800 delay-400 ${
+                  isContentInView 
+                    ? "opacity-100 translate-y-0" 
+                    : "opacity-0 translate-y-4"
+                }`}
+                style={{
+                  fontSize: window?.matchMedia?.('(min-aspect-ratio: 1.6) and (max-aspect-ratio: 1.8)')?.matches 
+                    ? 'calc(1.3 * 1em)' 
+                    : undefined,
+                  lineHeight: window?.matchMedia?.('(min-aspect-ratio: 1.6) and (max-aspect-ratio: 1.8)')?.matches 
+                    ? 'calc(0.9 * 1.6)' 
+                    : undefined
+                }}
+              >
                 Ikatan Pelajar Mahasiswa Kepulauan Riau-Malang (IKAPEMA
                 Kepri-Malang) adalah organisasi pelajar dan mahasiswa daerah
                 Provinsi Kepulauan Riau yang ada di Kota Malang. Organisasi ini
