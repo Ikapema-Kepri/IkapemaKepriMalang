@@ -51,7 +51,7 @@ const NavbarGlass: React.FC = () => {
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 px-4 sm:px-6 md:px-8 lg:px-[17.184vh] py-[0.716vh] bg-transparent">
-      <nav className="max-w-[1440px] mx-auto flex items-center justify-between">
+      <nav className="max-w-[257.755vh ] mx-auto flex items-center justify-between">
         {/* Logo */}
         <a href="#beranda" aria-label="Logo IKAPEMA KEPRI—MALANG">
           <img
