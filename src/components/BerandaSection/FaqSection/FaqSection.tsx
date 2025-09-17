@@ -65,12 +65,12 @@ const FaqSection = () => {
 	});
 
 	return (
-		<section className="flex px-4 sm:px-6 md:px-8 lg:px-16 xl:px-32 flex-col items-center gap-4 md:gap-6 lg:gap-8 py-16">
+		<section className="flex px-4 sm:px-6 md:px-8 lg:px-[10.544vh] xl:px-[21.087vh] flex-col items-center gap-4 md:gap-6 lg:gap-[5.272vh] py-[10.544vh]">
 			{/* Header Section */}
 			<div className="text-center ">
 				<div
 					ref={headerRef}
-					className={`flex items-center justify-center gap-4 mb-4 md:mb-6 lg:mb-8 transition-all duration-1000 ease-out ${
+					className={`flex items-center justify-center gap-4 mb-4 md:mb-6 lg:mb-[5.272vh] transition-all duration-1000 ease-out ${
 						isHeaderInView
 							? "opacity-100 translate-y-0 scale-100"
 							: "opacity-0 translate-y-8 scale-95"
@@ -81,7 +81,7 @@ const FaqSection = () => {
 						alt="Heading FAQ"
 						width={454}
 						height={100}
-						className="h-13 md:h-22 lg:h-[75px] w-auto max-w-[90%]"
+						className="h-13 md:h-22 lg:h-[12.356vh] w-auto max-w-[90%]"
 					/>
 				</div>
 			</div>
@@ -89,7 +89,7 @@ const FaqSection = () => {
 			{/* FAQ Cards Section */}
 			<div
 				ref={faqListRef}
-				className={`w-full flex flex-col items-center gap-4 md:gap-6 transition-all duration-1200 ease-out ${
+				className={`w-full flex flex-col items-center gap-4 md:gap-[3.954vh] transition-all duration-1200 ease-out ${
 					isFaqListInView
 						? "opacity-100 translate-x-0"
 						: "opacity-0 translate-x-12"
@@ -98,7 +98,7 @@ const FaqSection = () => {
 				{faqList.map((faq, idx) => (
 					<div
 						key={idx}
-						className={`w-full transition-all duration-800 ease-out ${
+						className={`w-full flex items-center justify-center transition-all duration-800 ease-out ${
 							isFaqListInView
 								? "opacity-100 translate-y-0"
 								: "opacity-0 translate-y-6"
