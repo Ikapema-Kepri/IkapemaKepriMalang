@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { Anggota, ApiResponse, PaginationInfo } from "../../../types";
 import AnggotaSearchBar from "@/components/UI/AnggotaSearchBar";
 import Image from "next/image";
+import { FiRefreshCw } from "react-icons/fi";
 
 const SKELETON_COUNT = 24;
 
@@ -83,7 +84,7 @@ const AnggotaPage: React.FC = () => {
         <button
           onClick={() => handlePageChange(pagination.currentPage - 1)}
           disabled={!pagination.hasPrev}
-          className="px-3 py-2 rounded-lg bg-blue-500 text-white disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-600 transition-colors"
+          className="px-3 py-2 rounded-full bg-[#00A3CC] text-white disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-[#005266] transition-colors"
         >
           Previous
         </button>
@@ -92,7 +93,7 @@ const AnggotaPage: React.FC = () => {
           <>
             <button
               onClick={() => handlePageChange(1)}
-              className="px-3 py-2 rounded-lg bg-white border border-gray-300 hover:bg-gray-50 transition-colors"
+              className="px-5 py-2 rounded-full bg-white border border-gray-300 hover:bg-gray-50 transition-colors"
             >
               1
             </button>
@@ -104,9 +105,9 @@ const AnggotaPage: React.FC = () => {
           <button
             key={page}
             onClick={() => handlePageChange(page)}
-            className={`px-3 py-2 rounded-lg transition-colors ${
+            className={`px-4 py-2 rounded-full transition-colors ${
               page === pagination.currentPage
-                ? "bg-blue-600 text-white"
+                ? "bg-[#00A3CC] text-white"
                 : "bg-white border border-gray-300 hover:bg-gray-50"
             }`}
           >
@@ -119,7 +120,7 @@ const AnggotaPage: React.FC = () => {
             {endPage < pagination.totalPages - 1 && <span className="px-2">...</span>}
             <button
               onClick={() => handlePageChange(pagination.totalPages)}
-              className="px-3 py-2 rounded-lg bg-white border border-gray-300 hover:bg-gray-50 transition-colors"
+              className="px-5 py-2 rounded-lg bg-white border border-gray-300 hover:bg-gray-50 transition-colors"
             >
               {pagination.totalPages}
             </button>
@@ -129,7 +130,7 @@ const AnggotaPage: React.FC = () => {
         <button
           onClick={() => handlePageChange(pagination.currentPage + 1)}
           disabled={!pagination.hasNext}
-          className="px-3 py-2 rounded-lg bg-blue-500 text-white disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-600 transition-colors"
+          className="px-3 py-2 rounded-full bg-[#00A3CC] text-white disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-[#005266] transition-colors"
         >
           Next
         </button>
@@ -151,16 +152,17 @@ const AnggotaPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="flex gap-4 md:pt-2 lg:pt-4 flex-col">
+      <section className="flex gap-4 flex-col">
         <AnggotaSearchBar onSearch={handleSearch} />
         {error && (
           <div className="flex flex-col items-center mt-2">
-            <span className="text-red-600 text-sm mb-2">Gagal memuat anggota: {error}</span>
+            <span className="text-red-600 text-sm font-semibold mb-2">Gagal memuat anggota. Silahkan coba lagi</span>
             <button
               onClick={() => fetchMembers(searchQuery, pagination.currentPage)}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+              className="p-3 bg-white text-[#007A99] rounded-full hover:bg-gray-100 transition-colors flex items-center justify-center"
+              aria-label="Muat ulang"
             >
-              Coba Lagi
+              <FiRefreshCw className="h-7 w-7" />
             </button>
           </div>
         )}
@@ -168,7 +170,7 @@ const AnggotaPage: React.FC = () => {
 
       {/* Pagination Info */}
       {!loading && pagination.totalItems > 0 && !error && (
-        <div className="text-center text-sm text-gray-600 mt-4">
+        <div className="text-center font-bold text-sm text-[#002933]">
           Menampilkan {members.length} dari {pagination.totalItems} anggota
           {searchQuery && ` (pencarian: "${searchQuery}")`}
         </div>
