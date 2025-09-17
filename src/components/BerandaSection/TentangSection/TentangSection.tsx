@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import Button from "@/components/UI/button";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const TentangSection: React.FC = () => {
@@ -13,24 +13,49 @@ const TentangSection: React.FC = () => {
   const contentRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  
+  // State untuk menyimpan hasil media query
+  const [isWideAspectRatio, setIsWideAspectRatio] = useState(false);
 
   const isLogoInView = useInView(logoRef, {
-    once: false, // Mengubah dari true ke false
+    once: false,
     margin: "0px 0px -100px 0px",
-    amount: 0.3, // Menambahkan threshold untuk trigger animasi
+    amount: 0.3,
   });
 
   const isContentInView = useInView(contentRef, {
-    once: false, // Mengubah dari true ke false
+    once: false,
     margin: "0px 0px -100px 0px",
-    amount: 0.3, // Menambahkan threshold untuk trigger animasi
+    amount: 0.3,
   });
 
   const isHeaderInView = useInView(headerRef, {
-    once: false, // Mengubah dari true ke false
+    once: false,
     margin: "0px 0px -100px 0px",
-    amount: 0.3, // Menambahkan threshold untuk trigger animasi
+    amount: 0.3,
   });
+
+  // useEffect untuk handle media query di client-side
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const mediaQuery = window.matchMedia('(min-aspect-ratio: 1.6) and (max-aspect-ratio: 1.8)');
+      
+      // Set initial value
+      setIsWideAspectRatio(mediaQuery.matches);
+      
+      // Listen for changes
+      const handleChange = (e: MediaQueryListEvent) => {
+        setIsWideAspectRatio(e.matches);
+      };
+      
+      mediaQuery.addEventListener('change', handleChange);
+      
+      // Cleanup
+      return () => {
+        mediaQuery.removeEventListener('change', handleChange);
+      };
+    }
+  }, []);
 
   const handleSelengkapnyaClick = () => {
     router.push("/tentang");
@@ -100,7 +125,7 @@ const TentangSection: React.FC = () => {
                     : "opacity-0 translate-y-4"
                 }`}
                 style={{
-                  fontSize: window?.matchMedia?.('(min-aspect-ratio: 1.6) and (max-aspect-ratio: 1.8)')?.matches 
+                  fontSize: isWideAspectRatio 
                     ? 'calc(1.7 * 1em)' 
                     : undefined
                 }}
@@ -115,10 +140,10 @@ const TentangSection: React.FC = () => {
                     : "opacity-0 translate-y-4"
                 }`}
                 style={{
-                  fontSize: window?.matchMedia?.('(min-aspect-ratio: 1.6) and (max-aspect-ratio: 1.8)')?.matches 
+                  fontSize: isWideAspectRatio 
                     ? 'calc(1.3 * 1em)' 
                     : undefined,
-                  lineHeight: window?.matchMedia?.('(min-aspect-ratio: 1.6) and (max-aspect-ratio: 1.8)')?.matches 
+                  lineHeight: isWideAspectRatio 
                     ? 'calc(0.9 * 1.6)' 
                     : undefined
                 }}
