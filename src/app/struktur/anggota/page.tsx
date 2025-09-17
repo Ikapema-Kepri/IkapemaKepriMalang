@@ -139,7 +139,7 @@ const AnggotaPage: React.FC = () => {
   };
 
   return (
-    <div className="w-full pt-26 px-[2%] sm:px-[3%] md:px-[4%] lg:px-[6%] xl:px-[8%] bg-[#E5FAFF] min-h-screen">
+    <div className="w-full pt-[17.133vh] px-[2%] sm:px-[3%] md:px-[4%] lg:px-[6%] xl:px-[8%] bg-[#E5FAFF] min-h-screen">
       <section className="text-center">
         <div className="flex items-center justify-center gap-4">
           <Image
@@ -147,7 +147,7 @@ const AnggotaPage: React.FC = () => {
             alt="Heading Anggota"
             width={454}
             height={100}
-            className="h-10 md:h-20 lg:h-[80px] w-auto max-w-[90%]"
+            className="h-10 md:h-20 lg:h-[12.356vh] w-auto max-w-[90%]"
           />
         </div>
       </section>

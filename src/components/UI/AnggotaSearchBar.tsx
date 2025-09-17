@@ -17,7 +17,7 @@ const AnggotaSearchBar: React.FC<AnggotaSearchBarProps> = ({ onSearch }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-center justify-center gap-4 my-8"
+      className="flex items-center justify-center gap-[2.636vh] my-[5.272vh]"
       style={{ width: "100%" }}
     >
       <input
@@ -25,11 +25,11 @@ const AnggotaSearchBar: React.FC<AnggotaSearchBarProps> = ({ onSearch }) => {
         placeholder="Cari anggota"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="rounded-[8px] lg:rounded-[16px] h-[32px] lg:h-[64px] w-[1434px] px-6 text-sm md:text-base lg:text-lg border border-gray-500 focus:outline-none focus:ring-2 focus:ring-[#00A3CC] transition"
+        className="rounded-[8px] lg:rounded-[2.636vh] h-[32px] lg:h-[8.567vh] w-[1434px] px-6 text-sm md:text-base lg:text-[2.636vh] border border-gray-500 focus:outline-none focus:ring-2 focus:ring-[#00A3CC] transition"
       />
       <button
         type="submit"
-        className="rounded-[6px] lg:rounded-[16px] h-[32px] lg:h-[64px] w-[268px] bg-gradient-to-r from-[#005266] to-[#00A3CC] text-white font-medium lg:font-semibold text-sm md:text-lg lg:text-xl shadow hover:from-[#00394d] hover:to-[#008fb3] transition"
+        className="rounded-[6px] lg:rounded-[2.636vh] h-[32px] lg:h-[8.567vh] w-[268px] bg-gradient-to-r from-[#005266] to-[#00A3CC] text-white font-medium lg:font-semibold text-sm md:text-base lg:text-[2.965vh] shadow hover:from-[#00394d] hover:to-[#008fb3] transition"
       >
         Cari
       </button>
