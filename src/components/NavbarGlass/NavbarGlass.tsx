@@ -50,19 +50,19 @@ const NavbarGlass: React.FC = () => {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 px-4 sm:px-6 md:px-8 lg:px-24 py-1 bg-transparent">
+    <header className="fixed top-0 left-0 w-full z-50 px-4 sm:px-6 md:px-8 lg:px-[17.184vh] py-[0.716vh] bg-transparent">
       <nav className="max-w-[1440px] mx-auto flex items-center justify-between">
         {/* Logo */}
         <a href="#beranda" aria-label="Logo IKAPEMA KEPRI—MALANG">
           <img
             src="/LogoIkapema.svg"
             alt="Logo IKAPEMA"
-            className="h-10 w-10 sm:h-14 sm:w-14 md:h-[50px] md:w-[50px] lg:h-[65px] lg:w-[65px]"
+            className="h-10 w-10 sm:h-14 sm:w-14 md:h-[50px] md:w-[50px] lg:h-[11.635vh] lg:w-[11.635vh]"
           />
         </a>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex bg-white/20 backdrop-blur-md shadow-lg rounded-full relative">
+        <div className="hidden lg:w-[129.089vh] lg:h-[10.74vh] lg:flex bg-white/20 backdrop-blur-md shadow-lg rounded-full relative">
           <ul className="flex items-center">
             {navLinks.map((link) => (
               <li
@@ -73,14 +73,14 @@ const NavbarGlass: React.FC = () => {
                   // Regular link
                   <Link
                     href={link.href}
-                    className="text-white font-medium text-sm sm:text-base md:text-xl px-4 sm:px-6 md:px-8 py-2 md:py-4 rounded-full transition-colors duration-300 hover:bg-white/20"
+                    className="text-white font-medium text-sm sm:text-base md:text-[3.58vh] px-4 sm:px-6 md:px-[5.728vh] py-2 md:py-[2.864vh] rounded-full transition-colors duration-300 hover:bg-white/20"
                   >
                     {link.label}
                   </Link>
                 ) : link.isComingSoon ? (
                   // Coming Soon link
                   <div className="relative group">
-                    <span className="text-white font-medium text-sm sm:text-base md:text-xl px-4 sm:px-6 md:px-8 py-2 md:py-4 rounded-full transition-colors duration-300 hover:bg-white/20 cursor-not-allowed opacity-70">
+                    <span className="text-white font-medium text-sm sm:text-base md:text-[3.58vh] px-4 sm:px-6 md:px-[5.728vh] py-2 md:py-[2.864vh] rounded-full transition-colors duration-300 hover:bg-white/20 cursor-not-allowed opacity-70">
                       {link.label}
                     </span>
                     {/* Coming Soon Tooltip */}
@@ -94,11 +94,11 @@ const NavbarGlass: React.FC = () => {
                   <div className="relative">
                     <button
                       onClick={() => handleDropdownClick(link.label)}
-                      className="text-white font-medium text-sm sm:text-base md:text-xl px-4 sm:px-6 md:px-8 py-2 md:py-4 rounded-full transition-colors duration-300 hover:bg-white/20 cursor-pointer flex items-center focus:outline-none"
+                      className="text-white font-medium text-sm sm:text-base md:text-[3.58vh] px-4 sm:px-6 md:px-[5.728vh] py-2 md:py-[2.864vh] rounded-full transition-colors duration-300 hover:bg-white/20 cursor-pointer flex items-center focus:outline-none"
                     >
                       {link.label}
                       <svg
-                        className={`ml-1 w-4 h-4 transition-transform duration-300 ${
+                        className={`ml-[0.716vh] w-[2.864vh] h-[2.864vh] transition-transform duration-300 ${
                           dropdownOpen === link.label ? 'rotate-180' : ''
                         }`}
                         fill="none"
