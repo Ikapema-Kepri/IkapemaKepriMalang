@@ -139,7 +139,7 @@ const AnggotaPage: React.FC = () => {
   };
 
   return (
-    <div className="container pt-26 px-4 sm:px-6 md:px-8 lg:px-24 bg-[#E5FAFF] min-h-screen">
+    <div className="w-full pt-26 px-[2%] sm:px-[3%] md:px-[4%] lg:px-[6%] xl:px-[8%] bg-[#E5FAFF] min-h-screen">
       <section className="text-center">
         <div className="flex items-center justify-center gap-4">
           <Image
