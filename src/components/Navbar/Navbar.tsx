@@ -51,18 +51,18 @@ const Navbar: React.FC = () => {
 
   return (
     <header className="fixed top-0 left-0 w-full z-50">
-      <nav className="bg-[#005266] px-4 sm:px-6 md:px-8 lg:px-24 py-1 flex items-center justify-between">
+      <nav className="bg-[#005266] px-[1rem] sm:px-[1.5rem] md:px-[5.728vh] lg:px-[17.184vh] py-[0.716vh] flex items-center justify-between">
         {/* Logo */}
         <Link href="/" aria-label="Logo IKAPEMA KEPRI—MALANG">
           <img
             src="/LogoIkapema.svg"
             alt="Logo IKAPEMA"
-            className="h-10 w-10 sm:h-14 sm:w-14 md:h-[50px] md:w-[50px] lg:h-[65px] lg:w-[65px]"
+            className="h-10 w-10 sm:h-14 sm:w-14 md:h-[50px] md:w-[50px] lg:h-[11.635vh] lg:w-[11.635vh]"
           />
         </Link>
 
         {/* Desktop Nav */}
-        <ul className="hidden lg:flex items-center gap-2 sm:gap-3">
+        <ul className="hidden lg:flex items-center gap-2 sm:gap-[2.148vh]">
           {navLinks.map((link) => (
             <li 
               key={link.label}
@@ -72,14 +72,14 @@ const Navbar: React.FC = () => {
                 // Regular link
                 <Link
                   href={link.href}
-                  className="text-white font-medium text-sm sm:text-xl px-4 py-2 rounded-full hover:text-[#33D6FF] transition-colors"
+                  className="text-white font-medium text-sm sm:text-[3.58vh] px-[2.864vh] py-[1.432vh] rounded-full hover:text-[#33D6FF] transition-colors"
                 >
                   {link.label}
                 </Link>
               ) : link.isComingSoon ? (
                 // Coming Soon link
                 <div className="relative group">
-                  <span className="text-white font-medium text-sm sm:text-xl px-4 py-2 rounded-full hover:text-[#33D6FF] transition-colors cursor-not-allowed opacity-70">
+                  <span className="text-white font-medium text-sm sm:text-[3.58vh] px-[2.864vh] py-[1.432vh] rounded-full hover:text-[#33D6FF] transition-colors cursor-not-allowed opacity-70">
                     {link.label}
                   </span>
                   {/* Coming Soon Tooltip */}
@@ -93,11 +93,11 @@ const Navbar: React.FC = () => {
                 <div className="relative">
                   <button
                     onClick={() => handleDropdownClick(link.label)}
-                    className="text-white font-medium text-sm sm:text-xl px-4 py-2 rounded-full hover:text-[#33D6FF] transition-colors cursor-pointer flex items-center focus:outline-none"
+                    className="text-white font-medium text-sm text-[3.58vh] px-[2.864vh] py-[1.432vh] rounded-full hover:text-[#33D6FF] transition-colors cursor-pointer flex items-center focus:outline-none"
                   >
                     {link.label}
                     <svg
-                      className={`ml-1 w-4 h-4 transition-transform duration-300 ${
+                      className={`ml-[0.716vh] w-[2.864vh] h-[2.864vh] transition-transform duration-300 ${
                         dropdownOpen === link.label ? 'rotate-180' : ''
                       }`}
                       fill="none"
