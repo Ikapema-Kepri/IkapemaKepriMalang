@@ -6,6 +6,7 @@ import SambutanSection from '../../components/BerandaSection/SambutanSection/Sam
 import TentangSection from '../../components/BerandaSection/TentangSection/TentangSection';
 import KegiatanSection from '../../components/BerandaSection/KegiatanSection/KegiatanSection';
 
+
 const BerandaPage: React.FC = () => {
   return (
     <div>

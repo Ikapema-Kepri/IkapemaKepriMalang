@@ -16,6 +16,10 @@ module.exports = {
       animation: {
         shine: 'shine 5s linear infinite',
       },
+      
+
+
+
     },
   },
   plugins: [],
