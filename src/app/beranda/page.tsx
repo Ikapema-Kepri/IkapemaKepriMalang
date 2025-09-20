@@ -6,6 +6,7 @@ import SambutanSection from '../../components/BerandaSection/SambutanSection/Sam
 import TentangSection from '../../components/BerandaSection/TentangSection/TentangSection';
 import KegiatanSection from '../../components/BerandaSection/KegiatanSection/KegiatanSection';
 import EmagzSection from '@/components/BerandaSection/EmagzSection/EmagzSection';
+import AsramaSection from '@/components/BerandaSection/AsramaSection/AsramaSection';
 
 const Beranda: React.FC = () => {
   // Fungsi scroll smooth ke section sambutan
@@ -29,6 +30,9 @@ const Beranda: React.FC = () => {
       </section>
       <section>
         <TentangSection />
+      </section>
+      <section>
+        <AsramaSection />
       </section>
       <section>
         <KegiatanSection />
