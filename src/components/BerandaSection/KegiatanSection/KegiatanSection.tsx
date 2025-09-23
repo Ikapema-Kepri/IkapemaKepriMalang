@@ -38,7 +38,7 @@ const KegiatanSection: React.FC = () => {
             alt="Heading Kegiatan"
             width={454}
             height={100}
-            className="h-13 md:h-22 lg:h-[12.356vh] w-auto max-w-[90%]"
+            className="h-13 md:h-22 lg:h-[18.356vh] w-auto max-w-[90%]"
           />
         </div>
       </div>
