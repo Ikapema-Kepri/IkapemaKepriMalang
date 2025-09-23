@@ -53,7 +53,7 @@ const Navbar: React.FC = () => {
     <header className="fixed top-0 left-0 w-full z-50">
       <nav className="bg-[#005266] px-[1rem] sm:px-[1.5rem] md:px-[5.728vh] lg:px-[17.184vh] py-[0.716vh] flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" aria-label="Logo IKAPEMA KEPRI—MALANG">
+        <Link href="/beranda" aria-label="Logo IKAPEMA KEPRI—MALANG">
           <img
             src="/LogoIkapema.svg"
             alt="Logo IKAPEMA"
