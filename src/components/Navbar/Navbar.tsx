@@ -21,7 +21,7 @@ const navLinks: NavLink[] = [
       { label: 'Anggota', href: '/struktur/anggota' }
     ]
   },
-  { label: 'Kontak', isComingSoon: true },
+  { label: 'Kontak', href: '/kontak' },
 ];
 
 const Navbar: React.FC = () => {

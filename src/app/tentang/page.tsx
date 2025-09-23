@@ -115,7 +115,7 @@ const PengurusPage: React.FC = () => {
               alt="Heading Tentang"
               width={454}
               height={100}
-              className="h-8 sm:h-12 md:h-16 lg:h-20 xl:h-[75px] w-auto max-w-[90%]"
+              className="h-8 sm:h-12 md:h-16 lg:h-20 xl:h-[18.356vh] w-auto max-w-[90%]"
             />
           </div>
 
