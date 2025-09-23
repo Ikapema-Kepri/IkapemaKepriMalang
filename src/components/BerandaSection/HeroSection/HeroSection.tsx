@@ -56,7 +56,7 @@ const HeroSectionPages: React.FC<HeroSectionPagesProps> = ({
           className="absolute inset-0 w-full h-full"
         >
           <Image
-            src="/Hero.svg"
+            src="/Hero.webp"
             alt="Background Pattern"
             fill
             sizes="100vw"
