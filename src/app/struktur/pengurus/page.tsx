@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const PengurusPage: React.FC = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#E5FAFF] px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#E5FAFF] px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 py-8 md:py-16 lg:py-24 xl:py-32">
       <section className="w-full max-w-6xl flex flex-col gap-2 sm:gap-3 md:gap-4">
         <div className="w-full text-center flex items-center justify-center py-3 sm:py-4 md:py-6 bg-gradient-to-l from-[#00A3CC] to-[#005266] rounded-t-xl sm:rounded-t-2xl">
           <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#E5FAFF] px-2">

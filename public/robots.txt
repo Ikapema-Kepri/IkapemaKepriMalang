@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.ikapemakeprimalang.com
+
+# Sitemaps
+Sitemap: https://www.ikapemakeprimalang.com/sitemap.xml

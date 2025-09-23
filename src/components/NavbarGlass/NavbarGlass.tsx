@@ -21,12 +21,18 @@ const navLinks: NavLink[] = [
       { label: 'Anggota', href: '/struktur/anggota' },
     ],
   },
-  { label: 'Kontak', isComingSoon: true },
+  { label: 'Kontak', href: '/kontak' },
 ];
 
 const NavbarGlass: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Ensure component is mounted on client side
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleDropdownClick = (label: string) => {
     if (navLinks.find((link) => link.label === label)?.dropdown) {
@@ -36,6 +42,8 @@ const NavbarGlass: React.FC = () => {
 
   // Close dropdown when clicking outside
   useEffect(() => {
+    if (!isMounted) return;
+
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
       if (!target.closest('.dropdown-container')) {
@@ -47,19 +55,24 @@ const NavbarGlass: React.FC = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [isMounted]);
+
+  // Don't render anything on server side
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 px-4 sm:px-6 md:px-8 lg:px-[17.184vh] py-[0.716vh] bg-transparent">
       <nav className="max-w-[257.755vh] mx-auto flex items-center justify-between">
         {/* Logo */}
-        <a href="#beranda" aria-label="Logo IKAPEMA KEPRI—MALANG">
+        <Link href="/" aria-label="Logo IKAPEMA KEPRI—MALANG">
           <img
             src="/LogoIkapema.svg"
             alt="Logo IKAPEMA"
             className="h-10 w-10 sm:h-14 sm:w-14 md:h-[50px] md:w-[50px] lg:h-[11.635vh] lg:w-[11.635vh]"
           />
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden lg:w-auto lg:h-[10.74vh] lg:flex bg-white/20 backdrop-blur-md shadow-lg rounded-full relative px-6">

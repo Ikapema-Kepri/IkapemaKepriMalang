@@ -149,7 +149,7 @@ const AnggotaPage: React.FC = () => {
             alt="Heading Anggota"
             width={454}
             height={100}
-            className="h-10 md:h-20 lg:h-[12.356vh] w-auto max-w-[90%]"
+            className="h-10 md:h-20 lg:h-[18.356vh] w-auto max-w-[90%]"
           />
         </div>
       </section>
