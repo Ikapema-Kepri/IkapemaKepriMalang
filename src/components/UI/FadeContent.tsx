@@ -9,7 +9,8 @@ interface FadeContentProps {
   threshold?: number;
   initialOpacity?: number;
   className?: string;
-  repeatAnimation?: boolean; // New prop to enable repeat animation
+  repeatAnimation?: boolean; 
+  isVisible?: boolean; // New prop to enable repeat animation
 }
 
 const FadeContent: React.FC<FadeContentProps> = ({
@@ -21,7 +22,8 @@ const FadeContent: React.FC<FadeContentProps> = ({
   threshold = 0.1,
   initialOpacity = 0,
   className = "",
-  repeatAnimation = false, // Default false for backward compatibility
+  repeatAnimation = false,
+// Default false for backward compatibility
 }) => {
   const [inView, setInView] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
