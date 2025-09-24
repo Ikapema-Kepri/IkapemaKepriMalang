@@ -22,104 +22,104 @@ const slideData: Slide[] = [
     title: "Ikapema Goes to Kampung Budaya",
     description:
       "Ikapema Goes to Kampung Budaya merupakan wadah bagi Ikapema untuk menunjukan eksistensi budaya khas Kepulauan Riau.",
-    image: "/kegiatan/KampungBudaya.svg",
+    image: "/kegiatan/KampungBudaya.webp",
     categories: ["Departemen Kominfo"],
   },
   {
     title: "I-Holiday",
     description:
       "I - Holiday atau Ikapema Holiday merupakan kegiatan liburan yang dilaksanakan bersama dengan anggota Ikapema. Tujuannya untuk memperat kekeluargaan dan melepas penat selama perkuliahan.",
-    image: "/kegiatan/IkapemaHoliday.svg",
+    image: "/kegiatan/IkapemaHoliday.webp",
     categories: ["Agenda"],
   },
   {
     title: "I-Fest",
     description:
       "Kegiatan perlombaan futsal antar mahasiswa anggota forum daerah di Malang Raya. Kegiatan ini bertujuan mendukung gaya hidup sehat dan aktif, serta memberikan panggung bagi bakat-bakat olahraga dalam bidang futsal.",
-    image: "/kegiatan/IkapemaFestival.svg",
+    image: "/kegiatan/IkapemaFestival.webp",
     categories: ["Bidang Eksternal"],
   },
   {
     title: "SOTR",
     description: "Sahur On The Road (SOTR) merupakan kegiatan yang dilakukan oleh anggota Ikapema Kepri-Malang untuk melakukan aksi nyata dengan kegiatan membagikan makanan sahur kepada para pekerja malam dan kaum dhuafa di sekitar Kota Malang.",
-    image: "/kegiatan/SahurOnTheRoad.svg",
+    image: "/kegiatan/SahurOnTheRoad.webp",
     categories: ["Agenda"],
   },
   {
     title: "IPMI",
     description:
       "IPMI merupakan aksi nyata dari Ikapema Kepri-Malang untuk peduli terhadap lingkungan dengan cara menanam pohon di area yang membutuhkan penghijauan.",
-    image: "/kegiatan/IkapemaPeduliBumi.svg",
+    image: "/kegiatan/IkapemaPeduliBumi.webp",
     categories: ["Departemen Pengabdian Masyarakat"],
   },
   {
     title: "Final Camp",
     description:
       "Kegiatan yang dilakukan oleh anggota Asrama Ikapema Kepri-Malang untuk pengukuhan anggota baru asrama secara resmi. Kegiatan ini juga bertujuan untuk bonding dan melepas kepenatan sejenak.",
-    image: "/kegiatan/FinalCamp.svg",
+    image: "/kegiatan/FinalCamp.webp",
     categories: ["Departemen Asrama"],
   },
   {
     title: "Makrab",
     description:
       "Wadah silaturahmi untuk seluruh mahasiswa yang berasal dari Kepulauan Riau dan sedang berkuliah di Malang Raya. Di sini kita bakalan FULL HAVE FUN INCLUDE KEBERSAMAAN dengan teman-teman seperantauan!",
-    image: "/kegiatan/MalamKeakraban.svg",
+    image: "/kegiatan/MalamKeakraban.webp",
     categories: ["Bidang Internal"],
   },
   {
     title: "IKUMA",
     description:
       "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
-    image: "/kegiatan/IkapemaPeduliSesama.svg",
+    image: "/kegiatan/IkapemaPeduliSesama.webp",
     categories: ["Departemen Pengabdian Masyarakat"],
   },
   {
     title: "Ikapema Goes to School",
     description:
       "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
-    image: "/kegiatan/IGS.svg",
+    image: "/kegiatan/IGS.webp",
     categories: ["Departemen Kominfo"],
   },
   {
     title: "ODI",
     description:
       "Merupakan kegiatan pendidikan dan pelatihan anggota baru Ikapema Kepri-Malang yang bertujuan untuk mengenalkan orientasi, menumbuhkan jiwa kepemimpinan dan kekeluargaan, serta meningkatkan keterampilan anggota baru dalam berbagai aspek.",
-    image: "/kegiatan/ODI.svg",
+    image: "/kegiatan/ODI.webp",
     categories: ["Departemen PSDA"],
   },
   {
     title: "Ikapema Day",
     description:
       "Merupakan kegiatan olahraga tahunan yang mempertandingkan antar angkatan di Ikapema Kepri-Malang. Kegiatan ini juga bertujuan untuk mempererat kekeluargaan antar angkatan",
-    image: "/kegiatan/IkapemaDay.svg",
+    image: "/kegiatan/IkapemaDay.webp",
     categories: ["Departemen Minat & Bakat"],
   },
   {
     title: "Training Organization - Pengurus Harian",
     description:
       "Kegiatan pelatihan yang diselenggarakan untuk anggota Ikapema Kepri-Malang yang terpilih menjadi Pengurus Harian. Kegiatan ini bertujuan untuk membekali para pengurus dengan pengetahuan, keterampilan, dan sikap yang diperlukan dalam menjalankan tanggung jawab mereka sebagai pemimpin organisasi.",
-    image: "/kegiatan/TOPH.svg",
+    image: "/kegiatan/TOPH.webp",
     categories: ["Agenda"],
   },
   {
     title: "Pelantikan Pengurus Harian",
     description:
       "Merupakan kegiatan resmi yang menandai pengukuhan dan pengesahan anggota Ikapema Kepri-Malang yang telah terpilih sebagai Pengurus Harian. Kegiatan ini bertujuan untuk memberikan legitimasi kepada para pengurus dalam menjalankan tugas dan tanggung jawab mereka selama masa jabatan.",
-    image: "/kegiatan/PelantikanPH.svg",
+    image: "/kegiatan/PelantikanPH.webp",
     categories: ["Agenda"],
   },
   {
     title: "Fun Sport",
     description:
       "Agenda bulanan yang diadakan dengan tujuan untuk mengajak seluruh anggota Ikapema Kepri-Malang agar tetap aktif berolahraga dan menjaga kesehatan tubuh, serta mempererat kekeluargaan antar anggota melalui kegiatan yang menyenangkan.",
-    image: "/kegiatan/FunSport.svg",
+    image: "/kegiatan/FunSport.webp",
     categories: ["Departemen Minat & Bakat"],
   },
   {
     title: "Gathering",
     description:
       "Kegiatan yang diadakan untuk mempererat hubungan antar anggota Ikapema Kepri-Malang melalui berbagai aktivitas yang menyenangkan dan interaktif, sehingga tercipta suasana kekeluargaan yang hangat dan solid di antara seluruh anggota.",
-    image: "/kegiatan/Gathering.svg",
+    image: "/kegiatan/Gathering.webp",
     categories: ["PSDA"],
   }
 ];
@@ -237,8 +237,8 @@ const Slider: React.FC<SliderProps> = () => {
                       >
                         <p
                           className={clsx(
-                            "border-l-2 sm:border-l-3 md:border-l-4 lg:border-l-5 border-[#007A99] pl-1 sm:pl-2 md:pl-3 mr-4 sm:mr-6 md:mr-8 lg:mr-10",
-                            "text-[0.65rem] sm:text-xs md:text-sm lg:text-base xl:text-lg font-light leading-relaxed",
+                            "border-l-2 sm:border-l-3 md:border-l-4 lg:border-l-5 border-[#007A99] pl-1 sm:pl-2 md:pl-[1.977vh] mr-4 sm:mr-6 md:mr-8 lg:mr-[6.59vh]",
+                            "text-[0.65rem] sm:text-xs md:text-sm lg:text-base xl:text-[2.965vh] font-light leading-relaxed",
                             "transition-all duration-1000 opacity-0 translate-y-4",
                             isActive &&
                               !isHide &&
