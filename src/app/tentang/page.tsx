@@ -88,7 +88,7 @@ const PengurusPage: React.FC = () => {
       <section
         className="relative w-full py-16 sm:py-20 md:py-32 lg:py-32 px-4 sm:px-6 md:px-12 lg:px-16 bg-[#E5FAFF]"
         style={{
-          backgroundImage: "url('/bg/BgTentang.svg')",
+          backgroundImage: "url('/bg/BgTentang.webp')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -161,7 +161,7 @@ const PengurusPage: React.FC = () => {
               }`}
             >
               <Image
-                src="/LogoIkapema.svg"
+                src="/LogoIkapema.webp"
                 alt="IKAPEMA KEPRI MALANG Logo"
                 width={500}
                 height={500}
