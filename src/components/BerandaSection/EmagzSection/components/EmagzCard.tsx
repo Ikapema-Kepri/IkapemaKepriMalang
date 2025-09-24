@@ -30,7 +30,7 @@ const EmagzCard: React.FC<EmagzCardProps> = ({ contentRef, isInView }) => {
         <div className="absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden">
           <div className="w-[600px] h-[420px] relative">
             <Image
-              src="/bg/Rantai.svg"
+              src="/bg/Rantai.webp"
               alt="Rantai Background"
               fill
               className="object-contain opacity-100"
