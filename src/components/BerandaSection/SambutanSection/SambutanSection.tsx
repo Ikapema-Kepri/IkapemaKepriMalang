@@ -1,153 +1,36 @@
 "use client";
 
-import React from "react";
-import QuoteIcon from "../../QuotesIcon/QuotesIcon";
+import React, { memo } from "react";
 import Image from "next/image";
-import BlurText from "../../UI/BlurText";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useSambutanAnimation } from "./hooks/useSambutanAnimation";
+import KetumProfile from "./components/KetumProfile";
+import SambutanText from "./components/SambutanText";
 
 const SambutanSection: React.FC = () => {
-  const headerRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
-
-  const isHeaderInView = useInView(headerRef, {
-    once: false, // Animasi hanya sekali untuk menghindari glitch
-    margin: "0px 0px -50px 0px",
-    amount: 0.5, // 50% element harus terlihat untuk trigger
-  });
-
-  const isTextInView = useInView(textRef, {
-    once: false, // Animasi hanya sekali untuk stabilitas
-    margin: "0px 0px -80px 0px",
-    amount: 0.2, // Threshold lebih rendah untuk trigger lebih awal
-  });
-
-  const isImageInView = useInView(imageRef, {
-    once: false, // Animasi hanya sekali untuk stabilitas
-    margin: "0px 0px -80px 0px",
-    amount: 0.2, // Threshold lebih rendah untuk trigger lebih awal
-  });
+  // Memanggil custom hook untuk mendapatkan semua state dan logika animasi
+  const { sectionRef, isSectionInView, headerClasses } = useSambutanAnimation();
 
   return (
-    <section id="sambutan" className="py-10 md:py-16 lg:py-[15.815vh]">
+    <section ref={sectionRef} id="sambutan" className="py-10 md:py-16 lg:py-[15.815vh]">
       <div className="flex flex-col items-center px-12 sm:px-12 md:px-12 lg:px-[10.544vh] xl:px-[21.087vh]">
-        {/* Judul Section */}
-        <div
-          ref={headerRef}
-          className={`relative flex flex-col items-center justify-center text-center mb-6 md:mb-8 lg:mb-[6.59vh] transition-all duration-1000 ease-out ${
-            isHeaderInView
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-8"
-          }`}
-        >
+        <div className={headerClasses}>
           <Image
             src="/heading/HeadingSambutan.svg"
             alt="Heading Sambutan"
             width={454}
             height={100}
             className="h-13 md:h-22 lg:h-[18.356vh] w-auto max-w-[90%]"
-            priority
+            loading="lazy"
           />
-          
         </div>
 
-        {/* Konten Utama */}
         <div className="flex flex-col-reverse md:flex-row items-center gap-8 md:gap-12 lg:gap-[10.55vh]">
-          {/* Kolom Kiri: Teks */}
-          <div
-            ref={textRef}
-            className={`w-full md:w-1/2 lg:w-3/5 transition-all duration-1000 ease-out ${
-              isTextInView
-                ? "opacity-100 translate-x-0"
-                : "opacity-0 -translate-x-12"
-            }`}
-          >
-            <div
-              className={`transition-all duration-800 delay-200 ${
-                isTextInView
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4"
-              }`}
-            >
-              <QuoteIcon />
-            </div>
-
-            <div
-              className={`transition-all duration-800 delay-400 ${
-                isTextInView
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4"
-              }`}
-            >
-              <BlurText
-                text="Selamat datang kami ucapkan untuk seluruh keluarga besar IKAPEMA KEPRI MALANG. Dengan bangga kami persembahkan situs resmi website IKAPEMA kepada seluruh masyarakat khususnya keluarga besar IKAPEMA. Sebagai pengurus kami berkomitmen untuk senantiasa menjaga organisasi daerah ini untuk memperkuat silaturahmi, memfasilitasi pengembangan potensi anggota dan meningkatkan kesadaran sosial. Dalam website ini akan ditemukan informasi terkait program, kegiatan dan perkembangan dari IKAPEMA KEPRI MALANG. Kami juga membuka peluang untuk berbagai ide, pengalaman dan kreativitas. Terimakasih atas kunjungan anda. Menjalin Visi Membangun Negeri, Satu Untuk Semua, Semua Untuk Satu."
-                delay={50}
-                animateBy="words"
-                direction="top"
-                className="w-full max-w-none md:max-w-xl lg:max-w-[126.524vh] my-[2.636vh] text-gray-600 leading-relaxed text-center text-base sm:text-lg md:text-[3.295vh]"
-              />
-            </div>
-
-            <div
-              className={`flex justify-end transition-all duration-800 delay-600 ${
-                isTextInView
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4"
-              }`}
-            >
-              <QuoteIcon className="transform -scale-x-100 -scale-y-100" />
-            </div>
-          </div>
-
-          {/* Kolom Kanan: Gambar */}
-          <div className="w-full md:w-1/2 lg:w-2/5 flex justify-center">
-            <div
-              ref={imageRef}
-              className={`relative flex flex-col items-center transition-all duration-1000 ease-out ${
-                isImageInView
-                  ? "opacity-100 translate-x-0 scale-100"
-                  : "opacity-0 translate-x-12 scale-95"
-              }`}
-            >
-              {/* Gambar Ketum */}
-              <div className="relative mb-4 sm:mb-6 md:mb-8 lg:mb-[3.954vh]">
-                <Image
-                  src="/bg/FotoKetum.svg"
-                  alt="Foto Sambutan"
-                  width={400}
-                  height={400}
-                  className={`w-48 h-48 sm:w-56 sm:h-56 md:w-72 md:h-72 lg:w-80 lg:h-80 xl:w-[63.262vh] xl:h-[63.262vh] transition-all duration-700 ease-out ${
-                    isImageInView ? "hover:scale-105" : ""
-                  }`}
-                />
-              </div>
-
-              {/* Nama dan Jabatan */}
-              <div
-                className={`text-center w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg px-2 transition-all duration-800 delay-300 ${
-                  isImageInView
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-4"
-                }`}
-              >
-                {/* Nama */}
-                <h3 className="text-sm sm:text-base md:text-lg lg:text-[3.295vh] xl:text-[3.954vh] 2xl:text-[4.942vh] font-bold text-[#005266] mb-2 sm:mb-2 md:mb-3 lg:mb-2 leading-tight break-words">
-                  Mgs Achmad Dachlan R
-                </h3>
-
-                {/* Jabatan */}
-                <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-medium text-gray-600 leading-tight break-words">
-                  Ketua Umum IKAPEMA KEPRI 2024/2025
-                </p>
-              </div>
-            </div>
-          </div>
+          <SambutanText isVisible={isSectionInView} />
+          <KetumProfile isVisible={isSectionInView} />
         </div>
       </div>
     </section>
   );
 };
 
-export default SambutanSection;
+export default memo(SambutanSection);
