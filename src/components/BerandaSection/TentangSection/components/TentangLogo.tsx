@@ -20,7 +20,7 @@ const TentangLogo: React.FC<TentangLogoProps> = ({ logoRef, isInView }) => {
     <div className="w-full lg:w-2/5 flex justify-center lg:justify-start">
       <div ref={logoRef} className={containerClasses}>
         <Image
-          src="/LogoIkapema.svg"
+          src="/LogoIkapema.webp"
           alt="IKAPEMA KEPRI MALANG Logo"
           width={450}
           height={450}

@@ -68,7 +68,7 @@ const NavbarGlass: React.FC = () => {
         {/* Logo */}
         <Link href="/beranda" aria-label="Logo IKAPEMA KEPRI—MALANG">
           <img
-            src="/LogoIkapema.svg"
+            src="/LogoIkapema.webp"
             alt="Logo IKAPEMA"
             className="h-10 w-10 sm:h-14 sm:w-14 md:h-[50px] md:w-[50px] lg:h-[11.635vh] lg:w-[11.635vh]"
           />

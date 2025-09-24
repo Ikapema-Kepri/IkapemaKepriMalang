@@ -13,7 +13,7 @@ export interface Asrama {
 export const asramaData: Asrama[] = [
     {
         id: 1,
-        image: "/bg/AsramaPutra.svg",
+        image: "/bg/AsramaPutra.webp",
         title: "Asrama Mahasiswa Putra",
         address: "Jl. Saxophone Permata Kencana Blok C no 22, Tunggulwulung, Kec. Lowokwaru, Kota Malang, Jawa Timur 65143",
         badgeText: "Putra",
@@ -24,7 +24,7 @@ export const asramaData: Asrama[] = [
     },
     {
         id: 2,
-        image: "/bg/AsramaPutri.svg",
+        image: "/bg/AsramaPutri.webp",
         title: "Asrama Mahasiswa Putri",
         address: "Jl. Bukit Hijau Blok E. No 82, Tlogomas, Kec. Lowokwaru, Kota Malang, Jawa Timur 65144",
         badgeText: "Putri",
