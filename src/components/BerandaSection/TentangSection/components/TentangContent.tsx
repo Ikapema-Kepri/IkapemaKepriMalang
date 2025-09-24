@@ -30,7 +30,7 @@ const TentangContent: React.FC<TentangContentProps> = ({ contentRef, isInView, o
           isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
-        Ikatan Pelajar Mahasiswa Kepulauan Riau-Malang (IKAPEMA Kepri-Malang) adalah organisasi pelajar dan mahasiswa daerah Provinsi Kepulauan Riau yang ada di Kota Malang. Organisasi ini berlandaskan Pancasila dan UUD RI 1945 dan berasaskan kekeluargaan serta bersifat kerukunan, kependidikan, dan kemasyarakatan. Tujuan dibentuknya organisasi ini adalah untuk menumbuhkan kesadaran, kecakapan, kecerdasan dan persaudaraan, serta tanggung jawab anggota sebagai bentuk pengabdian kepada daerah, bangsa dan negara. Anggota IKAPEMA Kepri-Malang terdiri atas anggota biasa, luar biasa dan kehormatan.
+        IKAPEMA Kepri-Malang adalah organisasi pelajar dan mahasiswa Provinsi Kepulauan Riau di Kota Malang. Organisasi ini berasaskan Pancasila, UUD 1945, dan kekeluargaan, bertujuan untuk menumbuhkan kesadaran, kecerdasan, dan persaudaraan para anggota dalam pengabdian kepada daerah dan bangsa. Anggotanya terdiri dari anggota biasa, luar biasa, dan kehormatan.
       </p>
       <div className={`pt-[2.636vh] transition-all duration-800 delay-600 ${
         isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"

@@ -86,7 +86,7 @@ const PengurusPage: React.FC = () => {
     >
       {/* Hero Section */}
       <section
-        className="relative w-full py-16 sm:py-20 md:py-32 lg:py-32 px-4 sm:px-6 md:px-12 lg:px-16 bg-[#E5FAFF]"
+        className="relative w-full py-16 sm:py-20 md:py-[21.087vh] lg:py-[21.087vh] px-4 sm:px-6 md:px-[7.908vh] lg:px-[10.708vh] bg-[#E5FAFF]"
         style={{
           backgroundImage: "url('/bg/BgTentang.webp')",
           backgroundSize: "cover",
@@ -121,7 +121,7 @@ const PengurusPage: React.FC = () => {
 
           {/* Title Text */}
           <h1
-            className={`text-xl sm:text-3xl md:text-5xl lg:text-5xl xl:text-7xl font-extrabold text-[#00A3CC] mb-4 sm:mb-6 leading-tight transition-all duration-800 delay-700 ${
+            className={`text-xl sm:text-3xl md:text-5xl lg:text-[7.908vh] xl:text-[11.862vh] font-extrabold text-[#00A3CC] mb-4 sm:mb-6 leading-tight transition-all duration-800 delay-700 ${
               isHeroInView && isPageLoaded
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-6"
@@ -132,7 +132,7 @@ const PengurusPage: React.FC = () => {
 
           {/* Subtitle Text */}
           <p
-            className={`text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-medium text-[#007A99] leading-relaxed px-2 sm:px-4 transition-all duration-800 delay-900 ${
+            className={`text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-[4.942vh] font-medium text-[#007A99] leading-relaxed px-2 sm:px-4 transition-all duration-800 delay-900 ${
               isHeroInView && isPageLoaded
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-4"
