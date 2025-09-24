@@ -60,7 +60,7 @@ const Footer = () => {
           {/* Logo */}
           <div className="flex flex-col items-center lg:items-center w-full lg:w-auto mb-8 lg:mb-8 xl:mb-0">
             <Image
-              src="/LogoIkapema.svg"
+              src="/LogoIkapema.webp"
               alt="Logo IKAPEMA"
               width={180}
               height={180}

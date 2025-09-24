@@ -16,7 +16,7 @@ const HeroContent: React.FC<HeroContentProps> = ({ title, subtitle, buttonText, 
   }, [onButtonClick]);
 
   return (
-    <div className="relative z-20 text-center px-4 sm:px-6 lg:px-[5.728vh] max-w-4xl mx-auto w-full">
+    <div className="relative z-20 text-center px-4 sm:px-[3.954vh] lg:px-[5.728vh] w-full">
       <FadeContent duration={2000} delay={200} repeatAnimation={false} isVisible={true}>
         <ShinyText
           text={title}
@@ -32,7 +32,7 @@ const HeroContent: React.FC<HeroContentProps> = ({ title, subtitle, buttonText, 
         <button
           onClick={handleButtonClick}
           type="button"
-          className="inline-flex items-center gap-2 sm:gap-3 bg-white text-[#007A99] px-6 sm:px-8 py-2 sm:py-3 mt-6 sm:mt-8 rounded-full text-sm sm:text-base md:text-lg font-medium hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl will-change-transform"
+          className="inline-flex items-center gap-2 sm:gap-[1.977vh] bg-white text-[#007A99] px-6 sm:px-[5.272vh] py-2 sm:py-[1.977vh] mt-6 sm:mt-[32px] rounded-full text-sm sm:text-base md:text-[] font-medium hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl will-change-transform"
         >
           {buttonText}
           <MoveRight size={16} className="sm:w-5 sm:h-5" />
