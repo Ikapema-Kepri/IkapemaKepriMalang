@@ -23,7 +23,7 @@ const PengurusPage: React.FC = () => {
         <div className="w-full flex justify-center items-center">
           <div className="relative w-full max-w-6xl">
             <Image
-              src="/bg/StrukturOrganisasi.svg"
+              src="/bg/StrukturOrganisasi.webp"
               alt="Struktur Organisasi IKAPEMA KEPRI 2024/2025"
               width={1300}
               height={800}
