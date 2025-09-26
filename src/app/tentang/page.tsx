@@ -121,7 +121,7 @@ const PengurusPage: React.FC = () => {
 
           {/* Title Text */}
           <h1
-            className={`text-xl sm:text-3xl md:text-5xl lg:text-[7.908vh] xl:text-[11.862vh] font-extrabold text-[#00A3CC] mb-4 sm:mb-6 leading-tight transition-all duration-800 delay-700 ${
+            className={`font-londona text-xl sm:text-3xl md:text-5xl lg:text-[7.908vh] xl:text-[11.862vh] font-extrabold text-[#00A3CC] mb-4 sm:mb-6 leading-tight transition-all duration-800 delay-700 ${
               isHeroInView && isPageLoaded
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-6"
