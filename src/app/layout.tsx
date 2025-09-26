@@ -16,8 +16,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "IKAPEMA Kepri—Malang",
-  description: "Website Resmi IKAPEMA Kepri-Malang",
+  title: "IKAPEMA Kepri - Ikatan Alumni Politeknik Elektronika Negeri Surabaya",
+  description:
+    "Website resmi IKAPEMA Kepulauan Riau - Ikatan Alumni Politeknik Elektronika Negeri Surabaya",
+  keywords: "IKAPEMA, Kepri, Alumni, PENS, Politeknik Elektronika",
+  authors: [{ name: "IKAPEMA Kepri" }],
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -26,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="w-full max-w-[100vw] overflow-x-hidden">
+    <html lang="id" className="w-full max-w-[100vw] overflow-x-hidden">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased w-full max-w-[100vw] overflow-x-hidden min-h-screen`}>
         <AuthProvider>
