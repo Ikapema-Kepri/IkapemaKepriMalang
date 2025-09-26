@@ -15,7 +15,7 @@ export const faqList: FaqItem[] = [
         ),
     },
     {
-        question: "Bagaimana cara menjadi anggota House of IKAPEMA?",
+        question: "Bagaimana cara menjadi anggota Asrama Putra/Asrama Putri?",
         answer: (
             <>
                 Mahasiswa/mahasiswi asal Kepulauan Riau yang menempuh pendidikan di
