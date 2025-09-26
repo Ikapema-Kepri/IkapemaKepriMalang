@@ -17,8 +17,7 @@ const EmagzSection: React.FC = () => {
       />
       <EmagzCard
         contentRef={refs.contentRef}
-        isInView={animation.isContentInView}
-      />
+        isInView={animation.isContentInView} title={""} pdfUrl={"https://drive.google.com/file/d/117k6UVGb6oWNpuDcnKXbNXuU0B4Cv7sI/view?usp=sharing"} coverImage={"/bg/CoverEmagz.png"}      />
     </section>
   );
 };
