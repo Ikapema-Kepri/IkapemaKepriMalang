@@ -137,7 +137,11 @@ const Footer = () => {
           </div>
         </div>
         <div className="text-center text-white/70 text-xs sm:text-sm mt-0 mb-4 px-2">
-          Copyright© Eksternal IKAPEMA KEPRI—MALANG 2025, All Rights Reserved.
+          Copyright© Made with {" "}
+                <span className="text-red-400" aria-label="love">
+                    ♡
+                </span>{" "}
+                by Kepala Bidang Eksternal IKAPEMA KEPRI—MALANG 2025.
         </div>
       </div>
     </footer>
