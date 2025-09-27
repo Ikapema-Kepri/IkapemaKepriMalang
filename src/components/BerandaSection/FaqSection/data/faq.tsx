@@ -5,12 +5,12 @@ export interface FaqItem {
 
 export const faqList: FaqItem[] = [
     {
-        question: "Bagaimana cara bergabung dengan IKAPEMA KEPRI?",
+        question: "Bagaimana cara bergabung dengan IKAPEMA KEPRI—MALANG?",
         answer: (
             <>
                 Cukup hubungi pengurus dan tunjukkan{" "}
                 <strong>bukti menempuh pendidikan</strong> di Kota Malang. Informasi
-                lebih lanjut bisa dilihat di media sosial resmi IKAPEMA KEPRI.
+                lebih lanjut bisa dilihat di media sosial resmi IKAPEMA KEPRI—MALANG.
             </>
         ),
     },
@@ -20,12 +20,12 @@ export const faqList: FaqItem[] = [
             <>
                 Mahasiswa/mahasiswi asal Kepulauan Riau yang menempuh pendidikan di
                 Malang dapat <strong>menghubungi pengurus</strong> melalui media sosial
-                resmi IKAPEMA KEPRI untuk informasi lebih lanjut.
+                resmi IKAPEMA KEPRI—MALANG untuk informasi lebih lanjut.
             </>
         ),
     },
     {
-        question: "Apa saja kegiatan rutin IKAPEMA KEPRI?",
+        question: "Apa saja kegiatan rutin IKAPEMA KEPRI—MALANG?",
         answer: (
             <>
                 Kegiatan rutin meliputi <strong>Pengabdian Masyarakat</strong>,{" "}

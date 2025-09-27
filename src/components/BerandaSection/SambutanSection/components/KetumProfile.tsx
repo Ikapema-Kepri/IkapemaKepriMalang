@@ -45,7 +45,7 @@ const KetumProfile = memo(({ isVisible }: { isVisible: boolean }) => {
             Mgs Achmad Dachlan R
           </h3>
           <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-medium text-gray-600 leading-tight break-words">
-            Ketua Umum IKAPEMA KEPRI 2024/2025
+            Ketua Umum IKAPEMA KEPRI—MALANG 2024/2025
           </p>
         </div>
       </div>
