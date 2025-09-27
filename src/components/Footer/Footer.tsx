@@ -68,7 +68,7 @@ const Footer = () => {
               priority
             />
             <span className="text-sm sm:text-base font-semibold mt-2 text-center">
-              IKATAN PELAJAR & MAHASISWA <br />KEPRI-MALANG
+              IKATAN PELAJAR MAHASISWA <br />KEPRI—MALANG
             </span>
           </div>
 

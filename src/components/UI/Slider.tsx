@@ -76,7 +76,7 @@ const slideData: Slide[] = [
   {
     title: "Ikapema Goes to School",
     description:
-      "Bertujuan untuk bersama-sama meningkatkan kepedulian terhadap sesama masyarakat yang kurang beruntung dengan cara saling berbagi kebahagiaan serta dapat menumbuhkan rasa bersyukur",
+      "Ikapema Goes to School atau yang lebih dikenal dengan IGS  merupakan kegiatan yang bertujuan untuk memperkenalkan kampus-kampus serta informasi menarik tentang perkuliahan yang ada di Kota Malang kepada siswa/i sederajat sekolah kawasan Kepulauan Riau. ",
     image: "/kegiatan/IGS.webp",
     categories: ["Departemen Kominfo"],
   },
