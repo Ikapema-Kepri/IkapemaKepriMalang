@@ -23,14 +23,14 @@ const TentangContent: React.FC<TentangContentProps> = ({ contentRef, isInView, o
           isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
-        Apa itu IKAPEMA KEPRI—MALANG?
+        Apa itu IKAPEMA Kepri—Malang?
       </h3>
       <p
         className={`text-[#E5FAFF] text-lg md:text-[3.295vh] leading-relaxed text-justify transition-all duration-800 delay-400 ${
           isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
-        IKAPEMA Kepri-Malang adalah organisasi pelajar dan mahasiswa Provinsi Kepulauan Riau di Kota Malang. Organisasi ini berasaskan Pancasila, UUD 1945, dan kekeluargaan, bertujuan untuk menumbuhkan kesadaran, kecerdasan, dan persaudaraan para anggota dalam pengabdian kepada daerah dan bangsa. Anggotanya terdiri dari anggota biasa, luar biasa, dan kehormatan.
+        IKAPEMA Kepri—Malang adalah organisasi pelajar dan mahasiswa Provinsi Kepulauan Riau di Kota Malang. Organisasi ini berasaskan Pancasila, UUD 1945, dan kekeluargaan, bertujuan untuk menumbuhkan kesadaran, kecerdasan, dan persaudaraan para anggota dalam pengabdian kepada daerah dan bangsa. Anggotanya terdiri dari anggota biasa, luar biasa, dan kehormatan.
       </p>
       <div className={`pt-[2.636vh] transition-all duration-800 delay-600 ${
         isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
