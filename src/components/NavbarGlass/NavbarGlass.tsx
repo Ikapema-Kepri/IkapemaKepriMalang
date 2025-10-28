@@ -66,9 +66,9 @@ const NavbarGlass: React.FC = () => {
     <header className="fixed top-0 left-0 w-full z-50 px-4 sm:px-6 md:px-8 lg:px-[17.184vh] py-[0.716vh] bg-transparent">
       <nav className="max-w-[257.755vh] mx-auto flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" aria-label="Logo IKAPEMA KEPRI—MALANG">
+        <Link href="/beranda" aria-label="Logo IKAPEMA KEPRI—MALANG">
           <img
-            src="/LogoIkapema.svg"
+            src="/LogoIkapema.webp"
             alt="Logo IKAPEMA"
             className="h-10 w-10 sm:h-14 sm:w-14 md:h-[50px] md:w-[50px] lg:h-[11.635vh] lg:w-[11.635vh]"
           />

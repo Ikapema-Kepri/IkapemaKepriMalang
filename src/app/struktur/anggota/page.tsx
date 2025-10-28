@@ -195,10 +195,10 @@ const AnggotaPage: React.FC = () => {
         </div>
       )}
 
-      <section className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 lg:gap-4 pt-2 md:pt-4 lg:pt-6 justify-items-center mb-8">
+      <section className="grid grid-cols-4 xs:grid-cols-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-6 gap-x-[2.636vh] gap-y-[3.954vh] pt-[1.318vh] md:pt-4 lg:pt-[3.954vh] justify-items-center mb-[5.272vh]">
         {loading && !error ? (
           <div className="col-span-full w-full mb-20">
-            <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 lg:gap-4">
+            <div className="grid grid-cols-4 xs:grid-cols-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-6 gap-x-[2.636vh] gap-y-[3.954vh]">
               {Array.from({ length: SKELETON_COUNT }).map((_, idx) => (
                 <ProfileCardSkeleton key={idx} />
               ))}

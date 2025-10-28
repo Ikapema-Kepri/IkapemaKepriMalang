@@ -6,7 +6,6 @@ import {
   MessageCircle,
   Mail,
   MapPin,
-  Phone,
   User,
   Clock,
 } from "lucide-react";
@@ -140,16 +139,20 @@ export default function ContactPage() {
                 <p className="text-muted-foreground mb-4">
                   Ikuti update terbaru kami
                 </p>
-                <motion.div
+                <motion.a
+                  href="https://www.instagram.com/ikapemakeprimalang/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   whileHover={{
                     scale: 1.1,
                     y: -2,
                     transition: { duration: 0.2 },
                   }}
-                  className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-2 rounded-full text-sm font-medium shadow-lg"
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-2 rounded-full text-sm font-medium shadow-lg hover:shadow-xl transition-shadow duration-300"
                 >
                   @ikapemakeprimalang
-                </motion.div>
+                </motion.a>
               </motion.div>
             </Card>
           </motion.div>
@@ -163,7 +166,7 @@ export default function ContactPage() {
                   transition: { duration: 0.3, ease: "easeOut" },
                 }}
                 whileTap={{ scale: 0.98 }}
-                className="h-full p-8 flex items-center justify-between relative"
+                className="h-full p-8 flex items-center relative"
               >
                 <div className="flex items-center space-x-6">
                   <motion.div
@@ -187,25 +190,22 @@ export default function ContactPage() {
                     <p className="text-muted-foreground mb-3">
                       Terhubung langsung dengan kami
                     </p>
-                    <motion.div
-                      whileHover={{ scale: 1.05 }}
-                      className="text-green-600 font-medium text-lg"
+                    <motion.a
+                      href="https://wa.link/1yq1z6"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{
+                        scale: 1.05,
+                        y: -2,
+                        transition: { duration: 0.2 },
+                      }}
+                      whileTap={{ scale: 0.95 }}
+                      className="text-green-600 font-medium text-lg hover:text-green-500 transition-colors duration-300 inline-block"
                     >
                       +62 898-8821-793
-                    </motion.div>
+                    </motion.a>
                   </div>
                 </div>
-                <motion.div
-                  whileHover={{
-                    x: 10,
-                    scale: 1.3,
-                    rotate: 15,
-                    transition: { duration: 0.3 },
-                  }}
-                  className="text-green-600/50"
-                >
-                  <MessageCircle className="w-8 h-8" />
-                </motion.div>
               </motion.div>
             </Card>
           </motion.div>
@@ -219,7 +219,7 @@ export default function ContactPage() {
                   transition: { duration: 0.3, ease: "easeOut" },
                 }}
                 whileTap={{ scale: 0.98 }}
-                className="h-full p-8 flex items-center justify-between relative"
+                className="h-full p-8 flex items-center relative"
               >
                 <div className="flex items-center space-x-6">
                   <motion.div
@@ -243,25 +243,20 @@ export default function ContactPage() {
                     <p className="text-muted-foreground mb-3">
                       Untuk komunikasi formal dan kerjasama
                     </p>
-                    <motion.div
-                      whileHover={{ scale: 1.05 }}
-                      className="text-purple-600 font-medium text-lg"
+                    <motion.a
+                      href="mailto:ikapemakepri.malang@gmail.com"
+                      whileHover={{
+                        scale: 1.05,
+                        y: -2,
+                        transition: { duration: 0.2 },
+                      }}
+                      whileTap={{ scale: 0.95 }}
+                      className="text-purple-600 font-medium text-lg hover:text-purple-500 transition-colors duration-300 inline-block"
                     >
-                      info@organisasi.com
-                    </motion.div>
+                      ikapemakepri.malang@gmail.com
+                    </motion.a>
                   </div>
                 </div>
-                <motion.div
-                  whileHover={{
-                    x: 10,
-                    scale: 1.3,
-                    rotate: 15,
-                    transition: { duration: 0.3 },
-                  }}
-                  className="text-purple-600/50"
-                >
-                  <Mail className="w-8 h-8" />
-                </motion.div>
               </motion.div>
             </Card>
           </motion.div>
@@ -346,83 +341,53 @@ export default function ContactPage() {
             </Card>
           </motion.div>
 
-          {/* Phone - Small Card */}
-          <motion.div variants={cardVariants} className="md:col-span-2">
-            <Card className="h-full glass rounded-3xl border-0 shadow-xl transition-all duration-500 group cursor-pointer hover:border-2 hover:border-orange-400 hover:shadow-[0_0_20px_rgba(249,115,22,0.3)]">
+          {/* Contact Person - Modified to match Office Address height */}
+          <motion.div variants={cardVariants} className="md:col-span-2 md:row-span-2">
+            <Card className="h-full glass-strong rounded-3xl border-0 shadow-2xl transition-all duration-500 group cursor-pointer hover:border-2 hover:border-indigo-400 hover:shadow-[0_0_30px_rgba(99,102,241,0.3)]">
               <motion.div
                 whileHover={{
-                  y: -5,
-                  transition: { duration: 0.3, ease: "easeOut" },
+                  y: -8,
+                  transition: { duration: 0.4, ease: "easeOut" },
                 }}
-                whileTap={{ scale: 0.95 }}
-                className="h-full p-6 flex items-center space-x-4 relative"
+                whileTap={{ scale: 0.98 }}
+                className="h-full p-8 flex flex-col justify-center items-center text-center relative"
               >
                 <motion.div
                   whileHover={{
-                    rotate: 20,
                     scale: 1.3,
+                    rotate: 15,
+                    y: -3,
                     transition: { duration: 0.3 },
                   }}
-                  className="flex-shrink-0"
+                  className="mb-6"
                 >
-                  <Phone className="w-10 h-10 text-orange-500 drop-shadow-md" />
+                  <User className="w-16 h-16 text-indigo-600 drop-shadow-lg" />
                 </motion.div>
-                <div>
-                  <motion.h3
-                    whileHover={{ x: 3 }}
-                    className="text-lg font-bold mb-1"
-                  >
-                    Telepon
-                  </motion.h3>
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    className="text-orange-600 font-medium"
-                  >
-                    (021) 1234-5678
-                  </motion.div>
-                </div>
-              </motion.div>
-            </Card>
-          </motion.div>
-
-          {/* Contact Person - Small Card */}
-          <motion.div variants={cardVariants} className="md:col-span-2">
-            <Card className="h-full glass rounded-3xl border-0 shadow-xl transition-all duration-500 group cursor-pointer hover:border-2 hover:border-indigo-400 hover:shadow-[0_0_20px_rgba(99,102,241,0.3)]">
-              <motion.div
-                whileHover={{
-                  y: -5,
-                  transition: { duration: 0.3, ease: "easeOut" },
-                }}
-                whileTap={{ scale: 0.95 }}
-                className="h-full p-6 flex items-center space-x-4 relative"
-              >
+                <motion.h3
+                  whileHover={{ scale: 1.05 }}
+                  className="text-2xl font-bold mb-3"
+                >
+                  Contact Person
+                </motion.h3>
+                <p className="text-muted-foreground mb-4">
+                  Hubungi langsung untuk informasi lebih lanjut
+                </p>
                 <motion.div
                   whileHover={{
-                    scale: 1.2,
-                    rotate: 10,
-                    transition: { duration: 0.3 },
+                    scale: 1.1,
+                    y: -2,
+                    transition: { duration: 0.2 },
                   }}
-                  className="flex-shrink-0"
+                  className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-2 rounded-full text-lg font-medium shadow-lg mb-2"
                 >
-                  <User className="w-10 h-10 text-indigo-600 drop-shadow-md" />
+                  Nova Syahfitri
                 </motion.div>
-                <div>
-                  <motion.h3
-                    whileHover={{ x: 3 }}
-                    className="text-lg font-bold mb-1"
-                  >
-                    Contact Person
-                  </motion.h3>
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    className="text-indigo-600 font-medium"
-                  >
-                    Nova Syahfitri
-                  </motion.div>
-                  <div className="text-sm text-muted-foreground">
-                    Humas
-                  </div>
-                </div>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  className="text-indigo-600 font-medium text-lg"
+                >
+                  Humas
+                </motion.div>
               </motion.div>
             </Card>
           </motion.div>

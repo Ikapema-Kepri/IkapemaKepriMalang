@@ -102,7 +102,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           lg:w-[155px] lg:h-[255px]
           xl:w-[28.007vh] xl:h-[44.481vh]
           bg-white 
-          rounded-xl sm:rounded-2xl
+          rounded-sm sm:rounded-2xl
           shadow-lg 
           relative
           mb-1 lg:mb-0 xl:mb-2

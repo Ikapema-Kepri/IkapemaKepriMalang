@@ -60,7 +60,7 @@ const Footer = () => {
           {/* Logo */}
           <div className="flex flex-col items-center lg:items-center w-full lg:w-auto mb-8 lg:mb-8 xl:mb-0">
             <Image
-              src="/LogoIkapema.svg"
+              src="/LogoIkapema.webp"
               alt="Logo IKAPEMA"
               width={180}
               height={180}
@@ -68,7 +68,7 @@ const Footer = () => {
               priority
             />
             <span className="text-sm sm:text-base font-semibold mt-2 text-center">
-              IKATAN PELAJAR & MAHASISWA <br />KEPRI-MALANG
+              IKATAN PELAJAR MAHASISWA <br />KEPRI—MALANG
             </span>
           </div>
 
@@ -137,7 +137,11 @@ const Footer = () => {
           </div>
         </div>
         <div className="text-center text-white/70 text-xs sm:text-sm mt-0 mb-4 px-2">
-          Copyright© Eksternal IKAPEMA KEPRI—MALANG 2025, All Rights Reserved.
+          Copyright© Made with {" "}
+                <span className="text-red-400" aria-label="love">
+                    ♡
+                </span>{" "}
+                by Kepala Bidang Eksternal IKAPEMA KEPRI—MALANG 2025.
         </div>
       </div>
     </footer>
