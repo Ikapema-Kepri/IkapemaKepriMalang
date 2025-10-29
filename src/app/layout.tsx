@@ -16,11 +16,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "IKAPEMA Kepri - Ikatan Alumni Politeknik Elektronika Negeri Surabaya",
+  title: "Ikatan Pelajar & Mahasiswa Kepulauan Riau—Malang (IKAPEMA KEPRI—MALANG)",
   description:
-    "Website resmi IKAPEMA Kepulauan Riau - Ikatan Alumni Politeknik Elektronika Negeri Surabaya",
-  keywords: "IKAPEMA, Kepri, Alumni, PENS, Politeknik Elektronika",
-  authors: [{ name: "IKAPEMA Kepri" }],
+    "Website resmi IKAPEMA Kepulauan Riau - Ikatan Pelajar & Mahasiswa Kepulauan Riau",
+  keywords: "IKAPEMA, Kepri, Pelajar, Mahasiswa, Malang, Ikapema Kepri Malang",
+  authors: [{ name: "IKAPEMA Kepri—Malang" }],
   icons: {
     icon: [
       { url: "/favicon.ico" },
