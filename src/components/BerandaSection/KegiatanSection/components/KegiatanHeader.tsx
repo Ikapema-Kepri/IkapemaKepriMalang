@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from "react";
+import React, { memo, useMemo, useEffect, useState } from "react";
 import Image from "next/image";
 
 interface KegiatanHeaderProps {
@@ -17,11 +17,26 @@ const KegiatanHeader: React.FC<KegiatanHeaderProps> = ({ headerRef, isInView }) 
     [isInView]
   );
 
+  const [isIOS, setIsIOS] = useState(false);
+  
+    useEffect(() => {
+      const detectIOS = () => {
+        return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+               (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      };
+      
+      setIsIOS(detectIOS());
+    }, []);
+  
+    const headingImageSrc = isIOS 
+      ? "/heading/HeadingKegiatan.webp" 
+      : "/heading/HeadingKegiatan.svg";
+
   return (
     <div className="text-center gap-4 md:gap-6 lg:gap-[5.272vh]">
       <div ref={headerRef} className={headerClasses}>
         <Image
-          src="/heading/HeadingKegiatan.svg"
+          src={headingImageSrc}
           alt="Heading Kegiatan"
           width={454}
           height={100}

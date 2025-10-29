@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from "react";
+import React, { memo, useMemo, useEffect, useState } from "react";
 import Image from "next/image";
 
 interface EmagzHeaderProps {
@@ -17,11 +17,26 @@ const EmagzHeader: React.FC<EmagzHeaderProps> = ({ headerRef, isInView }) => {
     [isInView]
   );
 
+  const [isIOS, setIsIOS] = useState(false);
+  
+    useEffect(() => {
+      const detectIOS = () => {
+        return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+               (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      };
+      
+      setIsIOS(detectIOS());
+    }, []);
+  
+    const headingImageSrc = isIOS 
+      ? "/heading/HeadingEmagz.webp" 
+      : "/heading/HeadingEmagz.svg";
+
   return (
     <div className="text-center mb-4 md:mb-8 lg:mb-12">
       <div ref={headerRef} className={headerClasses}>
         <Image
-          src="/heading/HeadingEmagz.svg"
+          src={headingImageSrc}
           alt="Heading Emagz"
           width={454}
           height={100}

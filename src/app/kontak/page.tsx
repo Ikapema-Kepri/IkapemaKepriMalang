@@ -9,7 +9,7 @@ import {
   User,
   Clock,
 } from "lucide-react";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
@@ -27,6 +27,9 @@ const Card = React.forwardRef<
 Card.displayName = "Card";
 
 export default function ContactPage() {
+  // State untuk mendeteksi iOS
+  const [isIOS, setIsIOS] = useState(false);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -52,13 +55,28 @@ export default function ContactPage() {
   };
 
   const headerRef = useRef<HTMLDivElement>(null);
-      //   const contentRef = useRef<HTMLDivElement>(null);
-      
-        const isHeaderInView = useInView(headerRef, {
-          once: false,
-          margin: "0px 0px -100px 0px",
-          amount: 0.3,
-        });
+  //   const contentRef = useRef<HTMLDivElement>(null);
+  
+  const isHeaderInView = useInView(headerRef, {
+    once: false,
+    margin: "0px 0px -100px 0px",
+    amount: 0.3,
+  });
+
+  // Deteksi iOS device
+  useEffect(() => {
+    const detectIOS = () => {
+      return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+             (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    };
+    
+    setIsIOS(detectIOS());
+  }, []);
+
+  // Tentukan path gambar berdasarkan device
+  const headingKontakSrc = isIOS 
+    ? "/heading/HeadingKontak.webp" 
+    : "/heading/HeadingKontak.svg";
 
   return (
     <div className="min-h-screen px-4 py-8 md:px-24 md:py-32">
@@ -75,7 +93,7 @@ export default function ContactPage() {
             }`}
           >
             <Image
-              src="/heading/HeadingKontak.svg"
+              src={headingKontakSrc}
               alt="Heading Kontak"
               width={454}
               height={100}

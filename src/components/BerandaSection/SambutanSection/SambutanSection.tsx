@@ -10,10 +10,8 @@ const SambutanSection: React.FC = () => {
   // Memanggil custom hook untuk mendapatkan semua state dan logika animasi
   const { sectionRef, isSectionInView, headerClasses } = useSambutanAnimation();
   
-  // State untuk mendeteksi iOS
   const [isIOS, setIsIOS] = useState(false);
 
-  // Deteksi iOS device
   useEffect(() => {
     const detectIOS = () => {
       return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
@@ -23,7 +21,6 @@ const SambutanSection: React.FC = () => {
     setIsIOS(detectIOS());
   }, []);
 
-  // Tentukan path gambar berdasarkan device
   const headingImageSrc = isIOS 
     ? "/heading/HeadingSambutan.webp" 
     : "/heading/HeadingSambutan.svg";
