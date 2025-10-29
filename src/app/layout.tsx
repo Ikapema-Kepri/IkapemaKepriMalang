@@ -16,16 +16,59 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ikatan Pelajar & Mahasiswa Kepulauan Riau—Malang (IKAPEMA KEPRI—MALANG)",
-  description:
-    "Website resmi IKAPEMA Kepulauan Riau - Ikatan Pelajar & Mahasiswa Kepulauan Riau",
-  keywords: "IKAPEMA, Kepri, Pelajar, Mahasiswa, Malang, Ikapema Kepri Malang",
-  authors: [{ name: "IKAPEMA Kepri—Malang" }],
+  title: {
+    default: "Ikapema Kepri—Malang | Ikatan Pelajar & Mahasiswa Kepulauan Riau—Malang",
+    template: "%s | Ikapema Kepri—Malang"
+  },
+  description: "Website resmi Ikapema Kepulauan Riau - Malang. Wadah berkumpul pelajar dan mahasiswa asal Kepulauan Riau yang berdomisili di Malang untuk berkarya dan mengembangkan potensi diri.",
+  keywords: ["Ikapema", "Kepri", "Pelajar", "Mahasiswa", "Malang", "Kepulauan Riau", "Organisasi", "Ikatan"],
+  authors: [{ name: "Ikapema Kepri—Malang" }],
+  creator: "Ikapema Kepri—Malang",
+  publisher: "Ikapema Kepri—Malang",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'id_ID',
+    url: 'https://www.ikapemakeprimalang.com',
+    title: 'Ikapema Kepri—Malang | Ikatan Pelajar & Mahasiswa Kepulauan Riau',
+    description: 'Website resmi Ikapema Kepulauan Riau - Malang. Wadah berkumpul pelajar dan mahasiswa asal Kepulauan Riau.',
+    siteName: 'Ikapema Kepri—Malang',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Ikapema Kepri—Malang',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Ikapema Kepri—Malang | Ikatan Pelajar & Mahasiswa Kepulauan Riau',
+    description: 'Website resmi Ikapema Kepulauan Riau - Malang.',
+    images: ['/og-image.jpg'],
+  },
+  verification: {
+    google: 'your-google-verification-code', // Tambahkan Google Search Console verification
+  },
   icons: {
     icon: [
       { url: "/favicon.ico" },
-      { url: "/favicon16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
   },
 };
