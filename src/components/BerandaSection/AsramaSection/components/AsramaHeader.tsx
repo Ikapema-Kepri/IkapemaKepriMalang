@@ -1,4 +1,6 @@
-import React, { memo } from "react";
+"use client";
+
+import React, { memo, useState, useEffect } from "react";
 import Image from "next/image";
 
 interface AsramaHeaderProps {
@@ -7,11 +9,29 @@ interface AsramaHeaderProps {
 }
 
 const AsramaHeader: React.FC<AsramaHeaderProps> = ({ headerRef, headerClasses }) => {
+  // State untuk mendeteksi iOS
+  const [isIOS, setIsIOS] = useState(false);
+
+  // Deteksi iOS device
+  useEffect(() => {
+    const detectIOS = () => {
+      return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+             (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    };
+    
+    setIsIOS(detectIOS());
+  }, []);
+
+  // Tentukan path gambar berdasarkan device
+  const headingImageSrc = isIOS 
+    ? "/heading/HeadingAsrama.webp" 
+    : "/heading/HeadingAsrama.svg";
+
   return (
     <div ref={headerRef} className={`text-center mb-12 ${headerClasses}`}>
       <div className="flex items-center justify-center gap-4 mb-6 md:mb-8">
         <Image
-          src="/heading/HeadingAsrama.svg"
+          src={headingImageSrc}
           alt="Heading Asrama"
           width={454}
           height={100}

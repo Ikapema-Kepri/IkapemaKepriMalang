@@ -1,6 +1,6 @@
 "use client";
 
-import React, { memo } from "react";
+import React, { memo, useState, useEffect } from "react";
 import Image from "next/image";
 import { useTentangSection } from "./hooks/useTentangSection";
 import TentangLogo from "./components/TentangLogo";
@@ -10,6 +10,20 @@ const TentangSection: React.FC = () => {
   // Memanggil custom hook untuk mendapatkan semua state, refs, dan logika
   const { refs, animation, handlers } = useTentangSection();
 
+  const [isIOS, setIsIOS] = useState(false);
+  
+    useEffect(() => {
+      const detectIOS = () => {
+        return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+               (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      };
+      
+      setIsIOS(detectIOS());
+    }, []);
+  
+    const headingImageSrc = isIOS 
+      ? "/heading/HeadingTentang.webp" 
+      : "/heading/HeadingTentang.svg";
   return (
     <section className="w-full py-16 px-6 md:px-16 lg:px-[15.815vh]">
       <div className="mx-auto bg-gradient-to-b from-[#00A3CC] to-[#005266] rounded-3xl py-16 px-8 md:px-[7.908vh] lg:px-[10.544vh]">
@@ -18,7 +32,7 @@ const TentangSection: React.FC = () => {
           <div ref={refs.headerRef} className={animation.headerClasses}>
             <div className="flex items-center justify-center gap-[2.636vh] mb-4 md:mb-6 lg:mb-[5.272vh]">
               <Image
-                src="/heading/HeadingTentang.svg"
+                src={headingImageSrc}
                 alt="Heading Tentang"
                 width={454}
                 height={100}

@@ -20,6 +20,9 @@ const PengurusPage: React.FC = () => {
   // State untuk mengontrol fade-in background saat pertama render
   const [isPageLoaded, setIsPageLoaded] = useState(false);
 
+  // State untuk mendeteksi iOS
+  const [isIOS, setIsIOS] = useState(false);
+
   // useInView hooks untuk setiap section
   const isHeroInView = useInView(heroRef, {
     once: false,
@@ -39,14 +42,12 @@ const PengurusPage: React.FC = () => {
     amount: 0.3,
   });
 
-  // Pisahkan trigger untuk header dan card filosofi
   const isFilosofiHeaderInView = useInView(filosofiHeaderRef, {
     once: false,
     margin: "-10px 0px -100px 0px",
     amount: 0.3,
   });
 
-  // Filosofi Card - trigger untuk deteksi visibility
   const isFilosofiCardInViewport = useInView(filosofiCardRef, {
     once: false, // Selalu monitor
     margin: "-50px 0px -50px 0px",
@@ -63,6 +64,16 @@ const PengurusPage: React.FC = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Deteksi iOS device
+  useEffect(() => {
+    const detectIOS = () => {
+      return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+             (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    };
+    
+    setIsIOS(detectIOS());
+  }, []);
+
   // Effect untuk mengontrol animasi FilosofiCard
   useEffect(() => {
     if (isFilosofiCardInViewport) {
@@ -77,6 +88,15 @@ const PengurusPage: React.FC = () => {
       return () => clearTimeout(timer);
     }
   }, [isFilosofiCardInViewport]);
+
+  // Tentukan path gambar berdasarkan device
+  const headingTentangSrc = isIOS 
+    ? "/heading/HeadingTentang2.webp" 
+    : "/heading/HeadingTentang2.svg";
+
+  const headingFilosofiSrc = isIOS 
+    ? "/heading/HeadingFilosofiLogo.webp" 
+    : "/heading/HeadingFilosofiLogo.svg";
 
   return (
     <div 
@@ -111,7 +131,7 @@ const PengurusPage: React.FC = () => {
             }`}
           >
             <Image
-              src="/heading/HeadingTentang2.svg"
+              src={headingTentangSrc}
               alt="Heading Tentang"
               width={454}
               height={100}
@@ -215,7 +235,7 @@ const PengurusPage: React.FC = () => {
             }`}
           >
             <Image
-              src="/heading/HeadingFilosofiLogo.svg"
+              src={headingFilosofiSrc}
               alt="Heading Filosofi Logo"
               width={454}
               height={100}
