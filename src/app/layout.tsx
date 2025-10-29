@@ -17,14 +17,14 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "IKAPEMA KEPRI—MALANG | Ikatan Pelajar & Mahasiswa Kepulauan Riau",
-    template: "%s | IKAPEMA KEPRI—MALANG"
+    default: "Ikapema Kepri—Malang | Ikatan Pelajar & Mahasiswa Kepulauan Riau—Malang",
+    template: "%s | Ikapema Kepri—Malang"
   },
-  description: "Website resmi IKAPEMA Kepulauan Riau - Malang. Wadah berkumpul pelajar dan mahasiswa asal Kepulauan Riau yang berdomisili di Malang untuk berkarya dan mengembangkan potensi diri.",
-  keywords: ["IKAPEMA", "Kepri", "Pelajar", "Mahasiswa", "Malang", "Kepulauan Riau", "Organisasi", "Ikatan"],
-  authors: [{ name: "IKAPEMA Kepri—Malang" }],
-  creator: "IKAPEMA Kepri—Malang",
-  publisher: "IKAPEMA Kepri—Malang",
+  description: "Website resmi Ikapema Kepulauan Riau - Malang. Wadah berkumpul pelajar dan mahasiswa asal Kepulauan Riau yang berdomisili di Malang untuk berkarya dan mengembangkan potensi diri.",
+  keywords: ["Ikapema", "Kepri", "Pelajar", "Mahasiswa", "Malang", "Kepulauan Riau", "Organisasi", "Ikatan"],
+  authors: [{ name: "Ikapema Kepri—Malang" }],
+  creator: "Ikapema Kepri—Malang",
+  publisher: "Ikapema Kepri—Malang",
   robots: {
     index: true,
     follow: true,
@@ -40,22 +40,22 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'id_ID',
     url: 'https://www.ikapemakeprimalang.com',
-    title: 'IKAPEMA KEPRI—MALANG | Ikatan Pelajar & Mahasiswa Kepulauan Riau',
-    description: 'Website resmi IKAPEMA Kepulauan Riau - Malang. Wadah berkumpul pelajar dan mahasiswa asal Kepulauan Riau.',
-    siteName: 'IKAPEMA KEPRI—MALANG',
+    title: 'Ikapema Kepri—Malang | Ikatan Pelajar & Mahasiswa Kepulauan Riau',
+    description: 'Website resmi Ikapema Kepulauan Riau - Malang. Wadah berkumpul pelajar dan mahasiswa asal Kepulauan Riau.',
+    siteName: 'Ikapema Kepri—Malang',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'IKAPEMA KEPRI—MALANG',
+        alt: 'Ikapema Kepri—Malang',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'IKAPEMA KEPRI—MALANG | Ikatan Pelajar & Mahasiswa Kepulauan Riau',
-    description: 'Website resmi IKAPEMA Kepulauan Riau - Malang.',
+    title: 'Ikapema Kepri—Malang | Ikatan Pelajar & Mahasiswa Kepulauan Riau',
+    description: 'Website resmi Ikapema Kepulauan Riau - Malang.',
     images: ['/og-image.jpg'],
   },
   verification: {
