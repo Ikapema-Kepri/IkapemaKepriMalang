@@ -18,7 +18,7 @@ const HeroSectionPages: React.FC<HeroSectionPagesProps> = ({
   title = "IKAPEMA KEPRI—MALANG",
   subtitle = (
     <blockquote>
-      Menjalin Visi Membangun Negeri, Satu Untuk Semua, Semua Untuk Satu.
+      Satu Untuk Semua, Semua Untuk Satu, Menjalin Visi, Membangun Negeri.
     </blockquote>
   ),
   buttonText = "Selengkapnya",

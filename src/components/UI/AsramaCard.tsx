@@ -16,7 +16,7 @@ const AsramaCard: React.FC<AsramaCardProps> = ({
     badgeText,
     badgeColor,
     hoverColor,
-    iconColor, // uncomment this line
+    iconColor,
     decorativeGradient
 }) => {
     return (
@@ -57,10 +57,10 @@ const AsramaCard: React.FC<AsramaCardProps> = ({
                         {address}
                     </p>
                 </div>
-
-                {/* Decorative Element */}
-                <div className={`absolute -bottom-2 -right-2 w-20 h-20 ${decorativeGradient} rounded-full opacity-10 group-hover:opacity-20 transition-opacity duration-300`}></div>
             </div>
+
+            {/* Decorative Element - Fixed position for all cards */}
+            <div className={`absolute -bottom-2 -right-2 w-20 h-20 ${decorativeGradient} rounded-full opacity-10 group-hover:opacity-20 transition-opacity duration-300`}></div>
         </div>
     );
 };
