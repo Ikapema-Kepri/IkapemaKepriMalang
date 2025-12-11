@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import NavbarClientWrapper from "../components/NavbarClientWrapper/NavbarClientWrapper";
-import Footer from "../components/Footer/Footer";
 import { AuthProvider } from "@/context/AuthContext";
+import LayoutWrapper from "@/components/LayoutWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -83,11 +82,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased w-full max-w-[100vw] overflow-x-hidden min-h-screen`}>
         <AuthProvider>
-          <NavbarClientWrapper />
-          <main className="w-full max-w-[100vw] overflow-x-hidden">
+          <LayoutWrapper>
             {children}
-          </main>
-          <Footer />
+          </LayoutWrapper>
         </AuthProvider>
       </body>
     </html>

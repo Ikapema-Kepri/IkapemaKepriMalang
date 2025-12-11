@@ -16,7 +16,7 @@
   /* Updated color scheme with #E5FAFF background and #171717 foreground */
   --background: #E5FAFF; /* Light blue background */
   --foreground: #171717; /* Dark text */
-  --card: rgba(153, 235, 255, 0.2); /* #99EBFF with transparency for glassmorphism */
+  --card: #FFFFFF; /* #99EBFF with transparency for glassmorphism */
   --card-foreground: #171717; /* Dark text on cards */
   --popover: rgba(153, 235, 255, 0.25); /* #99EBFF with transparency for popovers */
   --popover-foreground: #171717;
@@ -25,7 +25,7 @@
   --secondary: oklch(0.75 0.12 120); /* Bright green accent */
   --secondary-foreground: #171717;
   --muted: oklch(0.96 0.02 142); /* Very light green */
-  --muted-foreground: #171717;
+  --muted-foreground: #707375;
   --accent: oklch(0.75 0.12 120); /* Bright green accent */
   --accent-foreground: oklch(1 0 0);
   --destructive: oklch(0.577 0.245 27.325);
@@ -47,6 +47,19 @@
   --sidebar-accent-foreground: #171717;
   --sidebar-border: oklch(0.9 0.02 142);
   --sidebar-ring: oklch(0.45 0.15 142 / 0.5);
+
+  
+    --success: #16A34A;
+    --warning: #CA8A04;
+    --info: #2563EB;
+    --alert: #DC2626;
+    --notice: #F47025;
+
+    --bg-success: #DCFCE7;
+    --bg-warning: #FEF9C3;
+    --bg-info: #DBEAFE;
+    --bg-alert: #FEE2E2;
+    --bg-notice: #FFF7ED;
 }
 
 .dark {
@@ -82,6 +95,19 @@
   --sidebar-accent-foreground: oklch(0.95 0 0);
   --sidebar-border: oklch(0.3 0.02 142);
   --sidebar-ring: oklch(0.75 0.12 120 / 0.5);
+
+
+    --success: #16A34A;
+    --warning: #CA8A04;
+    --info: #2563EB;
+    --alert: #DC2626;
+    --notice: #F47025;
+
+    --bg-success: #DCFCE7;
+    --bg-warning: #FEF9C3;
+    --bg-info: #DBEAFE;
+    --bg-alert: #FEE2E2;
+    --bg-notice: #FFF7ED;
 }
 
 @theme inline {
@@ -123,6 +149,16 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
+  --color-alert: var(--alert);
+  --color-notice: var(--notice);
+  --color-bg-success: var(--bg-success);
+  --color-bg-warning: var(--bg-warning);
+  --color-bg-info: var(--bg-info);
+  --color-bg-alert: var(--bg-alert);
+  --color-bg-notice: var(--bg-notice);
 }
 
 @layer base {

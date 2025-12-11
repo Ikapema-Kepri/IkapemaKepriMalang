@@ -1,10 +1,10 @@
 "use client";
 
-import ProfileCard from "@/components/UI/ProfileCard";
-import ProfileCardSkeleton from "@/components/UI/ProfileCardSkeleton";
+import ProfileCard from "@/components/UI/profile-card";
+import ProfileCardSkeleton from "@/components/UI/profile-card-skeleton";
 import React, { useEffect, useState } from "react";
 import { Anggota, ApiResponse, PaginationInfo } from "../../../types";
-import AnggotaSearchBar from "@/components/UI/AnggotaSearchBar";
+import AnggotaSearchBar from "@/components/UI/anggota-search-bar";
 import Image from "next/image";
 import { FiRefreshCw } from "react-icons/fi";
 

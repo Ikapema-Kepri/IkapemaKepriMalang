@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import BackButton from '../components/UI/BackButton';
+import BackButton from '../components/UI/back-button';
 
 export default function NotFound() {
   return (
