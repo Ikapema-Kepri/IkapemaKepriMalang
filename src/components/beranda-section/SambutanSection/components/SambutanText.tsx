@@ -1,5 +1,5 @@
 import React, { memo, useMemo } from "react";
-import QuoteIcon from "../../../UI/QuotesIcon";
+import QuoteIcon from "../../../UI/quotesIcon";
 import BlurText from "../../../UI/blur-text";
 import FadeContent from "../../../UI/fade-content"; // Asumsi FadeContent ada di folder UI
 
