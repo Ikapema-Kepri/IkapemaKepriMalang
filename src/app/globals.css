@@ -20,7 +20,7 @@
   --card-foreground: #171717; /* Dark text on cards */
   --popover: rgba(153, 235, 255, 0.25); /* #99EBFF with transparency for popovers */
   --popover-foreground: #171717;
-  --primary: #15803D; /* Green-700 equivalent */
+  --primary: #00A3CC; /* Green-700 equivalent */
   --primary-foreground: #FFFFFF; /* White text on primary */
   --secondary: #86EFAC; /* Bright green accent */
   --secondary-foreground: #171717;

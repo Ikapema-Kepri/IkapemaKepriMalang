@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import LayoutWrapper from "@/components/LayoutWrapper";
+import { MAINTENANCE_MODE } from "@/lib/maintenance";
+import MaintenancePageComponent from "@/components/maintenance/maintenance-page";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,6 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.ikapemakeprimalang.com'),
   title: {
     default: "Ikapema Kepri—Malang | Ikatan Pelajar & Mahasiswa Kepulauan Riau—Malang",
     template: "%s | Ikapema Kepri—Malang"
@@ -77,6 +80,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // If maintenance mode is enabled, show only maintenance page
+  if (MAINTENANCE_MODE) {
+    return (
+      <html lang="id" className="w-full max-w-[100vw] overflow-x-hidden">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased w-full max-w-[100vw] overflow-x-hidden min-h-screen`}>
+          <MaintenancePageComponent />
+        </body>
+      </html>
+    );
+  }
+
   return (
     <html lang="id" className="w-full max-w-[100vw] overflow-x-hidden">
       <body
