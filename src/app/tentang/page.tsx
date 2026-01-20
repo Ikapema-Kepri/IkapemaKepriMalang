@@ -1,6 +1,6 @@
 "use client";
 
-import FilosofiLogoCard from "@/components/UI/FilosofiLogoCard";
+import FilosofiLogoCard from "@/components/UI/filosofi-card";
 import Image from "next/image";
 import { useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";

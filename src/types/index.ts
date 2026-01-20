@@ -6,6 +6,7 @@ export interface Anggota {
   programStudi: string;
   angkatan: string;
   photoURL?: string | null; // Opsional dan bisa null
+  isActive?: boolean; // Status aktif/tidak aktif anggota
 }
 
 export interface PaginationInfo {

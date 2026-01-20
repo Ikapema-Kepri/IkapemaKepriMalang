@@ -1,10 +1,10 @@
 'use client';
 
-import FaqSection from '../../components/BerandaSection/FaqSection/FaqSection';
-import HeroSctionPages from '../../components/BerandaSection/HeroSection/HeroSection';
-import SambutanSection from '../../components/BerandaSection/SambutanSection/SambutanSection';
-import TentangSection from '../../components/BerandaSection/TentangSection/TentangSection';
-import KegiatanSection from '../../components/BerandaSection/KegiatanSection/KegiatanSection';
+import FaqSection from '../../components/beranda-section/FaqSection/FaqSection';
+import HeroSctionPages from '../../components/beranda-section/HeroSection/HeroSection';
+import SambutanSection from '../../components/beranda-section/SambutanSection/SambutanSection';
+import TentangSection from '../../components/beranda-section/TentangSection/TentangSection';
+import KegiatanSection from '../../components/beranda-section/KegiatanSection/KegiatanSection';
 
 
 const BerandaPage: React.FC = () => {
