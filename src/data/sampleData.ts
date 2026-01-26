@@ -1,0 +1,136 @@
+import { GraduationCap, Newspaper, TrendingUp, Users } from 'lucide-react';
+export interface Member {
+  id: number;
+  nama: string;
+  universitas: string;
+  prodi: string;
+  angkatan: number;
+  email: string;
+  status: 'Active' | 'Pending' | 'Inactive';
+  avatar: string;
+}
+
+export interface Alumni {
+  id: number;
+  nama: string;
+  nim: string;
+  universitas: string;
+  prodi: string;
+  angkatan: number;
+  tahun_lulus: number;
+  pekerjaan: string;
+  perusahaan: string;
+  linkedin: string;
+  email: string;
+  telepon: string;
+  alamat: string;
+  status: 'Terverifikasi' | 'Belum Terverifikasi';
+}
+
+export interface NewsItem {
+  id: number;
+  judul: string;
+  deskripsi: string;
+  foto: string;
+  status: 'Published' | 'Draft' | 'Archived';
+  tanggal: string;
+}
+
+export const members: Member[] = [
+  { id: 1, nama: "Rina Pratama", universitas: "Universitas Brawijaya", prodi: "Teknologi Informasi", angkatan: 2021, email: "rina@ub.ac.id", status: "Active", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Rina" },
+  { id: 2, nama: "Toni Wirawan", universitas: "Universitas Negeri Malang", prodi: "Sistem Informasi", angkatan: 2020, email: "toni@unm.ac.id", status: "Pending", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Toni" },
+  { id: 3, nama: "Siti Aulia", universitas: "Universitas Brawijaya", prodi: "Informatika", angkatan: 2019, email: "siti@ub.ac.id", status: "Inactive", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Siti" },
+  { id: 4, nama: "Ahmad Fauzi", universitas: "Universitas Airlangga", prodi: "Teknik Komputer", angkatan: 2022, email: "ahmad@unair.ac.id", status: "Active", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ahmad" },
+  { id: 5, nama: "Dewi Sartika", universitas: "Universitas Brawijaya", prodi: "Teknologi Informasi", angkatan: 2021, email: "dewi@ub.ac.id", status: "Active", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Dewi" },
+  { id: 6, nama: "Budi Santoso", universitas: "Universitas Negeri Malang", prodi: "Informatika", angkatan: 2020, email: "budi@unm.ac.id", status: "Pending", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Budi" },
+  { id: 7, nama: "Maya Putri", universitas: "Universitas Airlangga", prodi: "Sistem Informasi", angkatan: 2023, email: "maya@unair.ac.id", status: "Active", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Maya" },
+  { id: 8, nama: "Rizki Ramadan", universitas: "Universitas Brawijaya", prodi: "Teknik Komputer", angkatan: 2022, email: "rizki@ub.ac.id", status: "Active", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Rizki" },
+];
+
+export const alumni: Alumni[] = [
+  { id: 1, nama: "Dewi Lestari", nim: "235150700111001", universitas: "Universitas Brawijaya", prodi: "Teknologi Informasi", angkatan: 2015, tahun_lulus: 2019, pekerjaan: "Software Engineer", perusahaan: "TechCorp Indonesia", linkedin: "https://linkedin.com/in/dewil", email: "dewi.lestari@gmail.com", telepon: "081234567890", alamat: "Jakarta Selatan", status: "Terverifikasi" },
+  { id: 2, nama: "Agus Santoso", nim: "235150700111002", universitas: "Universitas Airlangga", prodi: "Sistem Informasi", angkatan: 2014, tahun_lulus: 2018, pekerjaan: "Product Manager", perusahaan: "StartupX", linkedin: "", email: "agus.santoso@yahoo.com", telepon: "082345678901", alamat: "Surabaya", status: "Belum Terverifikasi" },
+  { id: 3, nama: "Fitri Handayani", nim: "235150700111003", universitas: "Universitas Brawijaya", prodi: "Informatika", angkatan: 2016, tahun_lulus: 2020, pekerjaan: "Data Analyst", perusahaan: "Gojek", linkedin: "https://linkedin.com/in/fitri", email: "fitri.h@gmail.com", telepon: "083456789012", alamat: "Bandung", status: "Terverifikasi" },
+  { id: 4, nama: "Hendro Wijaya", nim: "235150700111004", universitas: "Universitas Negeri Malang", prodi: "Teknik Komputer", angkatan: 2015, tahun_lulus: 2019, pekerjaan: "DevOps Engineer", perusahaan: "Tokopedia", linkedin: "https://linkedin.com/in/hendro", email: "hendro.w@outlook.com", telepon: "084567890123", alamat: "Jakarta Pusat", status: "Terverifikasi" },
+];
+
+export const news: NewsItem[] = [
+  { id: 1, judul: "Ikapema Goes To School", deskripsi: "Roadshow sosialisasi kampus ke SMA se-Malang. Kegiatan ini bertujuan untuk memperkenalkan dunia perkuliahan kepada siswa-siswi SMA.", foto: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800", status: "Published", tanggal: "2025-11-10" },
+  { id: 2, judul: "Workshop UI/UX Design", deskripsi: "Workshop intensif untuk meningkatkan skill desain antarmuka bagi anggota Ikapema. Materi mencakup Figma dan prototyping.", foto: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=800", status: "Draft", tanggal: "2025-12-01" },
+  { id: 3, judul: "Ikapema Career Fair 2025", deskripsi: "Pameran karir tahunan yang menghadirkan berbagai perusahaan teknologi terkemuka untuk rekrutmen alumni dan anggota.", foto: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800", status: "Published", tanggal: "2025-10-15" },
+  { id: 4, judul: "Hackathon Ikapema", deskripsi: "Kompetisi programming 24 jam untuk mengembangkan solusi teknologi inovatif. Terbuka untuk semua anggota aktif.", foto: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800", status: "Archived", tanggal: "2025-09-20" },
+];
+
+export const recentActivities = [
+  { id: 1, action: "Menambahkan anggota baru", user: "Admin", target: "Maya Putri", time: "5 menit lalu" },
+  { id: 2, action: "Memperbarui status", user: "Admin", target: "Toni Wirawan", time: "1 jam lalu" },
+  { id: 3, action: "Mempublikasikan berita", user: "Admin", target: "Workshop UI/UX", time: "2 jam lalu" },
+  { id: 4, action: "Verifikasi alumni", user: "Admin", target: "Fitri Handayani", time: "3 jam lalu" },
+  { id: 5, action: "Menghapus anggota", user: "Admin", target: "User Test", time: "1 hari lalu" },
+];
+
+export const universities = [
+  "Semua Universitas",
+  "Universitas Brawijaya",
+  "Universitas Negeri Malang", 
+  "Universitas Airlangga",
+];
+
+export const angkatanOptions = [
+  "Semua Angkatan",
+  "2019",
+  "2020",
+  "2021",
+  "2022",
+  "2023",
+];
+
+export const statusOptions = [
+  "Semua Status",
+  "Active",
+  "Pending",
+  "Inactive",
+];
+
+export const dashboardStats = [
+    {
+      title: 'Total Anggota',
+      value: '500',
+      icon: Users,
+      iconBgColor: 'bg-bg-success',
+      valueColor: 'text-success',
+      iconColor: 'text-success',
+      trend: { value: 12, isPositive: true }
+  },  
+  {
+      title: 'Anggota Aktif',
+      value: '300',
+      icon: TrendingUp,
+      iconBgColor: 'bg-bg-notice',
+      valueColor: 'text-notice',
+      iconColor: 'text-notice',
+      trend: { value: 8, isPositive: true }
+  },  
+  {
+      title: 'Total Alumni',
+      value: '400',
+      icon: GraduationCap,
+      iconBgColor: 'bg-bg-warning',
+      valueColor: 'text-warning',
+      iconColor: 'text-warning',
+      trend: { value: 5, isPositive: true }
+  },  
+  {
+      title: 'Berita Terpublikasi',
+      value: '200',
+      icon: Newspaper,
+      iconBgColor: 'bg-bg-info',
+      valueColor: 'text-info',
+      iconColor: 'text-info',
+      trend: { value: 5, isPositive: true }
+  },  
+
+
+
+]
+

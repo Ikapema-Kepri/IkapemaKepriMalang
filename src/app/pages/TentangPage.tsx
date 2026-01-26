@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 const TentangPage: React.FC = () => {
     return (
@@ -9,7 +10,7 @@ const TentangPage: React.FC = () => {
             IKAPEMA KEPRI—MALANG adalah sebuah wadah berlandaskan kekeluargaan bagi mahasiswa Kepulauan Riau yang berada di Kota Malang. Kami berkomitmen untuk menciptakan lingkungan yang inklusif, mendukung, dan memfasilitasi pengembangan diri serta kebersamaan antar anggota.
             </p>
             <div className="flex justify-center">
-            <img src="/LogoIkapema.svg" alt="Logo IKAPEMA" className="h-[70px] w-[70px] md:h-[90px] md:w-[90px]" />
+            <Image src="/LogoIkapema.svg" alt="Logo IKAPEMA" width={70} height={70} className="md:h-[90px] md:w-[90px]" />
             </div>
         </section>
         </div>

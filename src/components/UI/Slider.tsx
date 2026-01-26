@@ -6,6 +6,8 @@ import { HiEye, HiEyeOff } from "react-icons/hi";
 import "swiper/css";
 import "swiper/css/pagination";
 
+import Image from 'next/image';
+
 // Define the type for a single slide
 interface Slide {
   title: string;
@@ -184,9 +186,11 @@ const Slider: React.FC<SliderProps> = () => {
                     )}
                   >
                     {/* Slide Image */}
-                    <img
+                    <Image
                       src={slide.image}
                       alt={slide.title}
+                      width={800}
+                      height={600}
                       className={clsx(
                         "absolute inset-0 w-full h-full object-cover transition-all duration-1000",
                         isActive ? "grayscale-0" : "grayscale-[90%]"

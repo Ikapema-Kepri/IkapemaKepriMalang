@@ -1,12 +1,12 @@
 'use client';
 
-import FaqSection from '../../components/BerandaSection/FaqSection/FaqSection';
-import HeroSctionPages from '../../components/BerandaSection/HeroSection/HeroSection';
-import SambutanSection from '../../components/BerandaSection/SambutanSection/SambutanSection';
-import TentangSection from '../../components/BerandaSection/TentangSection/TentangSection';
-import KegiatanSection from '../../components/BerandaSection/KegiatanSection/KegiatanSection';
-import EmagzSection from '@/components/BerandaSection/EmagzSection/EmagzSection';
-import AsramaSection from '@/components/BerandaSection/AsramaSection/AsramaSection';
+import FaqSection from '../../components/beranda-section/FaqSection/FaqSection';
+import HeroSctionPages from '../../components/beranda-section/HeroSection/HeroSection';
+import SambutanSection from '../../components/beranda-section/SambutanSection/SambutanSection';
+import TentangSection from '../../components/beranda-section/TentangSection/TentangSection';
+import KegiatanSection from '../../components/beranda-section/KegiatanSection/KegiatanSection';
+import EmagzSection from '@/components/beranda-section/EmagzSection/EmagzSection';
+import AsramaSection from '@/components/beranda-section/AsramaSection/AsramaSection';
 
 const Beranda: React.FC = () => {
   // Fungsi scroll smooth ke section sambutan
