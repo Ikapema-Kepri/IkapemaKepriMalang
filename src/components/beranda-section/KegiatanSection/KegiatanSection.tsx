@@ -4,7 +4,7 @@ import React, { memo } from "react";
 
 import { useKegiatanAnimation } from "./hooks/useKegiatanAnimation";
 import KegiatanHeader from "./components/KegiatanHeader";
-import Slider from "@/components/UI/Slider";
+import Slider from "../../UI/slider";
 
 
 const KegiatanSection: React.FC = () => {

@@ -151,12 +151,14 @@ const ListAnggota = () => {
                                                 <select
                                                     name="isActive"
                                                     value={editData.isActive ? 'true' : 'false'}
-                                                    onChange={(e) => handleEditChange({
-                                                        target: {
-                                                            name: 'isActive',
-                                                            value: e.target.value === 'true'
-                                                        }
-                                                    } as unknown)}
+                                                    onChange={(e) => {
+                                                        handleEditChange({
+                                                            target: {
+                                                                name: 'isActive',
+                                                                value: e.target.value
+                                                            }
+                                                        } as React.ChangeEvent<HTMLSelectElement>);
+                                                    }}
                                                     className="w-full px-2 py-1 border rounded text-sm"
                                                     required
                                                 >

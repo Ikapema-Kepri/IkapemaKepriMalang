@@ -15,8 +15,8 @@ const LazyMaintenanceImage = lazy(() => Promise.resolve({
         src="/ui/maintenance-asset.png"
         alt="Maintenance Illustration"
         fill
+        loading="lazy"
         className="object-contain"
-        fetchPriority="high"
         sizes="(max-width: 768px) 50vw, (max-width: 1024px) 50vw, 30vw"
       />
     </div>

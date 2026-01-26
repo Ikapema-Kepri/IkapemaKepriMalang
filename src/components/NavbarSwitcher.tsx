@@ -28,7 +28,6 @@ const NavbarSwitcher: React.FC = () => {
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-    // eslint-disable-next-line
   }, [showGlass, isBeranda]);
 
   return (
