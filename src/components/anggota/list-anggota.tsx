@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { Card } from "@/components/UI/card";
 import { Table, TableHeader, TableBody, TableRow, TableHead } from "@/components/UI/table";
 import { useAnggota } from "@/hooks/useAnggota";
@@ -61,13 +62,12 @@ const ListAnggota = () => {
                                                 <div className="space-y-2">
                                                     <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
                                                         {editData.photoURL ? (
-                                                            <img
+                                                            <Image
                                                                 src={editData.photoURL}
                                                                 alt={editData.namaAnggota || 'Preview'}
+                                                                width={40}
+                                                                height={40}
                                                                 className="object-cover w-full h-full"
-                                                                onError={(e) => {
-                                                                    e.currentTarget.style.display = 'none';
-                                                                }}
                                                             />
                                                         ) : (
                                                             <svg
@@ -187,9 +187,11 @@ const ListAnggota = () => {
                                                 <div className="flex items-center">
                                                     <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
                                                         {member.photoURL ? (
-                                                            <img
+                                                            <Image
                                                                 src={member.photoURL}
                                                                 alt={member.namaAnggota}
+                                                                width={40}
+                                                                height={40}
                                                                 className="object-cover w-full h-full"
                                                             />
                                                         ) : (

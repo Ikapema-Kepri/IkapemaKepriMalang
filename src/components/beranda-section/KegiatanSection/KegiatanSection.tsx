@@ -1,9 +1,11 @@
 "use client";
 
 import React, { memo } from "react";
-import Slider from "../../UI/slider";
+
 import { useKegiatanAnimation } from "./hooks/useKegiatanAnimation";
 import KegiatanHeader from "./components/KegiatanHeader";
+import Slider from "@/components/UI/Slider";
+
 
 const KegiatanSection: React.FC = () => {
   // Memanggil custom hook untuk mendapatkan semua state, refs, dan logika

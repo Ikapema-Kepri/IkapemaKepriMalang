@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import { MapPin, Eye, Heart } from "lucide-react";
 // import { Button } from "./button";
 
@@ -51,9 +52,11 @@ const AsramaShowcase = () => {
             >
               {/* Image Container */}
               <div className="property-card-image">
-                <img
+                <Image
                   src={property.image}
                   alt={property.title}
+                  width={500}
+                  height={256}
                   className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 

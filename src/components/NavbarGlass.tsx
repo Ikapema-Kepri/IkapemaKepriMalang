@@ -1,7 +1,6 @@
 'use client';
 
-import Link from 'next/link';
-import React, { useState, useEffect } from 'react';
+import Link from 'next/link';import Image from 'next/image';import React, { useState, useEffect } from 'react';
 
 interface NavLink {
   label: string;
@@ -67,9 +66,11 @@ const NavbarGlass: React.FC = () => {
       <nav className="max-w-[257.755vh] mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link href="/beranda" aria-label="Logo IKAPEMA KEPRI—MALANG">
-          <img
+          <Image
             src="/LogoIkapema.webp"
             alt="Logo IKAPEMA"
+            width={40}
+            height={40}
             className="h-10 w-10 sm:h-14 sm:w-14 md:h-[50px] md:w-[50px] lg:h-[11.635vh] lg:w-[11.635vh]"
           />
         </Link>

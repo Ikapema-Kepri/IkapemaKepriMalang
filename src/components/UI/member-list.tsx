@@ -197,13 +197,12 @@ const MemberList: React.FC = () => {
                         <div className="space-y-2">
                           <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
                             {editData.photoURL ? (
-                              <img
+                              <Image
                                 src={editData.photoURL}
                                 alt={editData.namaAnggota || 'Preview'}
+                                width={40}
+                                height={40}
                                 className="object-cover w-full h-full"
-                                onError={(e) => {
-                                  e.currentTarget.style.display = 'none';
-                                }}
                               />
                             ) : (
                               <svg
@@ -306,9 +305,11 @@ const MemberList: React.FC = () => {
                         <div className="flex items-center">
                           <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
                             {member.photoURL ? (
-                              <img
-                                src={member.photoURL}
-                                alt={member.namaAnggota}
+                                <Image
+                                  src={member.photoURL}
+                                  alt={member.namaAnggota}
+                                  width={40}
+                                  height={40}
                                 className="object-cover w-full h-full"
                               />
                             ) : (

@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 interface AsramaCardProps {
     image: string;
     title: string;
@@ -26,9 +28,11 @@ const AsramaCard: React.FC<AsramaCardProps> = ({
             
             {/* Image Container */}
             <div className="relative overflow-hidden h-80">
-                <img 
+                <Image 
                     src={image} 
                     alt={title}
+                    width={500}
+                    height={320}
                     className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                 />
                 {/* Gradient Overlay */}

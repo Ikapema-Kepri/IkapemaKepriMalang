@@ -3,6 +3,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 
@@ -99,7 +100,7 @@ const ImageUploader: React.FC = () => {
           <div className="mt-4 w-full text-center">
             <p className="text-green-600 font-semibold mb-2">Gambar berhasil diupload!</p>
             <a href={uploadedUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline break-all">{uploadedUrl}</a>
-            <img src={uploadedUrl} alt="Uploaded" className="mx-auto mt-4 rounded-xl shadow max-w-xs max-h-64 object-contain" />
+            <Image src={uploadedUrl} alt="Uploaded" width={320} height={256} className="mx-auto mt-4 rounded-xl shadow max-w-xs max-h-64 object-contain" />
           </div>
         )}
       </div>

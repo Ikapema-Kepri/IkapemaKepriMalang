@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 interface NavLink {
   label: string;
@@ -54,9 +55,11 @@ const Navbar: React.FC = () => {
       <nav className="bg-[#005266] px-[1rem] sm:px-[1.5rem] md:px-[5.728vh] lg:px-[17.184vh] py-[0.716vh] flex items-center justify-between">
         {/* Logo */}
         <Link href="/beranda" aria-label="Logo IKAPEMA KEPRI—MALANG">
-          <img
+          <Image
             src="/LogoIkapema.webp"
             alt="Logo IKAPEMA"
+            width={40}
+            height={40}
             className="h-10 w-10 sm:h-14 sm:w-14 md:h-[50px] md:w-[50px] lg:h-[11.635vh] lg:w-[11.635vh]"
           />
         </Link>
