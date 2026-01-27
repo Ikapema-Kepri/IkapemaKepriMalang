@@ -18,7 +18,6 @@ const handlers = {
         );
       }
 
-      // Ambil id terbesar saat ini
       const q = query(anggotaCol, orderBy('idAnggota', 'desc'), limit(1));
       const snapshot = await getDocs(q);
       let nextId = 1;
@@ -52,17 +51,25 @@ const handlers = {
 
   async GET(req: NextRequest) {
     try {
-      const { search, page = '1', limit = '24' } = Object.fromEntries(req.nextUrl.searchParams.entries());
+      const { search, page = '1', limit = '24', sortBy = 'createdAt', order = 'desc' } = Object.fromEntries(req.nextUrl.searchParams.entries());
       const currentPage = parseInt(page);
-      const pageLimit = parseInt(limit);
+      const pageLimit = Math.min(parseInt(limit), 100); // Max 100 items per request
       
-      const anggotaSnapshot = await getDocs(anggotaCol);
+      // Build optimized Firestore query
+      const firestoreQuery = query(
+        anggotaCol,
+        orderBy(sortBy as any, order as any)
+      );
+
+      // Fetch all data (for now, will optimize with cursor-based pagination later)
+      const anggotaSnapshot = await getDocs(firestoreQuery);
       let anggotaList = anggotaSnapshot.docs.map(doc => ({
         id: doc.id,
         ...(doc.data() as Anggota)
       }));
 
       // Filter by search query (nama, universitas, programStudi)
+      // Note: For better performance, consider using Algolia or Typesense for full-text search
       if (search && search.trim() !== "") {
         const q = search.trim().toLowerCase();
         anggotaList = anggotaList.filter(
@@ -88,12 +95,20 @@ const handlers = {
         hasPrev: currentPage > 1
       };
 
-      return NextResponse.json({
+      // Add caching headers for better performance
+      const response = NextResponse.json({
         message: 'Daftar anggota berhasil diambil.',
         data: paginatedData,
-        pagination
+        pagination,
+        timestamp: new Date().toISOString()
       });
+
+      // Cache for 60 seconds, revalidate in background
+      response.headers.set('Cache-Control', 's-maxage=60, stale-while-revalidate=30');
+      
+      return response;
     } catch (error: unknown) {
+      console.error('Error fetching anggota:', error);
       return NextResponse.json(
         { message: 'Gagal mengambil data anggota.', error: error instanceof Error ? error.message : String(error) },
         { status: 500 }

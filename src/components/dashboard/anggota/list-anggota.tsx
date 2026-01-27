@@ -3,8 +3,15 @@ import Image from "next/image";
 import { Card } from "@/components/UI/card";
 import { Table, TableHeader, TableBody, TableRow, TableHead } from "@/components/UI/table";
 import { useAnggota } from "@/hooks/useAnggota";
+import { Search } from "lucide-react";
+import React from "react";
 
-const ListAnggota = () => {
+interface ListAnggotaProps {
+  searchQuery?: string;
+  onSearchChange?: (query: string) => void;
+}
+
+const ListAnggota: React.FC<ListAnggotaProps> = ({ searchQuery = '', onSearchChange }) => {
     const {
         currentMembers,
         loading,
@@ -13,9 +20,11 @@ const ListAnggota = () => {
         editData,
         currentPage,
         totalPages,
+        totalItems,
         startIndex,
         endIndex,
-        members,
+        debouncedSearch,
+        isValidating,
         handleDelete,
         handleEditClick,
         handleEditChange,
@@ -25,17 +34,58 @@ const ListAnggota = () => {
         handlePrevPage,
         handleNextPage,
         getPageNumbers,
-    } = useAnggota();
+        handleSearch,
+    } = useAnggota({ initialSearch: searchQuery });
 
-    if (loading) return <p className="text-center py-8">Memuat anggota...</p>;
+    // Sync external search with internal state
+    React.useEffect(() => {
+        if (onSearchChange) {
+            handleSearch(searchQuery);
+        }
+    }, [searchQuery, onSearchChange, handleSearch]);
+
+    if (loading && !currentMembers.length) return <p className="text-center py-8">Memuat anggota...</p>;
     if (error) return <p className="text-center py-8 text-red-500">Error: {error}</p>;
-    if (members.length === 0) return <p className="text-center py-8">Belum ada anggota.</p>;
+    if (currentMembers.length === 0 && !debouncedSearch) return <p className="text-center py-8">Belum ada anggota.</p>;
+    
+    if (currentMembers.length === 0 && debouncedSearch) {
+        return (
+            <Card>
+                <div className="text-center py-12">
+                    <Search className="mx-auto h-12 w-12 text-gray-400" />
+                    <h3 className="mt-2 text-sm font-semibold text-gray-900">Tidak ada hasil</h3>
+                    <p className="mt-1 text-sm text-gray-500">
+                        Tidak ditemukan anggota dengan kata kunci &quot;{debouncedSearch}&quot;
+                    </p>
+                </div>
+            </Card>
+        );
+    }
 
     return (
         <div className="">
-            <div className="flex justify-end items-center mb-6">
+            <div className="flex justify-between items-center mb-6">
                 <div className="text-sm text-gray-600">
-                    Menampilkan {startIndex + 1}-{Math.min(endIndex, members.length)} dari {members.length} anggota
+                    {debouncedSearch && (
+                        <span className="inline-flex items-center gap-2">
+                            <Search className="h-4 w-4" />
+                            Hasil pencarian: &quot;{debouncedSearch}&quot;
+                        </span>
+                    )}
+                </div>
+                <div className="flex items-center gap-3">
+                    {isValidating && (
+                        <span className="text-xs text-blue-600 flex items-center gap-1">
+                            <svg className="animate-spin h-3 w-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Memperbarui...
+                        </span>
+                    )}
+                    <div className="text-sm text-gray-600">
+                        Menampilkan {startIndex + 1}-{endIndex} dari {totalItems} anggota
+                    </div>
                 </div>
             </div>
 
@@ -297,8 +347,8 @@ const ListAnggota = () => {
                                 <div>
                                     <p className="text-sm text-gray-700">
                                         Menampilkan <span className="font-medium">{startIndex + 1}</span> sampai{' '}
-                                        <span className="font-medium">{Math.min(endIndex, members.length)}</span> dari{' '}
-                                        <span className="font-medium">{members.length}</span> hasil
+                                        <span className="font-medium">{endIndex}</span> dari{' '}
+                                        <span className="font-medium">{totalItems}</span> hasil
                                     </p>
                                 </div>
                                 <div>

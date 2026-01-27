@@ -1,43 +1,106 @@
-import { useState, useEffect } from 'react';
-import { Anggota, ApiResponse } from '@/types';
+import { useState, useCallback, useEffect } from 'react';
+import useSWR from 'swr';
+import { Anggota, ApiResponse, PaginationInfo } from '@/types';
 
-export const useAnggota = () => {
-  const [members, setMembers] = useState<Anggota[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+interface AnggotaResponse {
+  members: Anggota[];
+  pagination: PaginationInfo;
+}
+
+const fetcher = async (url: string): Promise<AnggotaResponse> => {
+  const response = await fetch(url);
+  if (!response.ok) {
+    const errorData: ApiResponse = await response.json();
+    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+  }
+  const data: ApiResponse<Anggota[]> = await response.json();
+  return {
+    members: data.data || [],
+    pagination: data.pagination || {
+      currentPage: 1,
+      totalPages: 1,
+      totalItems: 0,
+      hasNext: false,
+      hasPrev: false
+    }
+  };
+};
+
+const swrConfig = {
+  revalidateOnFocus: false,
+  revalidateOnReconnect: true,
+  dedupingInterval: 10000,
+  errorRetryCount: 3,
+  errorRetryInterval: 5000,
+  refreshInterval: 0,
+  shouldRetryOnError: true,
+  keepPreviousData: true,
+};
+
+interface UseAnggotaProps {
+  initialSearch?: string;
+  itemsPerPage?: number;
+}
+
+export const useAnggota = ({ initialSearch = '', itemsPerPage = 20 }: UseAnggotaProps = {}) => {
   const [editId, setEditId] = useState<string | null>(null);
   const [editData, setEditData] = useState<Partial<Anggota>>({});
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   
-  // Pagination states
+  const [searchQuery, setSearchQuery] = useState<string>(initialSearch);
+  const [debouncedSearch, setDebouncedSearch] = useState<string>(initialSearch);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage] = useState<number>(20);
 
   useEffect(() => {
-    fetchMembers();
-  }, []);
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
 
-  async function fetchMembers() {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/anggota?limit=1000');
-      if (!response.ok) {
-        const errorData: ApiResponse = await response.json();
-        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      if (searchQuery !== debouncedSearch) {
+        setCurrentPage(1);
       }
-      const data: ApiResponse<Anggota[]> = await response.json();
-      if (data.data) {
-        setMembers(data.data);
-      }
-    } catch (e: unknown) {
-      if (e instanceof Error) {
-        setError(e.message);
-      } else {
-        setError('Gagal memuat anggota.');
-      }
-    } finally {
-      setLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery, debouncedSearch]);
+
+  const buildApiUrl = useCallback(() => {
+    const params = new URLSearchParams({
+      page: currentPage.toString(),
+      limit: itemsPerPage.toString(),
+      sortBy: 'createdAt',
+      order: 'desc'
+    });
+    
+    if (debouncedSearch.trim()) {
+      params.append('search', debouncedSearch.trim());
     }
-  }
+    
+    return `/api/anggota?${params.toString()}`;
+  }, [currentPage, itemsPerPage, debouncedSearch]);
+
+  const { data, error, isLoading, isValidating, mutate } = useSWR<AnggotaResponse>(
+    buildApiUrl(),
+    fetcher,
+    swrConfig
+  );
+
+  const members = data?.members || [];
+  const pagination = data?.pagination || {
+    currentPage: 1,
+    totalPages: 1,
+    totalItems: 0,
+    hasNext: false,
+    hasPrev: false
+  };
+
+  const fetchMembers = useCallback(async () => {
+    setIsRefreshing(true);
+    try {
+      await mutate();
+    } finally {
+      setTimeout(() => setIsRefreshing(false), 300);
+    }
+  }, [mutate]);
 
   const handleDelete = async (id: string) => {
     if (!confirm('Yakin ingin menghapus anggota ini?')) return;
@@ -47,14 +110,27 @@ export const useAnggota = () => {
         const errorData: ApiResponse = await response.json();
         throw new Error(errorData.message || 'Gagal menghapus anggota.');
       }
-      setMembers((prev) => prev.filter((m) => m.id !== id));
-      // Reset to page 1 if current page becomes empty after deletion
-      const newTotalPages = Math.ceil((members.length - 1) / itemsPerPage);
-      if (currentPage > newTotalPages && newTotalPages > 0) {
-        setCurrentPage(1);
+      if (data) {
+        await mutate(
+          {
+            ...data,
+            members: members.filter((m) => m.id !== id),
+            pagination: {
+              ...pagination,
+              totalItems: pagination.totalItems - 1
+            }
+          },
+          { revalidate: false }
+        );
+      }
+      await mutate();
+
+      if (members.length === 1 && currentPage > 1) {
+        setCurrentPage(currentPage - 1);
       }
     } catch (e: unknown) {
       alert(e instanceof Error ? e.message : 'Gagal menghapus anggota.');
+      await mutate();
     }
   };
 
@@ -85,9 +161,11 @@ export const useAnggota = () => {
       });
       const data: ApiResponse = await response.json();
       if (!response.ok) throw new Error(data.message || 'Gagal mengedit anggota.');
+      
       setEditId(null);
       setEditData({});
-      fetchMembers();
+      
+      await mutate();
     } catch (e: unknown) {
       alert(e instanceof Error ? e.message : 'Gagal mengedit anggota.');
     }
@@ -98,35 +176,33 @@ export const useAnggota = () => {
     setEditData({});
   };
 
-  // Pagination calculations
-  const totalPages = Math.ceil(members.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentMembers = members.slice(startIndex, endIndex);
-
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    setEditId(null); // Cancel any ongoing edit when changing pages
+    setEditId(null);
   };
 
   const handlePrevPage = () => {
-    if (currentPage > 1) {
+    if (pagination.hasPrev) {
       setCurrentPage(currentPage - 1);
       setEditId(null);
     }
   };
 
   const handleNextPage = () => {
-    if (currentPage < totalPages) {
+    if (pagination.hasNext) {
       setCurrentPage(currentPage + 1);
       setEditId(null);
     }
   };
 
-  // Generate page numbers for pagination
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
+
   const getPageNumbers = () => {
     const pages: (number | string)[] = [];
     const maxVisiblePages = 5;
+    const totalPages = pagination.totalPages;
     
     if (totalPages <= maxVisiblePages) {
       for (let i = 1; i <= totalPages; i++) {
@@ -154,18 +230,28 @@ export const useAnggota = () => {
     return pages;
   };
 
+  const isInitialLoading = isLoading && !data;
+
   return {
     members,
-    currentMembers,
-    loading,
-    error,
+    currentMembers: members,
+    loading: isInitialLoading,
+    error: error?.message || null,
+    isValidating,
+    isRefreshing,
     editId,
     editData,
     currentPage,
     itemsPerPage,
-    totalPages,
-    startIndex,
-    endIndex,
+    totalPages: pagination.totalPages,
+    totalItems: pagination.totalItems,
+    hasNext: pagination.hasNext,
+    hasPrev: pagination.hasPrev,
+    startIndex: (currentPage - 1) * itemsPerPage,
+    endIndex: Math.min(currentPage * itemsPerPage, pagination.totalItems),
+    searchQuery,
+    debouncedSearch,
+    handleSearch,
     handleDelete,
     handleEditClick,
     handleEditChange,
@@ -176,5 +262,6 @@ export const useAnggota = () => {
     handleNextPage,
     getPageNumbers,
     fetchMembers,
+    mutate,
   };
 };

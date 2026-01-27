@@ -1,4 +1,4 @@
-export const MAINTENANCE_MODE = true;
+export const MAINTENANCE_MODE = false;
 
 export const maintenanceConfig = {
   enabled: MAINTENANCE_MODE,

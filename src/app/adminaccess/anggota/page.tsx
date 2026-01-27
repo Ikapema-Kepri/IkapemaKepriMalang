@@ -1,16 +1,25 @@
-import ListAnggota from "@/components/anggota/list-anggota";
+"use client";
+import ListAnggota from "@/components/dashboard/anggota/list-anggota";
 import SearchField from "@/components/UI/search-field";
+import React, { useState } from "react";
 
-import React from "react";
+const AnggotaPage: React.FC = () => {
+    const [searchQuery, setSearchQuery] = useState<string>("");
 
-const AnggotaPage : React.FC = () => {
     return (
         <div className="space-y-6 animate-fade-in">
-            <SearchField placeholder="Cari anggota..." className="max-w-md" size="lg" />
-
-            <ListAnggota/>
+            <div className="flex justify-between items-center">
+                <SearchField 
+                    placeholder="Cari nama, universitas, atau program studi..." 
+                    className="max-w-2xl" 
+                    size="lg"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+            </div>
+            <ListAnggota searchQuery={searchQuery} onSearchChange={setSearchQuery} />
         </div>
-    )
-}
+    );
+};
 
 export default AnggotaPage;
