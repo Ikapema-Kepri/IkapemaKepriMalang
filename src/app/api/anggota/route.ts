@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../lib/firebase';
 import { collection, addDoc, getDocs, query, orderBy, limit } from 'firebase/firestore';
+import { fetchPaginatedData } from '../../../lib/firestore-service';
 import { Anggota, PaginationInfo } from '@/types';
 
 const anggotaCol = collection(db, 'anggota');
@@ -56,23 +57,26 @@ const handlers = {
       const pageLimit = Math.min(parseInt(limit), 100); // Max 100 items per request
       
       // Build optimized Firestore query
-      const firestoreQuery = query(
-        anggotaCol,
-        orderBy(sortBy as any, order as any)
-      );
+      const validSortFields = ['createdAt', 'namaAnggota', 'universitas', 'programStudi', 'idAnggota'] as const;
+      const validSortBy = validSortFields.includes(sortBy as typeof validSortFields[number]) ? sortBy : 'createdAt';
+      const validOrder = (order === 'asc' || order === 'desc') ? order : 'desc';
 
-      // Fetch all data (for now, will optimize with cursor-based pagination later)
-      const anggotaSnapshot = await getDocs(firestoreQuery);
-      let anggotaList = anggotaSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...(doc.data() as Anggota)
-      }));
+      // Fetch all data using firestore service (will be optimized with cursor-based pagination later)
+      const { data: anggotaList } = await fetchPaginatedData<Anggota>(
+        'anggota',
+        { 
+          pageSize: 1000, // Large limit to get all data for client-side filtering
+          orderByField: validSortBy,
+          orderDirection: validOrder as 'asc' | 'desc'
+        }
+      );
 
       // Filter by search query (nama, universitas, programStudi)
       // Note: For better performance, consider using Algolia or Typesense for full-text search
+      let filteredList = anggotaList;
       if (search && search.trim() !== "") {
         const q = search.trim().toLowerCase();
-        anggotaList = anggotaList.filter(
+        filteredList = anggotaList.filter(
           (a) =>
             (a.namaAnggota && a.namaAnggota.toLowerCase().includes(q)) ||
             (a.universitas && a.universitas.toLowerCase().includes(q)) ||
@@ -81,11 +85,11 @@ const handlers = {
       }
 
       // Calculate pagination
-      const totalItems = anggotaList.length;
+      const totalItems = filteredList.length;
       const totalPages = Math.ceil(totalItems / pageLimit);
       const startIndex = (currentPage - 1) * pageLimit;
       const endIndex = startIndex + pageLimit;
-      const paginatedData = anggotaList.slice(startIndex, endIndex);
+      const paginatedData = filteredList.slice(startIndex, endIndex);
 
       const pagination: PaginationInfo = {
         currentPage,

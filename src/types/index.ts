@@ -9,6 +9,44 @@ export interface Anggota {
   isActive?: boolean; // Status aktif/tidak aktif anggota
 }
 
+export interface Hero {
+  id?: string;
+  bannerUrl?: string;
+  bannerPath?: string;
+  updatedAt?: string;
+}
+
+export interface Sambutan {
+  id?: string;
+  content: string;
+  fullName: string;
+  period: string;
+  photoPath?: string;
+  photoUrl?: string;
+  updatedAt?: string;
+}
+
+export interface Asrama {
+  id?: string;
+  name?: string;
+  address?: string;
+  photoUrl?: string;
+  photoPath?: string;
+  updatedAt?: string;
+}
+
+export interface Kegiatan {
+  id?: string;
+  title?: string;
+  description?: string;
+  label?: string;
+  photoUrl?: string;
+  photoPath?: string;
+  updatedAt?: string;
+  createdAt?: string;
+}
+
+
 export interface PaginationInfo {
   currentPage: number;
   totalPages: number;

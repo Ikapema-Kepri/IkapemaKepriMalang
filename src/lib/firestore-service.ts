@@ -12,7 +12,12 @@ import {
   startAfter, 
   getDocs, 
   DocumentSnapshot,
-  QueryConstraint 
+  QueryConstraint,
+  onSnapshot,
+  writeBatch,
+  doc,
+  getCountFromServer,
+  getDoc
 } from 'firebase/firestore';
 import { db } from './firebase';
 
@@ -26,7 +31,7 @@ export interface PaginationOptions {
 export interface FilterOptions {
   field: string;
   operator: '==' | '!=' | '<' | '<=' | '>' | '>=' | 'in' | 'array-contains';
-  value: any;
+  value: unknown;
 }
 
 /**
@@ -75,7 +80,7 @@ export async function fetchPaginatedData<T>(
     
     const data = docs.map(doc => ({
       id: doc.id,
-      ...doc.data()
+      ...(doc.data() as Record<string, unknown>)
     })) as T[];
 
     const newLastDoc = docs.length > 0 ? docs[docs.length - 1] : null;
@@ -99,14 +104,13 @@ export async function fetchDocument<T>(
   docId: string
 ): Promise<T | null> {
   try {
-    const { doc, getDoc } = await import('firebase/firestore');
     const docRef = doc(db, collectionName, docId);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
       return {
         id: docSnap.id,
-        ...docSnap.data()
+        ...(docSnap.data() as Record<string, unknown>)
       } as T;
     }
 
@@ -126,8 +130,6 @@ export async function countDocuments(
   filters: FilterOptions[] = []
 ): Promise<number> {
   try {
-    const { getCountFromServer } = await import('firebase/firestore');
-    
     const constraints: QueryConstraint[] = filters.map(filter =>
       where(filter.field, filter.operator, filter.value)
     );
@@ -149,10 +151,9 @@ export async function batchWrite(operations: Array<{
   type: 'set' | 'update' | 'delete';
   collection: string;
   docId?: string;
-  data?: any;
+  data?: Record<string, unknown>;
 }>) {
   try {
-    const { writeBatch, doc } = await import('firebase/firestore');
     const batch = writeBatch(db);
 
     operations.forEach(op => {
@@ -165,7 +166,9 @@ export async function batchWrite(operations: Array<{
           batch.set(docRef, op.data);
           break;
         case 'update':
-          batch.update(docRef, op.data);
+          if (op.data) {
+            batch.update(docRef, op.data);
+          }
           break;
         case 'delete':
           batch.delete(docRef);
@@ -189,8 +192,6 @@ export function subscribeToCollection<T>(
   filters: FilterOptions[] = [],
   options: PaginationOptions = {}
 ) {
-  const { onSnapshot } = require('firebase/firestore');
-  
   const constraints: QueryConstraint[] = [];
 
   // Add filters
@@ -215,7 +216,7 @@ export function subscribeToCollection<T>(
     (snapshot) => {
       const data = snapshot.docs.map(doc => ({
         id: doc.id,
-        ...doc.data()
+        ...(doc.data() as Record<string, unknown>)
       })) as T[];
       callback(data);
     },
@@ -233,17 +234,17 @@ export function subscribeToCollection<T>(
  * Simple in-memory cache dengan TTL
  */
 class FirestoreCache {
-  private cache: Map<string, { data: any; timestamp: number }> = new Map();
+  private cache: Map<string, { data: unknown; timestamp: number }> = new Map();
   private ttl: number = 60000; // 60 seconds default
 
-  set(key: string, data: any, ttl?: number) {
+  set(key: string, data: unknown, ttl?: number) {
     this.cache.set(key, {
       data,
       timestamp: Date.now() + (ttl || this.ttl)
     });
   }
 
-  get(key: string): any | null {
+  get(key: string): unknown | null {
     const item = this.cache.get(key);
     if (!item) return null;
 
