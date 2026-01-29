@@ -9,7 +9,7 @@ export interface Anggota {
   isActive?: boolean; // Status aktif/tidak aktif anggota
 }
 
-export interface Hero {
+export interface Banner {
   id?: string;
   bannerUrl?: string;
   bannerPath?: string;
@@ -46,6 +46,21 @@ export interface Kegiatan {
   createdAt?: string;
 }
 
+export interface KontakAsrama {
+  id?: string;
+  buttonLabel?: string;
+  whatsappUrl?: string;
+  isActive?: boolean;
+  updatedAt?: string;
+  createdAt?: string;
+}
+
+export interface Majalah {
+  id?: string;
+  filePath?: string;
+  fileUrl?: string;
+  updatedAt?: string;
+}
 
 export interface PaginationInfo {
   currentPage: number;

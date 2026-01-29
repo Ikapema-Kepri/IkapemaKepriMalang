@@ -107,7 +107,7 @@ const slideData: Slide[] = [
     title: "Pelantikan Pengurus Harian",
     description:
       "Merupakan kegiatan resmi yang menandai pengukuhan dan pengesahan anggota Ikapema Kepri-Malang yang telah terpilih sebagai Pengurus Harian. Kegiatan ini bertujuan untuk memberikan legitimasi kepada para pengurus dalam menjalankan tugas dan tanggung jawab mereka selama masa jabatan.",
-    image: "/kegiatan/PelantikanPH.webp",
+    image: "/kegiatsxan/PelantikanPH.webp",
     categories: ["Agenda"],
   },
   {

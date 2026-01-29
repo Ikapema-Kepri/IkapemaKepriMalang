@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../lib/firebase';
-import { collection, addDoc, getDocs, updateDoc, deleteDoc, query, orderBy, limit } from 'firebase/firestore';
+import { collection, addDoc, getDocs, updateDoc, query, orderBy, limit } from 'firebase/firestore';
 import { fetchPaginatedData } from '../../../lib/firestore-service';
 import { Sambutan } from '@/types';
 
@@ -27,7 +27,6 @@ const handlers = {
         timestamp: new Date().toISOString()
       });
 
-      // Cache for 5 minutes, revalidate in background
       response.headers.set('Cache-Control', 's-maxage=300, stale-while-revalidate=60');
 
       return response;
@@ -52,7 +51,6 @@ const handlers = {
         );
       }
 
-      // Check if sambutan already exists (only allow one sambutan)
       const existingQuery = query(sambutanCol, limit(1));
       const existingSnapshot = await getDocs(existingQuery);
 

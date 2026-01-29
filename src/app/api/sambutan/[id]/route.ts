@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../../lib/firebase';
-import { doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
+import { doc, updateDoc, getDoc } from 'firebase/firestore';
 
 const handlers = {
   async GET(req: NextRequest, { params }: { params: { id: string } }) {
@@ -113,7 +113,7 @@ const handlers = {
 //       );
 //     }
 //   }
-// };
+};
 
 // Next.js App Router handler
 export async function GET(req: NextRequest, context: { params: { id: string } }) {
