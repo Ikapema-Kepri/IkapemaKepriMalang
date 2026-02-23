@@ -9,7 +9,9 @@ import {
   Newspaper,
   LogOut,
   Menu,
-  X
+  X,
+  Home,
+  Phone
 } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
@@ -23,11 +25,19 @@ const AppSidebar: React.FC = () => {
   const { collapsed } = useSidebar();
   const { logout } = useAuth();
 
-  const menuItems = [
+  const mainMenuItems = [
     {
       name: "Dashboard",
       href: "/adminaccess/dashboard",
       icon: LayoutDashboard,
+    },
+  ];
+
+  const kelolaWebsiteItems = [
+    {
+      name: "Beranda",
+      href: "/adminaccess/beranda",
+      icon: Home,
     },
     {
       name: "Anggota",
@@ -43,6 +53,11 @@ const AppSidebar: React.FC = () => {
       name: "Berita Kegiatan",
       href: "/adminaccess/berita-kegiatan",
       icon: Newspaper,
+    },
+    {
+      name: "Kontak",
+      href: "/adminaccess/kontak",
+      icon: Phone,
     },
   ];
 
@@ -98,32 +113,77 @@ const AppSidebar: React.FC = () => {
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 p-2 space-y-1">
-            {menuItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = pathname === item.href;
-              
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`
-                    flex items-center gap-3 px-3 py-2.5 rounded-lg
-                    transition-colors duration-200
-                    ${
-                      isActive
-                        ? "bg-[#005266] text-[#00CCFF]"
-                        : "text-gray-300 hover:bg-[#005266]/40 hover:text-white"
-                    }
-                    ${collapsed ? "justify-center" : ""}
-                  `}
-                  title={collapsed ? item.name : undefined}
-                >
-                  <Icon size={20} className="shrink-0" />
-                  {!collapsed && <span className="font-medium">{item.name}</span>}
-                </Link>
-              );
-            })}
+          <nav className="flex-1 p-2 space-y-4 overflow-y-auto">
+            {/* Main */}
+            <div>
+              {!collapsed && (
+                <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-widest text-gray-400">
+                  Main
+                </p>
+              )}
+              <div className="space-y-1">
+                {mainMenuItems.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = pathname === item.href;
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={`
+                        flex items-center gap-3 px-3 py-2.5 rounded-lg
+                        transition-colors duration-200
+                        ${
+                          isActive
+                            ? "bg-[#005266] text-[#00CCFF]"
+                            : "text-gray-300 hover:bg-[#005266]/40 hover:text-white"
+                        }
+                        ${collapsed ? "justify-center" : ""}
+                      `}
+                      title={collapsed ? item.name : undefined}
+                    >
+                      <Icon size={20} className="shrink-0" />
+                      {!collapsed && <span className="font-medium">{item.name}</span>}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Kelola Website */}
+            <div>
+              {!collapsed && (
+                <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-widest text-gray-400">
+                  Kelola Website
+                </p>
+              )}
+              {collapsed && <div className="border-t border-[#005266] mb-1" />}
+              <div className="space-y-1">
+                {kelolaWebsiteItems.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = pathname?.startsWith(item.href);
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={`
+                        flex items-center gap-3 px-3 py-2.5 rounded-lg
+                        transition-colors duration-200
+                        ${
+                          isActive
+                            ? "bg-[#005266] text-[#00CCFF]"
+                            : "text-gray-300 hover:bg-[#005266]/40 hover:text-white"
+                        }
+                        ${collapsed ? "justify-center" : ""}
+                      `}
+                      title={collapsed ? item.name : undefined}
+                    >
+                      <Icon size={20} className="shrink-0" />
+                      {!collapsed && <span className="font-medium">{item.name}</span>}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
           </nav>
 
           {/* Logout */}
@@ -163,31 +223,70 @@ const AppSidebar: React.FC = () => {
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 p-2 space-y-1">
-            {menuItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = pathname === item.href;
-              
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className={`
-                    flex items-center gap-3 px-3 py-2.5 rounded-lg
-                    transition-colors duration-200
-                    ${
-                      isActive
-                        ? "bg-blue-600 text-white"
-                        : "text-gray-300 hover:bg-gray-800 hover:text-white"
-                    }
-                  `}
-                >
-                  <Icon size={20} className="shrink-0" />
-                  <span className="font-medium">{item.name}</span>
-                </Link>
-              );
-            })}
+          <nav className="flex-1 p-2 space-y-4 overflow-y-auto">
+            {/* Main */}
+            <div>
+              <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-widest text-gray-400">
+                Main
+              </p>
+              <div className="space-y-1">
+                {mainMenuItems.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = pathname === item.href;
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setIsOpen(false)}
+                      className={`
+                        flex items-center gap-3 px-3 py-2.5 rounded-lg
+                        transition-colors duration-200
+                        ${
+                          isActive
+                            ? "bg-blue-600 text-white"
+                            : "text-gray-300 hover:bg-gray-800 hover:text-white"
+                        }
+                      `}
+                    >
+                      <Icon size={20} className="shrink-0" />
+                      <span className="font-medium">{item.name}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Kelola Website */}
+            <div>
+              <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-widest text-gray-400">
+                Kelola Website
+              </p>
+              <div className="space-y-1">
+                {kelolaWebsiteItems.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = pathname?.startsWith(item.href);
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setIsOpen(false)}
+                      className={`
+                        flex items-center gap-3 px-3 py-2.5 rounded-lg
+                        transition-colors duration-200
+                        ${
+                          isActive
+                            ? "bg-blue-600 text-white"
+                            : "text-gray-300 hover:bg-gray-800 hover:text-white"
+                        }
+                      `}
+                    >
+                      <Icon size={20} className="shrink-0" />
+                      <span className="font-medium">{item.name}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
           </nav>
 
           {/* Logout */}

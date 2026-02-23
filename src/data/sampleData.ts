@@ -1,4 +1,4 @@
-import { GraduationCap, Newspaper, TrendingUp, Users } from 'lucide-react';
+
 export interface Member {
   id: number;
   nama: string;
@@ -61,12 +61,23 @@ export const news: NewsItem[] = [
   { id: 4, judul: "Hackathon Ikapema", deskripsi: "Kompetisi programming 24 jam untuk mengembangkan solusi teknologi inovatif. Terbuka untuk semua anggota aktif.", foto: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800", status: "Archived", tanggal: "2025-09-20" },
 ];
 
-export const recentActivities = [
-  { id: 1, action: "Menambahkan anggota baru", user: "Admin", target: "Maya Putri", time: "5 menit lalu" },
-  { id: 2, action: "Memperbarui status", user: "Admin", target: "Toni Wirawan", time: "1 jam lalu" },
-  { id: 3, action: "Mempublikasikan berita", user: "Admin", target: "Workshop UI/UX", time: "2 jam lalu" },
-  { id: 4, action: "Verifikasi alumni", user: "Admin", target: "Fitri Handayani", time: "3 jam lalu" },
-  { id: 5, action: "Menghapus anggota", user: "Admin", target: "User Test", time: "1 hari lalu" },
+export type ActivityType = 'tambah' | 'update' | 'publish' | 'verifikasi' | 'hapus';
+
+export interface Activity {
+  id: number;
+  type: ActivityType;
+  message: string;
+  time: string;
+}
+
+export const recentActivities: Activity[] = [
+  { id: 1, type: 'tambah',     message: 'Anggota Maya Putri berhasil ditambahkan',             time: '5 menit lalu' },
+  { id: 2, type: 'update',     message: 'Anggota Toni Wirawan berhasil diperbarui statusnya',   time: '1 jam lalu' },
+  { id: 3, type: 'publish',    message: 'Berita Workshop UI/UX berhasil dipublikasikan',         time: '2 jam lalu' },
+  { id: 4, type: 'verifikasi', message: 'Alumni Fitri Handayani berhasil diverifikasi',          time: '3 jam lalu' },
+  { id: 5, type: 'hapus',      message: 'Anggota User Test berhasil dihapus',                   time: '1 hari lalu' },
+  { id: 6, type: 'tambah',     message: 'Anggota Rizki Ramadan berhasil ditambahkan',            time: '1 hari lalu' },
+  { id: 7, type: 'update',     message: 'Kontak Asrama Kepri berhasil diperbarui',               time: '2 hari lalu' },
 ];
 
 export const universities = [
@@ -96,36 +107,36 @@ export const dashboardStats = [
     {
       title: 'Total Anggota',
       value: '500',
-      icon: Users,
+      icon: '👥',
       iconBgColor: 'bg-bg-success',
-      valueColor: 'text-success',
+      valueColor: 'border-success',
       iconColor: 'text-success',
       trend: { value: 12, isPositive: true }
   },  
   {
       title: 'Anggota Aktif',
       value: '300',
-      icon: TrendingUp,
+      icon: '📈',
       iconBgColor: 'bg-bg-notice',
-      valueColor: 'text-notice',
+      valueColor: 'border-notice',
       iconColor: 'text-notice',
       trend: { value: 8, isPositive: true }
   },  
   {
       title: 'Total Alumni',
       value: '400',
-      icon: GraduationCap,
+      icon: '🎓',
       iconBgColor: 'bg-bg-warning',
-      valueColor: 'text-warning',
+      valueColor: 'border-warning',
       iconColor: 'text-warning',
       trend: { value: 5, isPositive: true }
   },  
   {
       title: 'Berita Terpublikasi',
       value: '200',
-      icon: Newspaper,
+      icon: '📰',
       iconBgColor: 'bg-bg-info',
-      valueColor: 'text-info',
+      valueColor: 'border-info',
       iconColor: 'text-info',
       trend: { value: 5, isPositive: true }
   },  
@@ -134,3 +145,33 @@ export const dashboardStats = [
 
 ]
 
+export interface KegiatanItem {
+  id: number;
+  title: string;
+  description: string;
+  label: string;
+  photoUrl: string;
+}
+
+export interface AlumniShowcaseItem {
+  id: number;
+  nama: string;
+  tempatBekerja: string;
+  testimoni: string;
+  photoUrl: string;
+}
+
+export const sampleAlumniShowcase: AlumniShowcaseItem[] = [
+  { id: 1, nama: 'Dewi Lestari', tempatBekerja: 'Software Engineer — TechCorp Indonesia', testimoni: 'Pengalaman bersama Ikapema membentuk karakter kepemimpinan dan jaringan pertemanan yang sangat berharga bagi karir saya.', photoUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=DewiLestari' },
+  { id: 2, nama: 'Agus Santoso', tempatBekerja: 'Product Manager — StartupX', testimoni: 'Ikapema mengajarkan saya nilai kerja keras, kerja sama, dan rasa cinta terhadap tanah Kepri meskipun merantau jauh.', photoUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=AgusSantoso' },
+  { id: 3, nama: 'Fitri Handayani', tempatBekerja: 'Data Analyst — Gojek', testimoni: 'Bergabung dengan Ikapema adalah salah satu keputusan terbaik selama kuliah. Banyak program yang benar-benar mempersiapkan kita menghadapi dunia kerja.', photoUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=FitriHandayani' },
+  { id: 4, nama: 'Hendro Wijaya', tempatBekerja: 'DevOps Engineer — Tokopedia', testimoni: 'Rasa kekeluargaan di Ikapema tidak ada duanya. Bahkan setelah lulus, ikatan itu masih terus terasa kuat.', photoUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=HendroWijaya' },
+];
+
+export const sampleKegiatan: KegiatanItem[] = [
+  { id: 1, title: 'Ikapema Goes to Kampung Budaya', description: 'Kegiatan menampilkan budaya khas Kepulauan Riau kepada khalayak umum di Kampung Budaya Malang.', label: 'Departemen Kominfo', photoUrl: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800' },
+  { id: 2, title: 'I-Holiday', description: 'Kegiatan liburan bersama anggota Ikapema untuk mempererat kekeluargaan dan melepas penat perkuliahan.', label: 'Departemen Internal', photoUrl: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=800' },
+  { id: 3, title: 'I-Fest', description: 'Perlombaan futsal antar mahasiswa forum daerah di Malang Raya untuk mendukung gaya hidup sehat.', label: 'Departemen Eksternal', photoUrl: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800' },
+  { id: 4, title: 'Workshop UI/UX Design', description: 'Workshop intensif meningkatkan skill desain antarmuka bagi anggota Ikapema menggunakan Figma.', label: 'Departemen Kominfo', photoUrl: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=800' },
+  { id: 5, title: 'Ikapema Career Fair 2025', description: 'Pameran karir menghadirkan perusahaan teknologi terkemuka untuk rekrutmen alumni dan anggota.', label: 'Departemen Eksternal', photoUrl: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800' },
+];

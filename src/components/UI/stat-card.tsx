@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader } from "./card";
 interface StatCardProps {
   title: string;
   value: string | number;
-  icon: LucideIcon;
+  icon: LucideIcon | string;
   trend?: {
     value: number;
     isPositive: boolean;
@@ -29,14 +29,19 @@ export function StatCard({
   return (
     <Card
       className={cn(
-        "group relative overflow-hidden transition-all duration-300 hover:shadow-lg",
+        "group relative overflow-hidden transition-all duration-300 border-0 border-t-4",
+        valueColor,
         className
       )}
     >
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         {/* Icon dengan background persegi transparan */}
         <div className={cn("rounded-lg p-3 w-fit transition-colors", iconBgColor)}>
-          <Icon className={cn("h-6 w-6", iconColor)} />
+          {typeof Icon === "string" ? (
+            <span className="text-2xl leading-none">{Icon}</span>
+          ) : (
+            <Icon className="h-6 w-6 text-black" />
+          )}
         </div>
         
         {/* Trend indicator */}
@@ -58,7 +63,7 @@ export function StatCard({
       <CardContent>
         {/* Value dan Title */}
         <div className="flex flex-col gap-1">
-          <p className={cn("text-3xl font-bold text-card-foreground", valueColor)}>{value}</p>
+          <p className="text-3xl font-bold text-black">{value}</p>
           <p className="text-sm font-medium text-muted-foreground">{title}</p>
         </div>
       </CardContent>

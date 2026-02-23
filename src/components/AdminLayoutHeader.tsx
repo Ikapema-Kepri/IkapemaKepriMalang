@@ -11,9 +11,12 @@ const AdminLayoutHeader: React.FC = () => {
   // Get page title based on pathname
   const getPageTitle = () => {
     if (pathname === "/adminaccess") return "Dashboard";
+    if (pathname?.startsWith("/adminaccess/dashboard")) return "Dashboard";
+    if (pathname?.startsWith("/adminaccess/beranda")) return "Kelola Beranda";
     if (pathname?.startsWith("/adminaccess/anggota")) return "Manajemen Anggota";
     if (pathname?.startsWith("/adminaccess/alumni")) return "Manajemen Alumni";
     if (pathname?.startsWith("/adminaccess/berita-kegiatan")) return "Berita Kegiatan";
+    if (pathname?.startsWith("/adminaccess/kontak")) return "Manajemen Kontak";
     if (pathname?.startsWith("/adminaccess/settings")) return "Settings";
     return "Admin Panel";
   };
@@ -21,9 +24,12 @@ const AdminLayoutHeader: React.FC = () => {
   // Get current route name for breadcrumb
   const getCurrentRoute = () => {
     if (pathname === "/adminaccess") return "Dashboard";
+    if (pathname?.startsWith("/adminaccess/dashboard")) return "Dashboard";
+    if (pathname?.startsWith("/adminaccess/beranda")) return "Beranda";
     if (pathname?.startsWith("/adminaccess/anggota")) return "Anggota";
     if (pathname?.startsWith("/adminaccess/alumni")) return "Alumni";
     if (pathname?.startsWith("/adminaccess/berita-kegiatan")) return "Berita Kegiatan";
+    if (pathname?.startsWith("/adminaccess/kontak")) return "Kontak";
     if (pathname?.startsWith("/adminaccess/settings")) return "Settings";
     return "Admin";
   };

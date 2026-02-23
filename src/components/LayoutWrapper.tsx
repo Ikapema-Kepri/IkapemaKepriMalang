@@ -17,7 +17,7 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { collapsed } = useSidebar();
   
   return (
-    <div className="flex h-screen overflow-hidden bg-[#E5FAFF]">
+    <div className="flex h-screen overflow-hidden bg-[#F7F5F0]">
       {/* Sidebar - Fixed di kiri */}
       <AppSidebar />
       
