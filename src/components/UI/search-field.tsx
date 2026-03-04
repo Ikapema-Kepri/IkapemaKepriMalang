@@ -29,7 +29,6 @@ const SearchField: React.FC<SearchFieldProps> = ({
             placeholder={placeholder}
             value={value}
             onChange={onChange}
-            icon={<Search size={size === 'sm' ? 16 : size === 'lg' ? 20 : 18} />}
             className={`${sizeClasses[size]} ${className}`}
         />
     );

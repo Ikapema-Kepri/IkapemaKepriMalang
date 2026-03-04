@@ -26,6 +26,25 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // Proteksi route adminaccess
+  const isAdminRoute = pathname.startsWith('/adminaccess');
+  const isLoginPage = pathname.startsWith('/adminaccess/login');
+  const isAuthenticated = request.cookies.get('admin_auth')?.value === '1';
+
+  // Jika akses admin route (kecuali login) tanpa autentikasi, redirect ke login
+  if (isAdminRoute && !isLoginPage && !isAuthenticated) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/adminaccess/login';
+    return NextResponse.redirect(url);
+  }
+
+  // Jika sudah login dan mencoba akses halaman login, redirect ke dashboard
+  if (isLoginPage && isAuthenticated) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/adminaccess/dashboard';
+    return NextResponse.redirect(url);
+  }
+
   return NextResponse.next();
 }
 

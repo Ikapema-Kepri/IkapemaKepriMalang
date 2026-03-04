@@ -5,10 +5,12 @@ import { ActivitiesTable } from '@/components/UI/activities-table';
 import { MemberComposition } from '@/components/UI/member-composition';
 import { ContentStatus } from '@/components/UI/content-status';
 import { dashboardStats } from "@/data/sampleData";
+import ProtectedRoute from '@/components/UI/protected-route';
 
 const DashboardPage: React.FC = () => {
     return (
-        <div className="space-y-6 animate-fade-in">
+        <ProtectedRoute>
+            <div className="space-y-6 animate-fade-in">
             {/* Stat Cards */}
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 {dashboardStats.map((stat, index) => (
@@ -35,7 +37,9 @@ const DashboardPage: React.FC = () => {
                     <ContentStatus />
                 </div>
             </div>
-        </div>
+
+            </div> 
+        </ProtectedRoute>
     );
 };
 

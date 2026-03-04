@@ -87,6 +87,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         rememberMe,
       };
       localStorage.setItem('auth_session', JSON.stringify(sessionData));
+
+      // Set cookie agar middleware dapat mendeteksi status login
+      const maxAge = rememberMe ? 60 * 60 * 24 * 7 : undefined; // 7 hari jika rememberMe
+      document.cookie = `admin_auth=1; path=/; SameSite=Lax${
+        maxAge ? `; Max-Age=${maxAge}` : ''
+      }`;
       
     } catch (error) {
       // Clean up on error
@@ -102,6 +108,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Clear all session data
       localStorage.removeItem('auth_session');
       localStorage.removeItem('auth_remember_me');
+      // Hapus cookie auth
+      document.cookie = 'admin_auth=; path=/; Max-Age=0';
     } catch (error) {
       console.error('Error signing out:', error);
       throw error;

@@ -2,16 +2,16 @@
 import Image from "next/image";
 import { Card } from "@/components/UI/card";
 import { Table, TableHeader, TableBody, TableRow, TableHead } from "@/components/UI/table";
-import { useAnggota } from "@/hooks/useAnggota";
+import { useAlumni } from "@/hooks/useAlumni";
 import { Search } from "lucide-react";
 import React from "react";
 
-interface ListAnggotaProps {
+interface ListAlumniProps {
   searchQuery?: string;
   onSearchChange?: (query: string) => void;
 }
 
-const ListAnggota: React.FC<ListAnggotaProps> = ({ searchQuery = '', onSearchChange }) => {
+const ListAlumni: React.FC<ListAlumniProps> = ({ searchQuery = '', onSearchChange }) => {
     const {
         currentMembers,
         loading,
@@ -35,7 +35,7 @@ const ListAnggota: React.FC<ListAnggotaProps> = ({ searchQuery = '', onSearchCha
         getPageNumbers,
         handleSearch,
         setEditData,
-    } = useAnggota({ initialSearch: searchQuery });
+    } = useAlumni({ initialSearch: searchQuery });
 
     // Sync external search with internal state
     React.useEffect(() => {
@@ -44,9 +44,9 @@ const ListAnggota: React.FC<ListAnggotaProps> = ({ searchQuery = '', onSearchCha
         }
     }, [searchQuery, onSearchChange, handleSearch]);
 
-    if (loading && !currentMembers.length) return <p className="text-center py-8">Memuat anggota...</p>;
+    if (loading && !currentMembers.length) return <p className="text-center py-8">Memuat alumni...</p>;
     if (error) return <p className="text-center py-8 text-red-500">Error: {error}</p>;
-    if (currentMembers.length === 0 && !debouncedSearch) return <p className="text-center py-8">Belum ada anggota.</p>;
+    if (currentMembers.length === 0 && !debouncedSearch) return <p className="text-center py-8">Belum ada alumni.</p>;
     
     if (currentMembers.length === 0 && debouncedSearch) {
         return (
@@ -55,7 +55,7 @@ const ListAnggota: React.FC<ListAnggotaProps> = ({ searchQuery = '', onSearchCha
                     <Search className="mx-auto h-12 w-12 text-gray-400" />
                     <h3 className="mt-2 text-sm font-semibold text-gray-900">Tidak ada hasil</h3>
                     <p className="mt-1 text-sm text-gray-500">
-                        Tidak ditemukan anggota dengan kata kunci &quot;{debouncedSearch}&quot;
+                        Tidak ditemukan alumni dengan kata kunci &quot;{debouncedSearch}&quot;
                     </p>
                 </div>
             </Card>
@@ -137,7 +137,7 @@ const ListAnggota: React.FC<ListAnggotaProps> = ({ searchQuery = '', onSearchCha
                                                         value={editData.namaAnggota || ''}
                                                         onChange={handleEditChange}
                                                         className="w-full px-2 py-1 border rounded text-sm"
-                                                        placeholder="Nama Anggota"
+                                                        placeholder="Nama Alumni"
                                                         required
                                                     />
                                                 </form>
@@ -266,8 +266,8 @@ const ListAnggota: React.FC<ListAnggotaProps> = ({ searchQuery = '', onSearchCha
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
                                                     member.isActive !== false
-                                                        ? 'bg-green-100 text-green-800'
-                                                        : 'bg-red-100 text-red-800'
+                                                    ? 'bg-green-100 text-green-800'
+                                                    : 'bg-red-100 text-red-800'
                                                 }`}>
                                                     {member.isActive !== false ? 'Aktif' : 'Alumni'}
                                                 </span>
@@ -387,4 +387,4 @@ const ListAnggota: React.FC<ListAnggotaProps> = ({ searchQuery = '', onSearchCha
     );
 };
 
-export default ListAnggota;
+export default ListAlumni;

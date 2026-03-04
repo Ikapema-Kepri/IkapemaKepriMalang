@@ -2,12 +2,12 @@ import { useState, useCallback, useEffect } from 'react';
 import useSWR from 'swr';
 import { Anggota, ApiResponse, PaginationInfo } from '@/types';
 
-interface AnggotaResponse {
+interface AlumniResponse {
   members: Anggota[];
   pagination: PaginationInfo;
 }
 
-const fetcher = async (url: string): Promise<AnggotaResponse> => {
+const fetcher = async (url: string): Promise<AlumniResponse> => {
   const response = await fetch(url);
   if (!response.ok) {
     const errorData: ApiResponse = await response.json();
@@ -37,12 +37,12 @@ const swrConfig = {
   keepPreviousData: true,
 };
 
-interface UseAnggotaProps {
+interface UseAlumniProps {
   initialSearch?: string;
   itemsPerPage?: number;
 }
 
-export const useAnggota = ({ initialSearch = '', itemsPerPage = 20 }: UseAnggotaProps = {}) => {
+export const useAlumni = ({ initialSearch = '', itemsPerPage = 20 }: UseAlumniProps = {}) => {
   const [editId, setEditId] = useState<string | null>(null);
   const [editData, setEditData] = useState<Partial<Anggota>>({});
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
@@ -75,10 +75,10 @@ export const useAnggota = ({ initialSearch = '', itemsPerPage = 20 }: UseAnggota
       params.append('search', debouncedSearch.trim());
     }
     
-    return `/api/anggota?${params.toString()}`;
+    return `/api/alumni?${params.toString()}`;
   }, [currentPage, itemsPerPage, debouncedSearch]);
 
-  const { data, error, isLoading, isValidating, mutate } = useSWR<AnggotaResponse>(
+  const { data, error, isLoading, isValidating, mutate } = useSWR<AlumniResponse>(
     buildApiUrl(),
     fetcher,
     swrConfig
@@ -103,12 +103,12 @@ export const useAnggota = ({ initialSearch = '', itemsPerPage = 20 }: UseAnggota
   }, [mutate]);
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Yakin ingin menghapus anggota ini?')) return;
+    if (!confirm('Yakin ingin menghapus alumni ini?')) return;
     try {
       const response = await fetch(`/api/anggota/${id}`, { method: 'DELETE' });
       if (!response.ok) {
         const errorData: ApiResponse = await response.json();
-        throw new Error(errorData.message || 'Gagal menghapus anggota.');
+        throw new Error(errorData.message || 'Gagal menghapus alumni.');
       }
       if (data) {
         await mutate(
@@ -129,7 +129,7 @@ export const useAnggota = ({ initialSearch = '', itemsPerPage = 20 }: UseAnggota
         setCurrentPage(currentPage - 1);
       }
     } catch (e: unknown) {
-      alert(e instanceof Error ? e.message : 'Gagal menghapus anggota.');
+      alert(e instanceof Error ? e.message : 'Gagal menghapus alumni.');
       await mutate();
     }
   };
@@ -142,7 +142,7 @@ export const useAnggota = ({ initialSearch = '', itemsPerPage = 20 }: UseAnggota
       programStudi: member.programStudi,
       angkatan: member.angkatan,
       photoURL: member.photoURL || '',
-      isActive: member.isActive ?? true,
+      isActive: member.isActive ?? false,
     });
   };
 
@@ -164,14 +164,14 @@ export const useAnggota = ({ initialSearch = '', itemsPerPage = 20 }: UseAnggota
         body: JSON.stringify(payload),
       });
       const data: ApiResponse = await response.json();
-      if (!response.ok) throw new Error(data.message || 'Gagal mengedit anggota.');
+      if (!response.ok) throw new Error(data.message || 'Gagal mengedit alumni.');
       
       setEditId(null);
       setEditData({});
       
       await mutate();
     } catch (e: unknown) {
-      alert(e instanceof Error ? e.message : 'Gagal mengedit anggota.');
+      alert(e instanceof Error ? e.message : 'Gagal mengedit alumni.');
     }
   };
 

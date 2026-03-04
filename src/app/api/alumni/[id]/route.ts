@@ -9,10 +9,10 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
       return NextResponse.json({ message: 'ID tidak ditemukan.' }, { status: 400 });
     }
     await deleteDoc(doc(db, 'anggota', id));
-    return NextResponse.json({ message: 'Anggota berhasil dihapus.' }, { status: 200 });
+    return NextResponse.json({ message: 'Alumni berhasil dihapus.' }, { status: 200 });
   } catch (error: unknown) {
     return NextResponse.json(
-      { message: 'Gagal menghapus anggota.', error: error instanceof Error ? error.message : String(error) },
+      { message: 'Gagal menghapus alumni.', error: error instanceof Error ? error.message : String(error) },
       { status: 500 }
     );
   }
@@ -29,10 +29,10 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     }
 
     await updateDoc(doc(db, 'anggota', id), body);
-    return NextResponse.json({ message: 'Anggota berhasil diupdate.' }, { status: 200 });
+    return NextResponse.json({ message: 'Alumni berhasil diupdate.' }, { status: 200 });
   } catch (error: unknown) {
     return NextResponse.json(
-      { message: 'Gagal mengupdate anggota.', error: error instanceof Error ? error.message : String(error) },
+      { message: 'Gagal mengupdate alumni.', error: error instanceof Error ? error.message : String(error) },
       { status: 500 }
     );
   }

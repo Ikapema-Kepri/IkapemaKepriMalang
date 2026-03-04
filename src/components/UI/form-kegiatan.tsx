@@ -83,7 +83,6 @@ export function FormKegiatan() {
   return (
     <>
       <div className="rounded-lg border border-border bg-card shadow-sm">
-        {/* Header */}
         <div className="px-4 py-4 border-b border-border flex items-center justify-between">
           <div>
             <h2 className="text-lg font-semibold text-foreground">Kelola Kegiatan</h2>
@@ -134,7 +133,7 @@ export function FormKegiatan() {
                   <button
                     type="button"
                     onClick={openAdd}
-                    className="flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed border-border hover:border-[#00CCFF] hover:text-[#00CCFF] text-muted-foreground transition-colors aspect-[4/3] min-h-[200px]"
+                    className="flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed border-border hover:border-[#00CCFF] hover:text-[#00CCFF] text-muted-foreground transition-colors aspect-4/3 min-h-[200px]"
                   >
                     <Plus size={28} />
                     <span className="text-sm font-medium">Tambah Kegiatan</span>
@@ -155,7 +154,6 @@ export function FormKegiatan() {
 
           {/* Dialog */}
           <div className="relative z-10 w-full max-w-lg mx-4 rounded-xl bg-card border border-border shadow-xl">
-            {/* Modal Header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-border">
               <h3 className="text-base font-semibold text-foreground">
                 {modal.mode === "add" ? "Tambah Kegiatan" : "Edit Kegiatan"}

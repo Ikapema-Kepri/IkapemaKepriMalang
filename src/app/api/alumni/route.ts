@@ -10,11 +10,11 @@ const handlers = {
   async POST(req: NextRequest) {
     try {
       const body = await req.json();
-      const { namaAnggota, universitas, programStudi, angkatan, isActive, photoURL } = body;
+      const { namaAnggota, universitas, programStudi, angkatan, photoURL } = body;
 
       if (!namaAnggota || !universitas || !programStudi) {
         return NextResponse.json(
-          { message: 'Nama Anggota, Universitas, dan Program Studi wajib diisi.' },
+          { message: 'Nama Alumni, Universitas, dan Program Studi wajib diisi.' },
           { status: 400 }
         );
       }
@@ -34,18 +34,18 @@ const handlers = {
         programStudi,
         angkatan: angkatan || '',
         photoURL: photoURL || null,
-        isActive: isActive !== undefined ? Boolean(isActive) : true,
+        isActive: false, // Alumni selalu isActive = false
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       });
 
       return NextResponse.json(
-        { message: 'Anggota berhasil ditambahkan!', id: docRef.id, anggotaId: nextId },
+        { message: 'Alumni berhasil ditambahkan!', id: docRef.id, alumniId: nextId },
         { status: 201 }
       );
     } catch (error: unknown) {
       return NextResponse.json(
-        { message: 'Gagal menambahkan anggota.', error: error instanceof Error ? error.message : String(error) },
+        { message: 'Gagal menambahkan alumni.', error: error instanceof Error ? error.message : String(error) },
         { status: 500 }
       );
     }
@@ -62,7 +62,7 @@ const handlers = {
       const validSortBy = validSortFields.includes(sortBy as typeof validSortFields[number]) ? sortBy : 'createdAt';
       const validOrder = (order === 'asc' || order === 'desc') ? order : 'desc';
 
-      // Fetch all data using firestore service (will be optimized with cursor-based pagination later)
+      // Fetch all data using firestore service
       const { data: anggotaList } = await fetchPaginatedData<Anggota>(
         'anggota',
         { 
@@ -72,11 +72,10 @@ const handlers = {
         }
       );
 
-      // Filter only active members (isActive === true, handles both boolean and legacy string values)
-      let filteredList = anggotaList.filter(a => a.isActive === true || (a.isActive as unknown) === 'true');
+      // Filter only alumni (isActive === false or string 'false' for legacy data)
+      let filteredList = anggotaList.filter(a => a.isActive === false || (a.isActive as unknown) === 'false');
 
       // Filter by search query (nama, universitas, programStudi)
-      // Note: For better performance, consider using Algolia or Typesense for full-text search
       if (search && search.trim() !== "") {
         const q = search.trim().toLowerCase();
         filteredList = filteredList.filter(
@@ -104,7 +103,7 @@ const handlers = {
 
       // Add caching headers for better performance
       const response = NextResponse.json({
-        message: 'Daftar anggota berhasil diambil.',
+        message: 'Daftar alumni berhasil diambil.',
         data: paginatedData,
         pagination,
         timestamp: new Date().toISOString()
@@ -115,9 +114,9 @@ const handlers = {
       
       return response;
     } catch (error: unknown) {
-      console.error('Error fetching anggota:', error);
+      console.error('Error fetching alumni:', error);
       return NextResponse.json(
-        { message: 'Gagal mengambil data anggota.', error: error instanceof Error ? error.message : String(error) },
+        { message: 'Gagal mengambil data alumni.', error: error instanceof Error ? error.message : String(error) },
         { status: 500 }
       );
     }

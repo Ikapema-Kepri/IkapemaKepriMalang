@@ -153,6 +153,16 @@ export interface KegiatanItem {
   photoUrl: string;
 }
 
+export interface BeritaKegiatanItem {
+  id: number;
+  title: string;
+  description: string;
+  label: string;
+  date: string;
+  photoUrl: string;
+  status: 'Published' | 'Draft';
+}
+
 export interface AlumniShowcaseItem {
   id: number;
   nama: string;
@@ -174,4 +184,12 @@ export const sampleKegiatan: KegiatanItem[] = [
   { id: 3, title: 'I-Fest', description: 'Perlombaan futsal antar mahasiswa forum daerah di Malang Raya untuk mendukung gaya hidup sehat.', label: 'Departemen Eksternal', photoUrl: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800' },
   { id: 4, title: 'Workshop UI/UX Design', description: 'Workshop intensif meningkatkan skill desain antarmuka bagi anggota Ikapema menggunakan Figma.', label: 'Departemen Kominfo', photoUrl: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=800' },
   { id: 5, title: 'Ikapema Career Fair 2025', description: 'Pameran karir menghadirkan perusahaan teknologi terkemuka untuk rekrutmen alumni dan anggota.', label: 'Departemen Eksternal', photoUrl: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800' },
+];
+
+export const sampleBeritaKegiatan: BeritaKegiatanItem[] = [
+  { id: 1, title: 'Ikapema Goes to Kampung Budaya', description: 'Kegiatan menampilkan budaya khas Kepulauan Riau kepada khalayak umum di Kampung Budaya Malang.', label: 'Departemen Kominfo', date: '2025-11-10', photoUrl: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800', status: 'Published' },
+  { id: 2, title: 'I-Holiday', description: 'Kegiatan liburan bersama anggota Ikapema untuk mempererat kekeluargaan dan melepas penat perkuliahan.', label: 'Departemen Internal', date: '2025-12-01', photoUrl: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=800', status: 'Draft' },
+  { id: 3, title: 'I-Fest', description: 'Perlombaan futsal antar mahasiswa forum daerah di Malang Raya untuk mendukung gaya hidup sehat.', label: 'Departemen Eksternal', date: '2025-10-15', photoUrl: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800', status: 'Published' },
+  { id: 4, title: 'Workshop UI/UX Design', description: 'Workshop intensif meningkatkan skill desain antarmuka bagi anggota Ikapema menggunakan Figma.', label: 'Departemen Kominfo', date: '2025-12-01', photoUrl: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=800', status: 'Draft' },
+  { id: 5, title: 'Ikapema Career Fair 2025', description: 'Pameran karir menghadirkan perusahaan teknologi terkemuka untuk rekrutmen alumni dan anggota.', label: 'Departemen Eksternal', date: '2025-10-15', photoUrl: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800', status: 'Published' },
 ];
