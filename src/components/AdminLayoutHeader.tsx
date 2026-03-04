@@ -52,7 +52,7 @@ const AdminLayoutHeader: React.FC = () => {
             <span className="text-[#00CCFF]">{getCurrentRoute()}</span>
           </div>
           {/* Page Title */}
-          <h1 className="text-2xl font-semibold text-gray-800">
+          <h1 className="text-xl md:text-2xl font-semibold text-gray-800">
             {getPageTitle()}
           </h1>
         </div>

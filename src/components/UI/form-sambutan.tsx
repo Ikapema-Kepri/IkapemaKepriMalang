@@ -30,7 +30,7 @@ export function FormSambutan() {
         </div>
         <button
           type="button"
-          className="px-4 py-2 text-sm font-medium rounded-sm bg-[#00CCFF] text-white hover:bg-[#00b3e0] transition-colors"
+          className="px-4 py-2 text-[clamp(12px,2vw,16px)] font-medium rounded-sm bg-[#00CCFF] text-white hover:bg-[#00b3e0] transition-colors"
         >
           Simpan Perubahan
         </button>
@@ -41,7 +41,7 @@ export function FormSambutan() {
         <TableBody>
           <TableRow className="hover:bg-transparent">
             <TableCell className="align-top py-6">
-              <div className="grid grid-cols-5 gap-8">
+              <div className="flex md:grid flex-col md:grid-cols-5 gap-8">
 
                 {/* Grid 1 — Upload Foto Ketua Umum (persegi) */}
                 <div className="col-span-1 flex flex-col gap-2">

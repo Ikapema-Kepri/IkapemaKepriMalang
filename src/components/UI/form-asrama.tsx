@@ -33,7 +33,7 @@ function AsramaForm({ label }: AsramaFormProps) {
         </div>
         <button
           type="button"
-          className="px-4 py-2 text-sm font-medium rounded-sm bg-[#00CCFF] text-white hover:bg-[#00b3e0] transition-colors"
+          className="px-4 py-2 text-[clamp(12px,2vw,16px)] font-medium rounded-sm bg-[#00CCFF] text-white hover:bg-[#00b3e0] transition-colors"
         >
           Simpan Perubahan
         </button>
@@ -120,7 +120,7 @@ function AsramaForm({ label }: AsramaFormProps) {
 
 export function FormAsrama() {
   return (
-    <div className="grid grid-cols-2 gap-6">
+    <div className="flex flex-col md:grid md:grid-cols-2 gap-6">
       <AsramaForm label="Asrama Putra" />
       <AsramaForm label="Asrama Putri" />
     </div>

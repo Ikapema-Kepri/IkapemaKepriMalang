@@ -29,7 +29,7 @@ export function FormHero() {
         </div>
         <button
           type="button"
-          className="px-4 py-2 text-sm font-medium rounded-sm bg-[#00CCFF] text-white hover:bg-[#00b3e0] transition-colors"
+          className="px-4 py-2 text-[clamp(12px,2vw,16px)] font-medium rounded-sm bg-[#00CCFF] text-white hover:bg-[#00b3e0] transition-colors"
         >
           Simpan Perubahan
         </button>
@@ -40,7 +40,7 @@ export function FormHero() {
         <TableBody>
           <TableRow className="hover:bg-transparent">
             <TableCell className="align-top py-6">
-              <div className="grid grid-cols-5 gap-8">
+              <div className="flex flex-col md:grid md:grid-cols-5 gap-8">
 
                 {/* Upload Gambar — 3 kolom */}
                 <div className="col-span-3 flex flex-col gap-2">

@@ -38,17 +38,17 @@ const KegiatanCard = memo(function KegiatanCard({ item, onEdit, onDelete }: Kegi
         <img src={item.photoUrl} alt={item.title} className="w-full h-full object-cover" />
       </div>
       <div className="flex flex-col gap-1.5 p-3 flex-1">
-        <span className="inline-block self-start rounded-full bg-[#00CCFF]/10 text-[#00CCFF] text-xs font-medium px-2.5 py-0.5">
+        <span className="inline-block self-start rounded-full bg-[#00CCFF]/10 text-[#00CCFF] text-[10px] md:text-xs font-medium px-2.5 py-0.5">
           {item.label}
         </span>
-        <p className="text-sm font-semibold text-foreground leading-snug line-clamp-2">{item.title}</p>
-        <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3">{item.description}</p>
+        <p className="text-xs md:text-sm font-semibold text-foreground leading-snug line-clamp-2">{item.title}</p>
+        <p className="text-[10px] md:text-xs text-muted-foreground leading-relaxed line-clamp-3">{item.description}</p>
       </div>
       <div className="flex border-t border-border">
         <button
           type="button"
           onClick={() => onEdit(item)}
-          className="flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-medium text-blue-600 hover:bg-blue-50 transition-colors"
+          className="flex-1 flex items-center justify-center gap-1.5 py-2 text-[10px] md:text-xs font-medium text-blue-600 hover:bg-blue-50 transition-colors"
         >
           <Pencil size={13} /> Edit
         </button>
@@ -56,7 +56,7 @@ const KegiatanCard = memo(function KegiatanCard({ item, onEdit, onDelete }: Kegi
         <button
           type="button"
           onClick={() => onDelete(item.id)}
-          className="flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-medium text-red-500 hover:bg-red-50 transition-colors"
+          className="flex-1 flex items-center justify-center gap-1.5 py-2 text-[10px] md:text-xs font-medium text-red-500 hover:bg-red-50 transition-colors"
         >
           <Trash2 size={13} /> Hapus
         </button>
@@ -157,17 +157,17 @@ export function FormKegiatan() {
           <TableBody>
             <TableRow className="hover:bg-transparent">
               <TableCell className="py-6">
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   {items.map((item) => (
                     <KegiatanCard key={item.id} item={item} onEdit={openEdit} onDelete={handleDelete} />
                   ))}
                   <button
                     type="button"
                     onClick={openAdd}
-                    className="flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed border-border hover:border-[#00CCFF] hover:text-[#00CCFF] text-muted-foreground transition-colors aspect-4/3 min-h-[200px]"
+                    className="flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed border-border hover:border-[#00CCFF] hover:text-[#00CCFF] text-muted-foreground transition-colors min-h-[250px]"
                   >
                     <Plus size={28} />
-                    <span className="text-sm font-medium">Tambah Kegiatan</span>
+                    <span className="text-xs md:text-sm font-medium">Tambah Kegiatan</span>
                   </button>
                 </div>
               </TableCell>

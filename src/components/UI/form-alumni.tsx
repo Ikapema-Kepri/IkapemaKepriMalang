@@ -34,20 +34,20 @@ interface AlumniCardProps {
 const AlumniCard = memo(function AlumniCard({ item, onEdit, onDelete }: AlumniCardProps) {
   return (
     <div className="flex flex-col rounded-lg border border-border bg-card overflow-hidden shadow-sm">
-      <div className="grid grid-cols-3 flex-1">
+      <div className="flex flex-col md:grid md:grid-cols-3 flex-1">
         <div className="relative aspect-square overflow-hidden bg-muted">
           <img src={item.photoUrl} alt={item.nama} className="w-full h-full object-cover" />
         </div>
         <div className="col-span-2 flex flex-col justify-center gap-2 px-4 py-3">
           <div className="flex items-center gap-1.5">
             <User size={13} className="text-[#00CCFF] shrink-0" />
-            <p className="text-sm font-semibold text-foreground leading-snug line-clamp-1">{item.nama}</p>
+            <p className="text-xs md:text-sm font-semibold text-foreground leading-snug line-clamp-1">{item.nama}</p>
           </div>
           <div className="flex items-start gap-1.5">
             <Briefcase size={13} className="text-muted-foreground shrink-0 mt-0.5" />
-            <p className="text-xs text-muted-foreground leading-snug line-clamp-2">{item.tempatBekerja}</p>
+            <p className="text-[10px] md:text-xs text-muted-foreground leading-snug line-clamp-2">{item.tempatBekerja}</p>
           </div>
-          <p className="text-xs text-foreground/70 italic leading-relaxed line-clamp-3 border-l-2 border-[#00CCFF]/40 pl-2.5">
+          <p className="text-[10px] md:text-xs text-foreground/70 italic leading-relaxed line-clamp-3 border-l-2 border-[#00CCFF]/40 pl-2.5">
             &ldquo;{item.testimoni}&rdquo;
           </p>
         </div>
@@ -56,7 +56,7 @@ const AlumniCard = memo(function AlumniCard({ item, onEdit, onDelete }: AlumniCa
         <button
           type="button"
           onClick={() => onEdit(item)}
-          className="flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-medium text-blue-600 hover:bg-blue-50 transition-colors"
+          className="flex-1 flex items-center justify-center gap-1.5 py-2 text-[10px] md:text-xs font-medium text-blue-600 hover:bg-blue-50 transition-colors"
         >
           <Pencil size={13} /> Edit
         </button>
@@ -64,7 +64,7 @@ const AlumniCard = memo(function AlumniCard({ item, onEdit, onDelete }: AlumniCa
         <button
           type="button"
           onClick={() => onDelete(item.id)}
-          className="flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-medium text-red-500 hover:bg-red-50 transition-colors"
+          className="flex-1 flex items-center justify-center gap-1.5 py-2 text-[10px] md:text-xs font-medium text-red-500 hover:bg-red-50 transition-colors"
         >
           <Trash2 size={13} /> Hapus
         </button>
@@ -174,10 +174,10 @@ export function FormAlumni() {
                   <button
                     type="button"
                     onClick={openAdd}
-                    className="flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed border-border hover:border-[#00CCFF] hover:text-[#00CCFF] text-muted-foreground transition-colors min-h-[120px]"
+                    className="flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed border-border hover:border-[#00CCFF] hover:text-[#00CCFF] text-muted-foreground transition-colors min-h-[250px]"
                   >
                     <Plus size={28} />
-                    <span className="text-sm font-medium">Tambah Alumni</span>
+                    <span className="text-xs md:text-sm font-medium">Tambah Alumni</span>
                   </button>
                 </div>
               </TableCell>
