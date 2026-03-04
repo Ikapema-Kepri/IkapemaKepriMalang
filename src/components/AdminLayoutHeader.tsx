@@ -35,7 +35,7 @@ const AdminLayoutHeader: React.FC = () => {
   };
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200">
+    <header className="mt-14 lg:mt-0 bg-white shadow-sm border-b border-gray-200">
       <div className="px-6 py-4 flex items-center gap-4">
         <button
           onClick={toggleCollapsed}

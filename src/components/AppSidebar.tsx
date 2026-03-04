@@ -9,7 +9,6 @@ import {
   GraduationCap,
   Newspaper,
   LogOut,
-  Menu,
   Home,
   Phone,
 } from "lucide-react";
@@ -38,11 +37,7 @@ const KELOLA_WEBSITE_ITEMS: MenuItem[] = [
   { name: "Kontak",          href: "/adminaccess/kontak",          icon: Phone },
 ];
 
-// â”€â”€â”€ SWR fetcher â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
-
-// â”€â”€â”€ Lazy-loaded sub-components â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const MobileSidebar = dynamic(() => import("./MobileSidebar"), {
   ssr: false,
@@ -53,8 +48,6 @@ const LogoutDialog = dynamic(() => import("./LogoutDialog"), {
   ssr: false,
   loading: () => null,
 });
-
-// â”€â”€â”€ NavLink (memoized) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 import { memo } from "react";
 
@@ -84,8 +77,6 @@ const NavLink = memo(function NavLink({ item, isActive, collapsed, onClick }: Na
     </Link>
   );
 });
-
-// â”€â”€â”€ AppSidebar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const AppSidebar: React.FC = () => {
   const pathname = usePathname();
@@ -132,13 +123,53 @@ const AppSidebar: React.FC = () => {
 
   return (
     <>
-      {/* Mobile menu button */}
-      <button
-        onClick={() => setIsOpen((o) => !o)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-white shadow-md"
-      >
-        <Menu size={24} />
-      </button>
+      {/* ── Mobile Top Navbar ──────────────────────────────────────── */}
+      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-[#002933] border-b border-[#005266] shadow-md flex items-center justify-between px-4">
+        {/* Animated hamburger button */}
+        <button
+          type="button"
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+          onClick={isOpen ? closeMobile : openMobile}
+          className="flex flex-col justify-center items-center w-9 h-9 rounded-lg hover:bg-[#005266]/60 transition-colors gap-[5px] shrink-0"
+        >
+          <span
+            className={`block h-0.5 w-5 bg-white rounded-full transition-all duration-300 origin-center ${
+              isOpen ? "rotate-45 translate-y-1.75" : ""
+            }`}
+          />
+          <span
+            className={`block h-0.5 bg-white rounded-full transition-all duration-300 ${
+              isOpen ? "w-0 opacity-0" : "w-5"
+            }`}
+          />
+          <span
+            className={`block h-0.5 w-5 bg-white rounded-full transition-all duration-300 origin-center ${
+              isOpen ? "-rotate-45 -translate-y-1.75" : ""
+            }`}
+          />
+        </button>
+
+        {/* Brand */}
+        <div className="flex items-center gap-2">
+          <Image src="/LogoIkapema.webp" alt="Ikapema" width={28} height={28} className="rounded-md" />
+          <span className="text-white font-semibold text-sm tracking-wide">Ikapema Kepri—Malang</span>
+        </div>
+
+        {/* Admin avatar */}
+        <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-[#00CCFF]/40 shrink-0">
+          {adminProfile?.photoURL ? (
+            <img
+              src={adminProfile.photoURL}
+              alt="Avatar"
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full bg-[#005266] flex items-center justify-center text-[#00CCFF] text-sm font-bold select-none">
+              {(adminProfile?.displayName ?? "A")[0].toUpperCase()}
+            </div>
+          )}
+        </div>
+      </header>
 
       {/* Desktop Sidebar */}
       <aside
@@ -229,7 +260,7 @@ const AppSidebar: React.FC = () => {
         </div>
       </aside>
 
-      {/* Mobile Sidebar â€” lazy loaded */}
+      {/* Mobile Sidebar — lazy loaded */}
       <MobileSidebar
         isOpen={isOpen}
         onClose={closeMobile}
@@ -237,15 +268,18 @@ const AppSidebar: React.FC = () => {
         mainMenuItems={mainMenuWithActive}
         kelolaWebsiteItems={kelolaMenuWithActive}
         onLogout={handleLogout}
+        displayName={adminProfile?.displayName ?? undefined}
+        photoURL={adminProfile?.photoURL ?? null}
       />
 
-      {/* Overlay for mobile */}
-      {isOpen && (
-        <div
-          onClick={closeMobile}
-          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
-        />
-      )}
+      {/* Overlay for mobile — smooth fade */}
+      <div
+        aria-hidden="true"
+        onClick={closeMobile}
+        className={`lg:hidden fixed inset-0 bg-black/50 z-30 transition-opacity duration-300 ${
+          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+      />
 
       {/* Logout Dialog â€” lazy loaded */}
       {showLogoutDialog && (
