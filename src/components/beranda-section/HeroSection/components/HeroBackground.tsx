@@ -1,5 +1,29 @@
-import React, { memo } from "react";
+import React, { memo, useState, useEffect } from "react";
 import Image from "next/image";
+
+const FALLBACK_IMAGE = "/Hero.png";
+
+const CLIP_PATH_ID = "hero-shape-clip";
+const SCALE_X = 1 / 1920;
+const SCALE_Y = 1 / 968; 
+
+const HeroClipDefs = memo(() => (
+  <svg
+    aria-hidden="true"
+    focusable="false"
+    style={{ position: "absolute", width: 0, height: 0, overflow: "hidden" }}
+  >
+    <defs>
+      <clipPath id={CLIP_PATH_ID} clipPathUnits="objectBoundingBox">
+        <path
+          transform={`scale(${SCALE_X} ${SCALE_Y})`}
+          d="M1920 0H-5.72205e-05V605.343L225.015 713.692C242.619 722.168 257.354 735.616 267.4 752.373L367.542 919.418C385.61 949.556 418.171 968 453.31 968H1470.12C1505.21 968 1537.73 949.61 1555.81 919.541L1654.67 755.181C1664.25 739.242 1678.1 726.293 1694.64 717.789L1920 601.915V0Z"
+        />
+      </clipPath>
+    </defs>
+  </svg>
+));
+HeroClipDefs.displayName = "HeroClipDefs";
 
 const DecorativeDots = memo(() => (
   <>
@@ -13,20 +37,44 @@ DecorativeDots.displayName = "DecorativeDots";
 
 interface HeroBackgroundProps {
   imageClasses: string;
+  bannerUrl: string;
 }
 
-const HeroBackground: React.FC<HeroBackgroundProps> = ({ imageClasses }) => {
+const HeroBackground: React.FC<HeroBackgroundProps> = ({ imageClasses, bannerUrl }) => {
+  const [imgSrc, setImgSrc] = useState(bannerUrl || FALLBACK_IMAGE);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    if (bannerUrl && bannerUrl !== imgSrc) {
+      setImgSrc(bannerUrl);
+    }
+  }, [bannerUrl]);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    setIsDesktop(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
   return (
     <>
-      <div className="absolute inset-0 w-full h-full">
+      <HeroClipDefs />
+
+      <div
+        className="absolute inset-0 w-full h-full"
+        style={isDesktop ? { clipPath: `url(#${CLIP_PATH_ID})` } : undefined}
+      >
         <Image
-          src="/Hero.webp"
+          src={imgSrc}
           alt="IKAPEMA KEPRI-MALANG Background"
           fill
           sizes="100vw"
-          priority // Penting untuk LCP (Largest Contentful Paint)
+          priority
           quality={80}
           className={imageClasses}
+          onError={() => setImgSrc(FALLBACK_IMAGE)}
         />
       </div>
       <DecorativeDots />

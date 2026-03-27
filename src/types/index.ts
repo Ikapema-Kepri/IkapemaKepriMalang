@@ -13,6 +13,8 @@ export interface Banner {
   id?: string;
   bannerUrl?: string;
   bannerPath?: string;
+  title?: string;
+  subtitle?: string;
   updatedAt?: string;
 }
 

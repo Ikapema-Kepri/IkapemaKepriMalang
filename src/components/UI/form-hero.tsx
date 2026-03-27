@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -8,16 +8,54 @@ import {
   TableRow,
 } from "@/components/UI/table";
 import { ImageUp } from "lucide-react";
+import { useBanner } from "@/hooks/useBanner";
 
 export function FormHero() {
   const [preview, setPreview] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const { banner, createOrUpdateBanner, isSubmitting } = useBanner({ isAdmin: true });
+
+  useEffect(() => {
+    if (banner) {
+      setTitle(banner.title || "");
+      setSubtitle(banner.subtitle || "");
+      if (banner.bannerUrl && !selectedFile) {
+        setPreview(banner.bannerUrl);
+      }
+    }
+  }, [banner, selectedFile]);
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) setPreview(URL.createObjectURL(file));
+    if (file) {
+      setSelectedFile(file);
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setPreview(null);
+    setSelectedFile(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    if (title) formData.append('title', title);
+    if (subtitle) formData.append('subtitle', subtitle);
+    if (selectedFile) formData.append('image', selectedFile);
+
+    const res = await createOrUpdateBanner(formData, 'banner');
+    if (res.success) {
+      alert("Hero section berhasil disimpan!");
+      setSelectedFile(null);
+    } else {
+      alert("Gagal menyimpan: " + res.message);
+    }
   };
 
   return (
@@ -29,9 +67,11 @@ export function FormHero() {
         </div>
         <button
           type="button"
-          className="px-4 py-2 text-[clamp(12px,2vw,16px)] font-medium rounded-sm bg-[#00CCFF] text-white hover:bg-[#00b3e0] transition-colors"
+          onClick={handleSubmit}
+          disabled={isSubmitting}
+          className="px-4 py-2 text-[clamp(12px,2vw,16px)] font-medium rounded-sm bg-[#00CCFF] text-white hover:bg-[#00b3e0] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Simpan Perubahan
+          {isSubmitting ? "Menyimpan..." : "Simpan Perubahan"}
         </button>
       </div>
 
@@ -63,7 +103,7 @@ export function FormHero() {
                   {preview && (
                     <button
                       type="button"
-                      onClick={() => { setPreview(null); if (fileInputRef.current) fileInputRef.current.value = ""; }}
+                      onClick={handleRemoveImage}
                       className="flex items-center gap-1.5 self-start px-3 py-1.5 text-xs font-medium text-red-500 border border-red-200 rounded-md bg-red-50 hover:bg-red-100 hover:border-red-400 transition-colors"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
