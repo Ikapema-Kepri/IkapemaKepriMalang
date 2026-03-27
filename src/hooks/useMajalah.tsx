@@ -55,15 +55,21 @@ export const useMajalah = ({ isAdmin = false }: UseMajalahProps = {}) => {
     timestamp: new Date().toISOString()
   });
 
-  const createMajalah = useCallback(async (majalahData: Omit<Majalah, 'id'>) => {
+  const createMajalah = useCallback(async (majalahData: Omit<Majalah, 'id'> | FormData) => {
     if (!isAdmin) return { success: false, message: 'Unauthorized' };
 
     setIsSubmitting(true);
     try {
+      const isFormData = majalahData instanceof FormData;
       const response = await fetch('/api/majalah', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(majalahData),
+        ...(isFormData 
+          ? { body: majalahData }
+          : { 
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(majalahData),
+            }
+        ),
       });
 
       const data: ApiResponse = await response.json();
@@ -79,15 +85,21 @@ export const useMajalah = ({ isAdmin = false }: UseMajalahProps = {}) => {
     }
   }, [isAdmin, mutate]);
 
-  const updateMajalah = useCallback(async (majalahData: Partial<Majalah>) => {
+  const updateMajalah = useCallback(async (majalahData: Partial<Majalah> | FormData) => {
     if (!isAdmin) return { success: false, message: 'Unauthorized' };
 
     setIsSubmitting(true);
     try {
+      const isFormData = majalahData instanceof FormData;
       const response = await fetch('/api/majalah', {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(majalahData),
+        ...(isFormData 
+          ? { body: majalahData }
+          : { 
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(majalahData),
+            }
+        ),
       });
 
       const data: ApiResponse = await response.json();
@@ -103,7 +115,7 @@ export const useMajalah = ({ isAdmin = false }: UseMajalahProps = {}) => {
     }
   }, [isAdmin, mutate]);
 
-  const createOrUpdateMajalah = useCallback(async (majalahData: Omit<Majalah, 'id'>) => {
+  const createOrUpdateMajalah = useCallback(async (majalahData: Omit<Majalah, 'id'> | FormData) => {
     if (!isAdmin) return { success: false, message: 'Unauthorized' };
 
     setIsSubmitting(true);

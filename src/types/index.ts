@@ -64,6 +64,9 @@ export interface Majalah {
   id?: string;
   filePath?: string;
   fileUrl?: string;
+  title?: string;
+  photoUrl?: string;
+  majalahPublicId?: string;
   updatedAt?: string;
 }
 
