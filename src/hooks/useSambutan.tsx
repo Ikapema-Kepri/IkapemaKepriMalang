@@ -55,15 +55,21 @@ export const useSambutan = ({ isAdmin = false }: UseSambutanProps = {}) => {
     timestamp: new Date().toISOString()
   });
 
-  const createSambutan = useCallback(async (sambutanData: Omit<Sambutan, 'id'>) => {
+  const createSambutan = useCallback(async (sambutanData: Omit<Sambutan, 'id'> | FormData) => {
     if (!isAdmin) return { success: false, message: 'Unauthorized' };
 
     setIsSubmitting(true);
     try {
+      const isFormData = sambutanData instanceof FormData;
       const response = await fetch('/api/sambutan', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(sambutanData),
+        ...(isFormData 
+          ? { body: sambutanData }
+          : { 
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(sambutanData)
+            }
+        ),
       });
 
       const data: ApiResponse = await response.json();
@@ -79,15 +85,21 @@ export const useSambutan = ({ isAdmin = false }: UseSambutanProps = {}) => {
     }
   }, [isAdmin, mutate]);
 
-  const updateSambutan = useCallback(async (sambutanData: Partial<Sambutan>) => {
+  const updateSambutan = useCallback(async (sambutanData: Partial<Sambutan> | FormData) => {
     if (!isAdmin || !sambutan?.id) return { success: false, message: 'Unauthorized or no data' };
 
     setIsSubmitting(true);
     try {
+      const isFormData = sambutanData instanceof FormData;
       const response = await fetch(`/api/sambutan/${sambutan.id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(sambutanData),
+        ...(isFormData 
+          ? { body: sambutanData }
+          : { 
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(sambutanData),
+            }
+        ),
       });
 
       const data: ApiResponse = await response.json();

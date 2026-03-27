@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../../lib/firebase';
 import { doc, updateDoc, getDoc } from 'firebase/firestore';
+import cloudinary from '../../../../lib/cloudinary';
+import { Buffer } from 'buffer';
 
 const handlers = {
   async GET(req: NextRequest, { params }: { params: { id: string } }) {
     try {
-      const { id } = params;
+      const { id } = await Promise.resolve(params);
       const docRef = doc(db, 'sambutan', id);
       const docSnap = await getDoc(docRef);
 
@@ -42,17 +44,8 @@ const handlers = {
 
   async PUT(req: NextRequest, { params }: { params: { id: string } }) {
     try {
-      const { id } = params;
-      const body = await req.json();
-      const { namaKetua, jabatan, sambutan: sambutanText, photoURL, isActive } = body;
-
-      if (!namaKetua || !jabatan || !sambutanText) {
-        return NextResponse.json(
-          { message: 'Nama Ketua, Jabatan, dan Sambutan wajib diisi.' },
-          { status: 400 }
-        );
-      }
-
+      const { id } = await Promise.resolve(params);
+      
       const docRef = doc(db, 'sambutan', id);
       const docSnap = await getDoc(docRef);
 
@@ -63,14 +56,72 @@ const handlers = {
         );
       }
 
-      await updateDoc(docRef, {
-        namaKetua,
-        jabatan,
-        sambutan: sambutanText,
-        photoURL: photoURL || null,
-        isActive: isActive ?? true,
+      const oldData = docSnap.data();
+
+      const formData = await req.formData();
+      const fullName = formData.get('fullName') as string | null;
+      const period = formData.get('period') as string | null;
+      const content = formData.get('content') as string | null;
+      const file = formData.get('image') as File | null;
+      const deleteImage = formData.get('deleteImage') === 'true';
+
+      if (!fullName || !period || !content) {
+        return NextResponse.json(
+          { message: 'Nama lengkap, periode, dan konten sambutan wajib diisi.' },
+          { status: 400 }
+        );
+      }
+
+      const updateData: any = {
+        fullName,
+        period,
+        content,
         updatedAt: new Date().toISOString(),
-      });
+      };
+
+      if (file && file.size > 0) {
+        // Upload gambar baru ke Cloudinary
+        const arrayBuffer = await file.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+
+        const uploadResult = await new Promise<any>((resolve, reject) => {
+          cloudinary.uploader.upload_stream(
+            { resource_type: 'auto', folder: 'sambutan' },
+            (error: any, result: any) => {
+              if (error || !result) {
+                reject(error ?? new Error('Upload to Cloudinary failed'));
+                return;
+              }
+              resolve(result);
+            }
+          ).end(buffer);
+        });
+
+        // Hapus gambar lama pakai public_id
+        if (oldData.sambutanPublicId) {
+          try {
+            await cloudinary.uploader.destroy(oldData.sambutanPublicId);
+          } catch (delError) {
+            console.error('Error deleting old image from Cloudinary:', delError);
+          }
+        }
+
+        updateData.photoUrl = uploadResult.secure_url;
+        updateData.sambutanPublicId = uploadResult.public_id;
+      } else if (deleteImage) {
+        if (oldData.sambutanPublicId) {
+          try {
+            await cloudinary.uploader.destroy(oldData.sambutanPublicId);
+          } catch (delError) {
+            console.error('Error deleting old image from Cloudinary:', delError);
+          }
+        }
+        updateData.photoUrl = null;
+        updateData.photoPath = null;
+        updateData.sambutanPublicId = null;
+      }
+
+      await updateDoc(docRef, updateData);
 
       return NextResponse.json(
         { message: 'Sambutan berhasil diupdate!' },
@@ -87,7 +138,7 @@ const handlers = {
 
 //   async DELETE(req: NextRequest, { params }: { params: { id: string } }) {
 //     try {
-//       const { id } = params;
+//       const { id } = await Promise.resolve(params);
 
 //       const docRef = doc(db, 'sambutan', id);
 //       const docSnap = await getDoc(docRef);
@@ -124,6 +175,6 @@ export async function PUT(req: NextRequest, context: { params: { id: string } })
   return handlers.PUT(req, context);
 }
 
-export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
-  return handlers.DELETE(req, context);
-}
+// export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
+//   return handlers.DELETE(req, context);
+// }

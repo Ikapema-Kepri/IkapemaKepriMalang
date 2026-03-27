@@ -61,7 +61,7 @@ export const useAsrama = ({ isAdmin = false }: UseAsramaProps = {}) => {
     timestamp: new Date().toISOString()
   });
 
-  const updateAsrama = useCallback(async (id: string, asramaData: Partial<Asrama>) => {
+  const updateAsrama = useCallback(async (id: string, asramaData: Partial<Asrama> | FormData) => {
     if (!isAdmin) return { success: false, message: 'Unauthorized' };
 
     // Validasi ID
@@ -71,10 +71,16 @@ export const useAsrama = ({ isAdmin = false }: UseAsramaProps = {}) => {
 
     setIsSubmitting(true);
     try {
+      const isFormData = asramaData instanceof FormData;
       const response = await fetch(`/api/asrama/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(asramaData),
+        ...(isFormData 
+          ? { body: asramaData }
+          : { 
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(asramaData),
+            }
+        ),
       });
 
       const data: ApiResponse = await response.json();
@@ -90,7 +96,7 @@ export const useAsrama = ({ isAdmin = false }: UseAsramaProps = {}) => {
     }
   }, [isAdmin, mutate]);
 
-  const createAsrama = useCallback(async (id: string, asramaData: Omit<Asrama, 'id'>) => {
+  const createAsrama = useCallback(async (id: string, asramaData: Omit<Asrama, 'id'> | FormData) => {
     if (!isAdmin) return { success: false, message: 'Unauthorized' };
 
     // Validasi ID
@@ -100,10 +106,16 @@ export const useAsrama = ({ isAdmin = false }: UseAsramaProps = {}) => {
 
     setIsSubmitting(true);
     try {
+      const isFormData = asramaData instanceof FormData;
       const response = await fetch(`/api/asrama/${id}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(asramaData),
+        ...(isFormData 
+          ? { body: asramaData }
+          : { 
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(asramaData),
+            }
+        ),
       });
 
       const data: ApiResponse = await response.json();

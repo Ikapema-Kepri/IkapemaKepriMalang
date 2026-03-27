@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../../lib/firebase';
 import { doc, updateDoc, getDoc, deleteDoc } from 'firebase/firestore';
+import cloudinary from '../../../../lib/cloudinary';
+import { Buffer } from 'buffer';
 
 const handlers = {
   async GET(req: NextRequest, { params }: { params: { id: string } }) {
     try {
-      const { id } = params;
+      const { id } = await Promise.resolve(params);
       const docRef = doc(db, 'kegiatan', id);
       const docSnap = await getDoc(docRef);
 
@@ -42,17 +44,7 @@ const handlers = {
 
   async PUT(req: NextRequest, { params }: { params: { id: string } }) {
     try {
-      const { id } = params;
-      const body = await req.json();
-      const { title, description, label, photoUrl, photoPath } = body;
-
-      if (!title || !description) {
-        return NextResponse.json(
-          { message: 'Judul dan deskripsi kegiatan wajib diisi.' },
-          { status: 400 }
-        );
-      }
-
+      const { id } = await Promise.resolve(params);
       const docRef = doc(db, 'kegiatan', id);
       const docSnap = await getDoc(docRef);
 
@@ -63,14 +55,70 @@ const handlers = {
         );
       }
 
-      await updateDoc(docRef, {
+      const oldData = docSnap.data();
+
+      const formData = await req.formData();
+      const title = formData.get('title') as string | null;
+      const description = formData.get('description') as string | null;
+      const label = formData.get('label') as string | null;
+      const file = formData.get('image') as File | null;
+      const deleteImage = formData.get('deleteImage') === 'true';
+
+      if (!title || !description) {
+        return NextResponse.json(
+          { message: 'Judul dan deskripsi kegiatan wajib diisi.' },
+          { status: 400 }
+        );
+      }
+
+      const updateData: any = {
         title,
         description,
         label: label || null,
-        photoUrl: photoUrl || null,
-        photoPath: photoPath || null,
         updatedAt: new Date().toISOString(),
-      });
+      };
+
+      if (file && file.size > 0) {
+        const arrayBuffer = await file.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+
+        const uploadResult = await new Promise<any>((resolve, reject) => {
+          cloudinary.uploader.upload_stream(
+            { resource_type: 'auto', folder: 'kegiatan' },
+            (error: any, result: any) => {
+              if (error || !result) {
+                reject(error ?? new Error('Upload to Cloudinary failed'));
+                return;
+              }
+              resolve(result);
+            }
+          ).end(buffer);
+        });
+
+        if (oldData.kegiatanPublicId) {
+          try {
+            await cloudinary.uploader.destroy(oldData.kegiatanPublicId);
+          } catch (delError) {
+            console.error('Error deleting old image from Cloudinary:', delError);
+          }
+        }
+
+        updateData.photoUrl = uploadResult.secure_url;
+        updateData.kegiatanPublicId = uploadResult.public_id;
+      } else if (deleteImage) {
+        if (oldData.kegiatanPublicId) {
+          try {
+            await cloudinary.uploader.destroy(oldData.kegiatanPublicId);
+          } catch (delError) {
+            console.error('Error deleting old image from Cloudinary:', delError);
+          }
+        }
+        updateData.photoUrl = null;
+        updateData.photoPath = null;
+        updateData.kegiatanPublicId = null;
+      }
+
+      await updateDoc(docRef, updateData);
 
       return NextResponse.json(
         { message: 'Kegiatan berhasil diupdate!' },
@@ -87,7 +135,7 @@ const handlers = {
 
   async DELETE(req: NextRequest, { params }: { params: { id: string } }) {
     try {
-      const { id } = params;
+      const { id } = await Promise.resolve(params);
 
       const docRef = doc(db, 'kegiatan', id);
       const docSnap = await getDoc(docRef);
@@ -97,6 +145,17 @@ const handlers = {
           { message: 'Kegiatan tidak ditemukan.' },
           { status: 404 }
         );
+      }
+
+      const oldData = docSnap.data();
+
+      // Hapus gambar lama pakai public_id
+      if (oldData.kegiatanPublicId) {
+        try {
+          await cloudinary.uploader.destroy(oldData.kegiatanPublicId);
+        } catch (delError) {
+          console.error('Error deleting old image from Cloudinary:', delError);
+        }
       }
 
       await deleteDoc(docRef);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -8,18 +8,64 @@ import {
   TableRow,
 } from "@/components/UI/table";
 import { ImageUp } from "lucide-react";
+import { useSambutan } from "@/hooks/useSambutan";
 
 export function FormSambutan() {
   const [preview, setPreview] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isImageDeleted, setIsImageDeleted] = useState(false);
   const [nama, setNama] = useState("");
   const [periode, setPeriode] = useState("");
-  const [sambutan, setSambutan] = useState("");
+  const [sambutanText, setSambutanText] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const { sambutan, updateSambutan, isSubmitting } = useSambutan({ isAdmin: true });
+
+  useEffect(() => {
+    if (sambutan) {
+      setNama(sambutan.fullName || "");
+      setPeriode(sambutan.period || "");
+      setSambutanText(sambutan.content || "");
+      if (sambutan.photoUrl && !selectedFile && !isImageDeleted) {
+        setPreview(sambutan.photoUrl);
+      }
+    }
+  }, [sambutan, selectedFile, isImageDeleted]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) setPreview(URL.createObjectURL(file));
+    if (file) {
+      setSelectedFile(file);
+      setPreview(URL.createObjectURL(file));
+      setIsImageDeleted(false);
+    }
   };
+
+  const handleRemoveImage = () => {
+    setPreview(null);
+    setSelectedFile(null);
+    setIsImageDeleted(true);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    if (nama) formData.append('fullName', nama);
+    if (periode) formData.append('period', periode);
+    if (sambutanText) formData.append('content', sambutanText);
+    if (selectedFile) formData.append('image', selectedFile);
+    if (isImageDeleted && !selectedFile) formData.append('deleteImage', 'true');
+
+    const res = await updateSambutan(formData);
+    if (res.success) {
+      alert("Sambutan section berhasil disimpan!");
+      setSelectedFile(null);
+      setIsImageDeleted(false);
+    } else {
+      alert("Gagal menyimpan: " + res.message);
+    }
+  };
+
 
   return (
     <div className="rounded-lg border border-border bg-card shadow-sm">
@@ -30,9 +76,11 @@ export function FormSambutan() {
         </div>
         <button
           type="button"
-          className="px-4 py-2 text-[clamp(12px,2vw,16px)] font-medium rounded-sm bg-[#00CCFF] text-white hover:bg-[#00b3e0] transition-colors"
+          onClick={handleSubmit}
+          disabled={isSubmitting}
+          className="px-4 py-2 text-[clamp(12px,2vw,16px)] font-medium rounded-sm bg-[#00CCFF] text-white hover:bg-[#00b3e0] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Simpan Perubahan
+          {isSubmitting ? "Menyimpan..." : "Simpan Perubahan"}
         </button>
       </div>
 
@@ -64,7 +112,7 @@ export function FormSambutan() {
                   {preview && (
                     <button
                       type="button"
-                      onClick={() => { setPreview(null); if (fileInputRef.current) fileInputRef.current.value = ""; }}
+                      onClick={handleRemoveImage}
                       className="flex items-center gap-1.5 self-start px-3 py-1.5 text-xs font-medium text-red-500 border border-red-200 rounded-md bg-red-50 hover:bg-red-100 hover:border-red-400 transition-colors"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -107,8 +155,8 @@ export function FormSambutan() {
                   <div className="flex flex-col gap-1.5 flex-1">
                     <label className="text-sm font-medium text-foreground">Kata Sambutan</label>
                     <textarea
-                      value={sambutan}
-                      onChange={(e) => setSambutan(e.target.value)}
+                      value={sambutanText}
+                      onChange={(e) => setSambutanText(e.target.value)}
                       placeholder="Masukkan kata sambutan..."
                       rows={6}
                       className="w-full rounded-sm border border-border bg-[#F7F5F0] px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#00CCFF]/40 focus:border-[#00CCFF] transition-colors resize-none"

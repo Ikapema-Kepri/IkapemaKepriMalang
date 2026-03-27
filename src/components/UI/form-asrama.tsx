@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "@/components/UI/table";
 import { ImageUp } from "lucide-react";
+import { useAsrama } from "@/hooks/useAsrama";
 
 interface AsramaFormProps {
   label: string;
@@ -15,13 +16,61 @@ interface AsramaFormProps {
 
 function AsramaForm({ label }: AsramaFormProps) {
   const [preview, setPreview] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isImageDeleted, setIsImageDeleted] = useState(false);
   const [nama, setNama] = useState("");
   const [alamat, setAlamat] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const { asramaPutra, asramaPutri, updateAsrama, createAsrama, isSubmitting } = useAsrama({ isAdmin: true });
+
+  const idAsrama = label === "Asrama Putra" ? "asramaPutra" : "asramaPutri";
+  const asramaData = label === "Asrama Putra" ? asramaPutra : asramaPutri;
+
+  useEffect(() => {
+    if (asramaData) {
+      setNama(asramaData.name || "");
+      setAlamat(asramaData.address || "");
+      if (asramaData.photoUrl && !selectedFile && !isImageDeleted) {
+        setPreview(asramaData.photoUrl);
+      }
+    }
+  }, [asramaData, selectedFile, isImageDeleted]);
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) setPreview(URL.createObjectURL(file));
+    if (file) {
+      setSelectedFile(file);
+      setPreview(URL.createObjectURL(file));
+      setIsImageDeleted(false);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setPreview(null);
+    setSelectedFile(null);
+    setIsImageDeleted(true);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    if (nama) formData.append('name', nama);
+    if (alamat) formData.append('address', alamat);
+    if (selectedFile) formData.append('image', selectedFile);
+    if (isImageDeleted && !selectedFile) formData.append('deleteImage', 'true');
+
+    const res = asramaData 
+        ? await updateAsrama(idAsrama, formData)
+        : await createAsrama(idAsrama, formData);
+
+    if (res.success) {
+      alert(`${label} berhasil disimpan!`);
+      setSelectedFile(null);
+      setIsImageDeleted(false);
+    } else {
+      alert(`Gagal menyimpan ${label}: ` + res.message);
+    }
   };
 
   return (
@@ -33,9 +82,11 @@ function AsramaForm({ label }: AsramaFormProps) {
         </div>
         <button
           type="button"
-          className="px-4 py-2 text-[clamp(12px,2vw,16px)] font-medium rounded-sm bg-[#00CCFF] text-white hover:bg-[#00b3e0] transition-colors"
+          onClick={handleSubmit}
+          disabled={isSubmitting}
+          className="px-4 py-2 text-[clamp(12px,2vw,16px)] font-medium rounded-sm bg-[#00CCFF] text-white hover:bg-[#00b3e0] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Simpan Perubahan
+          {isSubmitting ? "Menyimpan..." : "Simpan Perubahan"}
         </button>
       </div>
 
@@ -67,7 +118,7 @@ function AsramaForm({ label }: AsramaFormProps) {
                   {preview && (
                     <button
                       type="button"
-                      onClick={() => { setPreview(null); if (fileInputRef.current) fileInputRef.current.value = ""; }}
+                      onClick={handleRemoveImage}
                       className="flex items-center gap-1.5 self-start px-3 py-1.5 text-xs font-medium text-red-500 border border-red-200 rounded-md bg-red-50 hover:bg-red-100 hover:border-red-400 transition-colors"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

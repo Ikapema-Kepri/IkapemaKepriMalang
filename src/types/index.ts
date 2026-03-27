@@ -25,6 +25,7 @@ export interface Sambutan {
   period: string;
   photoPath?: string;
   photoUrl?: string;
+  sambutanPublicId?: string;
   updatedAt?: string;
 }
 
@@ -34,6 +35,7 @@ export interface Asrama {
   address?: string;
   photoUrl?: string;
   photoPath?: string;
+  asramaPublicId?: string;
   updatedAt?: string;
 }
 
@@ -44,6 +46,7 @@ export interface Kegiatan {
   label?: string;
   photoUrl?: string;
   photoPath?: string;
+  kegiatanPublicId?: string;
   updatedAt?: string;
   createdAt?: string;
 }

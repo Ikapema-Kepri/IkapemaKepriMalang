@@ -55,15 +55,21 @@ export const useKegiatan = ({ isAdmin = false }: UseKegiatanProps = {}) => {
     timestamp: new Date().toISOString()
   });
 
-  const createKegiatan = useCallback(async (kegiatanData: Omit<Kegiatan, 'id'>) => {
+  const createKegiatan = useCallback(async (kegiatanData: Omit<Kegiatan, 'id'> | FormData) => {
     if (!isAdmin) return { success: false, message: 'Unauthorized' };
 
     setIsSubmitting(true);
     try {
+      const isFormData = kegiatanData instanceof FormData;
       const response = await fetch('/api/kegiatan', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(kegiatanData),
+        ...(isFormData 
+          ? { body: kegiatanData }
+          : { 
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(kegiatanData),
+            }
+        ),
       });
 
       const data: ApiResponse = await response.json();
@@ -79,15 +85,21 @@ export const useKegiatan = ({ isAdmin = false }: UseKegiatanProps = {}) => {
     }
   }, [isAdmin, mutate]);
 
-  const updateKegiatan = useCallback(async (id: string, kegiatanData: Partial<Kegiatan>) => {
+  const updateKegiatan = useCallback(async (id: string, kegiatanData: Partial<Kegiatan> | FormData) => {
     if (!isAdmin) return { success: false, message: 'Unauthorized' };
 
     setIsSubmitting(true);
     try {
+      const isFormData = kegiatanData instanceof FormData;
       const response = await fetch(`/api/kegiatan/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(kegiatanData),
+        ...(isFormData 
+          ? { body: kegiatanData }
+          : { 
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(kegiatanData),
+            }
+        ),
       });
 
       const data: ApiResponse = await response.json();

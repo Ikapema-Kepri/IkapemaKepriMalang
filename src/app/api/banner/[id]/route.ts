@@ -7,7 +7,7 @@ import { Buffer } from 'buffer';
 const handlers = {
   async GET(req: NextRequest, { params }: { params: { id: string } }) {
     try {
-      const { id } = params;
+      const { id } = await Promise.resolve(params);
       const docRef = doc(db, 'banner', id);
       const docSnap = await getDoc(docRef);
 
@@ -43,7 +43,7 @@ const handlers = {
 
   async PUT(req: NextRequest, { params }: { params: { id: string } }) {
     try {
-      const { id } = params;
+      const { id } = await Promise.resolve(params);
 
       const docRef = doc(db, 'banner', id);
       const docSnap = await getDoc(docRef);
@@ -117,7 +117,7 @@ const handlers = {
 
   async DELETE(req: NextRequest, { params }: { params: { id: string } }) {
     try {
-      const { id } = params;
+      const { id } = await Promise.resolve(params);
 
       const docRef = doc(db, 'banner', id);
       const docSnap = await getDoc(docRef);

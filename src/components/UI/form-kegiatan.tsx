@@ -3,7 +3,8 @@
 import { useState, useRef, useCallback, memo } from "react";
 import { Pencil, Trash2, Plus } from "lucide-react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/UI/table";
-import { sampleKegiatan, KegiatanItem } from "@/data/sampleData";
+import { useKegiatan } from "@/hooks/useKegiatan";
+import { Kegiatan } from "@/types";
 import {
   FormInput,
   FormTextarea,
@@ -20,13 +21,13 @@ type ModalMode = "add" | "edit";
 interface ModalState {
   open: boolean;
   mode: ModalMode;
-  item: KegiatanItem | null;
+  item: Kegiatan | null;
 }
 
 interface KegiatanCardProps {
-  item: KegiatanItem;
-  onEdit: (item: KegiatanItem) => void;
-  onDelete: (id: number) => void;
+  item: Kegiatan;
+  onEdit: (item: Kegiatan) => void;
+  onDelete: (id: string) => void;
 }
 
 // ─── KegiatanCard (memoized) ──────────────────────────────────────────────────
@@ -35,7 +36,7 @@ const KegiatanCard = memo(function KegiatanCard({ item, onEdit, onDelete }: Kegi
   return (
     <div className="flex flex-col rounded-lg border border-border bg-card overflow-hidden shadow-sm">
       <div className="relative w-full aspect-video overflow-hidden bg-muted">
-        <img src={item.photoUrl} alt={item.title} className="w-full h-full object-cover" />
+        <img src={item.photoUrl || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800"} alt={item.title} className="w-full h-full object-cover" />
       </div>
       <div className="flex flex-col gap-1.5 p-3 flex-1">
         <span className="inline-block self-start rounded-full bg-[#00CCFF]/10 text-[#00CCFF] text-[10px] md:text-xs font-medium px-2.5 py-0.5">
@@ -55,7 +56,7 @@ const KegiatanCard = memo(function KegiatanCard({ item, onEdit, onDelete }: Kegi
         <div className="w-px bg-border" />
         <button
           type="button"
-          onClick={() => onDelete(item.id)}
+          onClick={() => onDelete(item.id!)}
           className="flex-1 flex items-center justify-center gap-1.5 py-2 text-[10px] md:text-xs font-medium text-red-500 hover:bg-red-50 transition-colors"
         >
           <Trash2 size={13} /> Hapus
@@ -68,7 +69,7 @@ const KegiatanCard = memo(function KegiatanCard({ item, onEdit, onDelete }: Kegi
 // ─── FormKegiatan ─────────────────────────────────────────────────────────────
 
 export function FormKegiatan() {
-  const [items, setItems] = useState<KegiatanItem[]>(sampleKegiatan);
+  const { kegiatan, createKegiatan, updateKegiatan, deleteKegiatan, isSubmitting } = useKegiatan({ isAdmin: true });
   const [modal, setModal] = useState<ModalState>({ open: false, mode: "add", item: null });
 
   // Individual state per field
@@ -77,74 +78,97 @@ export function FormKegiatan() {
   const [formLabel, setFormLabel] = useState("");
 
   const [preview, setPreview] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isImageDeleted, setIsImageDeleted] = useState(false);
+  
+  const fileInputRef = useRef<HTMLInputElement>(null as any);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
   const openAdd = useCallback(() => {
     setFormTitle("");
     setFormDescription("");
     setFormLabel("");
     setPreview(null);
+    setSelectedFile(null);
+    setIsImageDeleted(false);
     setModal({ open: true, mode: "add", item: null });
   }, []);
 
-  const openEdit = useCallback((item: KegiatanItem) => {
-    setFormTitle(item.title);
-    setFormDescription(item.description);
-    setFormLabel(item.label);
-    setPreview(item.photoUrl);
+  const openEdit = useCallback((item: Kegiatan) => {
+    setFormTitle(item.title || "");
+    setFormDescription(item.description || "");
+    setFormLabel(item.label || "");
+    setPreview(item.photoUrl || null);
+    setSelectedFile(null);
+    setIsImageDeleted(false);
     setModal({ open: true, mode: "edit", item });
   }, []);
 
   const closeModal = useCallback(() => {
     setModal({ open: false, mode: "add", item: null });
     setPreview(null);
+    setSelectedFile(null);
+    setIsImageDeleted(false);
     if (fileInputRef.current) fileInputRef.current.value = "";
   }, []);
 
   const handleImageChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) setPreview(URL.createObjectURL(file));
+    if (file) {
+      setSelectedFile(file);
+      setPreview(URL.createObjectURL(file));
+      setIsImageDeleted(false);
+    }
   }, []);
 
   const handleRemoveImage = useCallback(() => {
     setPreview(null);
+    setSelectedFile(null);
+    setIsImageDeleted(true);
     if (fileInputRef.current) fileInputRef.current.value = "";
   }, []);
 
-  const handleSave = useCallback(() => {
+  const handleSave = async () => {
     if (!formTitle.trim()) return;
+    
+    // Disable form handling while saving
+    if (isSubmitting) return;
+
+    const formData = new FormData();
+    formData.append('title', formTitle);
+    if (formDescription) formData.append('description', formDescription);
+    if (formLabel) formData.append('label', formLabel);
+    if (selectedFile) formData.append('image', selectedFile);
+    if (isImageDeleted && !selectedFile) formData.append('deleteImage', 'true');
+
     if (modal.mode === "add") {
-      const newItem: KegiatanItem = {
-        id: Date.now(),
-        title: formTitle,
-        description: formDescription,
-        label: formLabel,
-        photoUrl: preview ?? "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800",
-      };
-      setItems((prev) => [...prev, newItem]);
-    } else if (modal.mode === "edit" && modal.item) {
-      setItems((prev) =>
-        prev.map((k) =>
-          k.id === modal.item!.id
-            ? { ...k, title: formTitle, description: formDescription, label: formLabel, photoUrl: preview ?? k.photoUrl }
-            : k
-        )
-      );
+      const res = await createKegiatan(formData);
+      if (!res.success) {
+        alert("Gagal menambah kegiatan: " + res.message);
+        return;
+      }
+    } else if (modal.mode === "edit" && modal.item?.id) {
+      const res = await updateKegiatan(modal.item.id, formData);
+      if (!res.success) {
+        alert("Gagal mengupdate kegiatan: " + res.message);
+        return;
+      }
     }
     closeModal();
-  }, [formTitle, formDescription, formLabel, preview, modal, closeModal]);
+  };
 
-  const handleDelete = useCallback((id: number) => setDeleteId(id), []);
+  const handleDelete = useCallback((id: string) => setDeleteId(id), []);
   const cancelDelete = useCallback(() => setDeleteId(null), []);
-  const confirmDelete = useCallback(() => {
+  
+  const confirmDelete = async () => {
     if (deleteId !== null) {
-      setItems((prev) => prev.filter((k) => k.id !== deleteId));
+      const res = await deleteKegiatan(deleteId);
+      if (!res.success) alert("Gagal menghapus kegiatan: " + res.message);
       setDeleteId(null);
     }
-  }, [deleteId]);
+  };
 
-  const deleteName = items.find((k) => k.id === deleteId)?.title ?? "";
+  const deleteName = kegiatan.find((k) => k.id === deleteId)?.title ?? "";
 
   return (
     <>
@@ -158,7 +182,7 @@ export function FormKegiatan() {
             <TableRow className="hover:bg-transparent">
               <TableCell className="py-6">
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {items.map((item) => (
+                  {kegiatan.map((item) => (
                     <KegiatanCard key={item.id} item={item} onEdit={openEdit} onDelete={handleDelete} />
                   ))}
                   <button
@@ -179,11 +203,11 @@ export function FormKegiatan() {
       {/* Add / Edit Modal */}
       {modal.open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="absolute inset-0 bg-black/50" onClick={closeModal} />
+          <div className="absolute inset-0 bg-black/50" onClick={isSubmitting ? undefined : closeModal} />
           <div className="relative z-10 w-full max-w-lg mx-4 rounded-xl bg-card border border-border shadow-xl">
             <ModalHeader
               title={modal.mode === "add" ? "Tambah Kegiatan" : "Edit Kegiatan"}
-              onClose={closeModal}
+              onClose={isSubmitting ? () => {} : closeModal}
             />
             <div className="px-5 py-5 flex flex-col gap-4">
               <ImageUploadField
@@ -220,7 +244,7 @@ export function FormKegiatan() {
             <ModalFooter
               onCancel={closeModal}
               onSave={handleSave}
-              saveLabel={modal.mode === "add" ? "Tambah" : "Simpan Perubahan"}
+              saveLabel={isSubmitting ? "Menyimpan..." : (modal.mode === "add" ? "Tambah" : "Simpan Perubahan")}
             />
           </div>
         </div>
@@ -243,4 +267,3 @@ export function FormKegiatan() {
     </>
   );
 }
-
