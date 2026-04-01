@@ -16,7 +16,27 @@ export interface Banner {
   bannerPath?: string;
   title?: string;
   subtitle?: string;
+  bannerPublicId?: string;
   updatedAt?: string;
+}
+
+export interface Berita {
+  id?: string;
+  title: string;
+  slug: string;
+  summary: string;
+  content: string;
+  thumbnail: string;
+  thumbnailPublicId?: string;
+  category: string;
+  tags?: string[];
+  author: string;
+  status: 'Published' | 'Draft' | 'Archived';
+  published_at?: string | Date | any;
+  created_at?: string | Date | any;
+  updated_at?: string | Date | any;
+  views?: number;
+  is_featured?: boolean;
 }
 
 export interface Sambutan {

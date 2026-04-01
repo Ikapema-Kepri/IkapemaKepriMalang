@@ -4,7 +4,7 @@ import { useRef, useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { useInView } from "framer-motion";
 import { Search, SlidersHorizontal } from "lucide-react";
-import { berita } from "@/data/sampleData";
+import { useBerita } from "@/hooks/useBerita";
 import BeritaCard from "@/components/UI/berita-card";
 import AnggotaPagination from "@/components/struktur/anggota/AnggotaPagination";
 
@@ -14,6 +14,8 @@ const ITEMS_PER_PAGE = 6;
 const BeritaPage: React.FC = () => {
   const [isIOS, setIsIOS] = useState(false);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
+  
+  const { beritas, loading } = useBerita();
 
   // Filter & Search states
   const [searchTerm, setSearchTerm] = useState("");
@@ -49,7 +51,7 @@ const BeritaPage: React.FC = () => {
 
   // Filter & Sort Logic
   const filteredBerita = useMemo(() => {
-    let result = [...berita];
+    let result = beritas.filter((b) => b.status === "Published");
 
     // Search filter
     if (searchTerm) {
@@ -79,7 +81,7 @@ const BeritaPage: React.FC = () => {
     });
 
     return result;
-  }, [searchTerm, sortBy]);
+  }, [beritas, searchTerm, sortBy]);
 
   // Derived Pagination Data
   const totalPages = Math.ceil(filteredBerita.length / ITEMS_PER_PAGE);
@@ -164,14 +166,14 @@ const BeritaPage: React.FC = () => {
             <div className="relative w-full md:w-auto flex items-center gap-3">
               <div className="flex items-center gap-3 text-gray-700 bg-gray-50 px-4 py-3.5 rounded-2xl border border-gray-200 focus-within:ring-2 focus-within:ring-[#00A3CC] focus-within:bg-white transition-all">
                 <SlidersHorizontal className="w-5 h-5 text-[#00A3CC]" />
-                <span className="text-sm font-semibold hidden sm:inline text-gray-500">Urutkan: </span>
+                <span className="text-sm font-normal hidden sm:inline text-gray-500">Urutkan: </span>
                 <select
                   value={sortBy}
                   onChange={(e) => {
                     setSortBy(e.target.value as SortOption);
                     setCurrentPage(1); // Reset page on sort
                   }}
-                  className="bg-transparent text-sm font-bold focus:outline-none text-[#00A3CC] cursor-pointer w-full"
+                  className="bg-transparent text-sm font-normal focus:outline-none text-[#00A3CC] cursor-pointer w-full"
                 >
                   <option value="terbaru">Terbaru</option>
                   <option value="terpopuler">Terpopuler</option>
@@ -182,7 +184,11 @@ const BeritaPage: React.FC = () => {
           </div>
 
           {/* Grid Berita */}
-          {filteredBerita.length > 0 ? (
+          {loading ? (
+             <div className="flex justify-center items-center py-20 min-h-[300px]">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00A3CC]"></div>
+             </div>
+          ) : filteredBerita.length > 0 ? (
             <div className="flex flex-col items-center">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:gap-8 w-full mb-10">
                 {paginatedBerita.map((item) => (
@@ -202,12 +208,12 @@ const BeritaPage: React.FC = () => {
               )}
             </div>
           ) : (
-            <div className="text-center py-24 px-4 bg-white rounded-3xl border border-gray-100 shadow-sm max-w-2xl mx-auto mt-10">
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gray-50 mb-6 border border-gray-100">
-                <Search className="h-10 w-10 text-gray-400" />
+            <div className="text-center py-20 px-4 bg-transparent max-w-2xl mx-auto mt-10">
+              <div className="inline-flex items-center justify-center mb-6 opacity-60">
+                <Search className="h-16 w-16 text-[#00A3CC]" strokeWidth={1.5} />
               </div>
-              <h3 className="text-2xl font-extrabold text-gray-900 mb-3 tracking-wide">Berita Tidak Ditemukan</h3>
-              <p className="text-gray-500 text-lg">Coba sesuaikan kata kunci pencarian atau ubah opsi filter urutan.</p>
+              <h3 className="text-2xl font-bold text-gray-800 mb-2 tracking-tight">Tidak ada berita saat ini</h3>
+              <p className="text-gray-500 text-base">Nantikan berita selanjutnya!</p>
             </div>
           )}
         </div>

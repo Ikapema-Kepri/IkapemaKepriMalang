@@ -4,11 +4,20 @@ import { use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, CalendarDays, Eye, User } from "lucide-react";
-import { berita } from "@/data/sampleData";
+import { useBeritaBySlug } from "@/hooks/useBerita";
 
 export default function BeritaDetail({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = use(params);
-  const detail = berita.find((b) => b.slug === resolvedParams.slug);
+  const { berita: detail, loading } = useBeritaBySlug(resolvedParams.slug);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#F5F9FA] flex flex-col items-center justify-center p-4">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00A3CC] mb-4"></div>
+        <p className="text-[#00A3CC] font-medium tracking-wide">Memuat Berita...</p>
+      </div>
+    );
+  }
 
   if (!detail) {
     return (

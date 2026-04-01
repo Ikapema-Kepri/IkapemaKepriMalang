@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Eye, CalendarDays } from "lucide-react";
-import { Berita } from "@/data/sampleData";
+import { Berita } from "@/types";
 
 interface BeritaCardProps {
   berita: Berita;

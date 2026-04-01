@@ -1,10 +1,10 @@
 "use client";
-
-import { useState, useRef, useCallback, memo } from "react";
-import { Pencil, Trash2, Plus, Eye } from "lucide-react";
+import { useState, useRef, useCallback, memo, useEffect } from "react";
+import { Pencil, Trash2, Plus, Eye, Loader2 } from "lucide-react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/UI/table";
 import { Button } from "@/components/UI/button";
-import { berita, Berita } from "@/data/sampleData";
+import { useBerita } from "@/hooks/useBerita";
+import { Berita } from "@/types";
 import {
   FormInput,
   FormTextarea,
@@ -82,10 +82,9 @@ const BeritaCard = memo(function BeritaCard({ item, onEdit, onDelete }: BeritaCa
   );
 });
 
-// ─── FormBeritaKegiatan ───────────────────────────────────────────────────────
-
 const FormBeritaKegiatan = () => {
-  const [items, setItems] = useState<Berita[]>(berita);
+  const { beritas, loading, isSubmitting, createOrUpdateBerita, deleteBerita } = useBerita({ isAdmin: true });
+  
   const [modal, setModal] = useState<ModalState>({ open: false, mode: "add", item: null });
 
   // Individual state per field
@@ -95,7 +94,8 @@ const FormBeritaKegiatan = () => {
   const [formLabel, setFormLabel] = useState("");
   const [formAuthor, setFormAuthor] = useState("Admin");
   const [formStatus, setFormStatus] = useState<"Published" | "Draft" | "Archived">("Draft");
-
+  
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -108,6 +108,7 @@ const FormBeritaKegiatan = () => {
     setFormAuthor("Admin");
     setFormStatus("Draft");
     setPreview(null);
+    setSelectedFile(null);
     setModal({ open: true, mode: "add", item: null });
   }, []);
 
@@ -120,68 +121,67 @@ const FormBeritaKegiatan = () => {
     setFormAuthor(item.author || "Admin");
     setFormStatus(item.status);
     setPreview(item.thumbnail || null);
+    setSelectedFile(null);
     setModal({ open: true, mode: "edit", item });
   }, []);
 
   const closeModal = useCallback(() => {
     setModal({ open: false, mode: "add", item: null });
     setPreview(null);
+    setSelectedFile(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
   }, []);
 
   const handleImageChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) setPreview(URL.createObjectURL(file));
+    if (file) {
+      setSelectedFile(file);
+      setPreview(URL.createObjectURL(file));
+    }
   }, []);
 
   const handleRemoveImage = useCallback(() => {
     setPreview(null);
+    setSelectedFile(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
   }, []);
 
-  const handleSave = useCallback(() => {
+  const handleSave = useCallback(async () => {
     if (!formTitle.trim()) return;
-    if (modal.mode === "add") {
-      const newItem: Berita = {
-        id: Date.now().toString(),
-        title: formTitle,
-        slug: formTitle.toLowerCase().replace(/ /g, "-"),
-        summary: formDescription,
-        content: formDescription,
-        category: formLabel,
-        thumbnail: preview || "",
-        published_at: formDate,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        tags: [],
-        author: formAuthor,
-        status: formStatus,
-        views: 0,
-        is_featured: false,
-      };
-      setItems((prev) => [...prev, newItem]);
-    } else if (modal.mode === "edit" && modal.item) {
-      setItems((prev) =>
-        prev.map((k) =>
-          k.id === modal.item!.id
-            ? { ...k, title: formTitle, summary: formDescription, category: formLabel, thumbnail: preview || k.thumbnail, published_at: formDate, status: formStatus, author: formAuthor }
-            : k
-        )
-      );
+    
+    const formData = new FormData();
+    formData.append("title", formTitle);
+    formData.append("summary", formDescription);
+    formData.append("content", formDescription);
+    formData.append("category", formLabel);
+    formData.append("author", formAuthor);
+    formData.append("status", formStatus);
+    formData.append("published_at", formDate);
+    
+    if (selectedFile) {
+      formData.append("image", selectedFile);
     }
-    closeModal();
-  }, [formTitle, formDescription, formLabel, formAuthor, preview, formDate, formStatus, modal, closeModal]);
+    
+    const id = modal.mode === "edit" ? modal.item?.id : undefined;
+    
+    const res = await createOrUpdateBerita(formData, id);
+    if (res?.success) {
+      closeModal();
+    } else {
+      alert(res?.message || "Terjadi kesalahan.");
+    }
+  }, [formTitle, formDescription, formLabel, formAuthor, selectedFile, formDate, formStatus, modal, closeModal, createOrUpdateBerita]);
 
   const handleDelete = useCallback((id: string) => setDeleteId(id), []);
   const cancelDelete = useCallback(() => setDeleteId(null), []);
-  const confirmDelete = useCallback(() => {
+  const confirmDelete = useCallback(async () => {
     if (deleteId !== null) {
-      setItems((prev) => prev.filter((k) => k.id !== deleteId));
+      await deleteBerita(deleteId);
       setDeleteId(null);
     }
-  }, [deleteId]);
+  }, [deleteId, deleteBerita]);
 
-  const deleteName = items.find((k) => k.id === deleteId)?.title ?? "";
+  const deleteName = beritas.find((k) => k.id === deleteId)?.title ?? "";
 
   return (
     <>
@@ -195,17 +195,25 @@ const FormBeritaKegiatan = () => {
             <TableRow className="hover:bg-transparent">
               <TableCell className="py-6">
                 <div className="grid grid-cols-3 gap-4">
-                  {items.map((item) => (
-                    <BeritaCard key={item.id} item={item} onEdit={openEdit} onDelete={handleDelete} />
-                  ))}
-                  <button
-                    type="button"
-                    onClick={openAdd}
-                    className="flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed border-border hover:border-[#00CCFF] hover:text-[#00CCFF] text-muted-foreground aspect-4/3 min-h-[200px]"
-                  >
-                    <Plus size={28} />
-                    <span className="text-sm font-medium">Tambah Berita Kegiatan</span>
-                  </button>
+                  {loading ? (
+                    <div className="col-span-3 flex justify-center py-10 text-muted-foreground">
+                       <Loader2 className="w-8 h-8 animate-spin text-[#00A3CC]" />
+                    </div>
+                  ) : (
+                    <>
+                      {beritas.map((item) => (
+                        <BeritaCard key={item.id} item={item} onEdit={openEdit} onDelete={handleDelete} />
+                      ))}
+                      <button
+                        type="button"
+                        onClick={openAdd}
+                        className="flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed border-border hover:border-[#00CCFF] hover:text-[#00CCFF] text-muted-foreground aspect-4/3 min-h-[200px]"
+                      >
+                        <Plus size={28} />
+                        <span className="text-sm font-medium">Tambah Berita</span>
+                      </button>
+                    </>
+                  )}
                 </div>
               </TableCell>
             </TableRow>
@@ -217,12 +225,12 @@ const FormBeritaKegiatan = () => {
       {modal.open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="absolute inset-0 bg-black/50" onClick={closeModal} />
-          <div className="relative z-10 w-full max-w-lg mx-4 rounded-xl bg-card border border-border shadow-xl">
+          <div className="relative z-10 w-full max-w-lg mx-4 rounded-xl bg-card border border-border shadow-xl max-h-[90vh] flex flex-col">
             <ModalHeader
               title={modal.mode === "add" ? "Tambah Berita Kegiatan" : "Edit Berita Kegiatan"}
               onClose={closeModal}
             />
-            <div className="px-5 py-5 flex flex-col gap-4">
+            <div className="px-5 py-5 flex flex-col gap-4 overflow-y-auto">
               <ImageUploadField
                 label="Foto Berita Kegiatan"
                 preview={preview}
@@ -279,7 +287,7 @@ const FormBeritaKegiatan = () => {
             <ModalFooter
               onCancel={closeModal}
               onSave={handleSave}
-              saveLabel={modal.mode === "add" ? "Tambah" : "Simpan Perubahan"}
+              saveLabel={isSubmitting ? "Menyimpan..." : (modal.mode === "add" ? "Tambah" : "Simpan Perubahan")}
             />
           </div>
         </div>

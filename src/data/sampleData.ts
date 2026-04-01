@@ -27,23 +27,7 @@ export interface Alumni {
   status: 'Terverifikasi' | 'Belum Terverifikasi';
 }
 
-export interface Berita {
-  id?: string;
-  title: string;
-  slug: string;
-  summary: string;
-  content: string;
-  thumbnail: string;
-  category: string;
-  tags: string[];
-  author: string;
-  status: 'Published' | 'Draft' | 'Archived';
-  published_at: string | Date | any;
-  created_at: string | Date | any;
-  updated_at: string | Date | any;
-  views: number;
-  is_featured: boolean;
-}
+import { Berita } from "@/types";
 
 export const members: Member[] = [
   { id: 1, nama: "Rina Pratama", universitas: "Universitas Brawijaya", prodi: "Teknologi Informasi", angkatan: 2021, email: "rina@ub.ac.id", status: "Active", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Rina" },
