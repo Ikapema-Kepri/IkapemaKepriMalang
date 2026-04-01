@@ -4,7 +4,7 @@
 import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { X, Upload } from "lucide-react";
-import { Anggota, ApiResponse } from "../../types";
+import { useAnggota } from "../../hooks/useAnggota";
 
 interface AddMemberModalProps {
   isOpen: boolean;
@@ -29,6 +29,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
   onClose,
   onSuccess,
 }) => {
+  const { createAnggota } = useAnggota();
   const [namaAnggota, setNamaAnggota] = useState("");
   const [universitas, setUniversitas] = useState("");
   const [programStudi, setProgramStudi] = useState("");
@@ -61,6 +62,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
     setPhotoPreview("");
     setMessage("");
     setError("");
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   const handleClose = () => {
@@ -75,40 +77,21 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
     setUploading(true);
 
     try {
-      let photoURL = "";
-      if (photoFile) {
-        const formData = new FormData();
-        formData.append("image", photoFile);
-        const uploadRes = await fetch("/api/upload-image", {
-          method: "POST",
-          body: formData,
-        });
-        const uploadData = await uploadRes.json();
-        if (!uploadRes.ok)
-          throw new Error(uploadData.message || "Upload foto gagal.");
-        photoURL = uploadData.imageUrl;
+      const formData = new FormData();
+      formData.append("namaAnggota", namaAnggota);
+      formData.append("universitas", universitas);
+      formData.append("programStudi", programStudi);
+      formData.append("angkatan", angkatan);
+      formData.append("isActive", isActive.toString());
+      if (photoFile) formData.append("image", photoFile);
+
+      const res = await createAnggota(formData);
+
+      if (!res.success) {
+        throw new Error(res.message || "Gagal menambahkan anggota.");
       }
 
-      const newMember: Anggota = {
-        namaAnggota,
-        universitas,
-        programStudi,
-        angkatan,
-        isActive,
-        photoURL: photoURL || null,
-      };
-
-      const response = await fetch("/api/anggota", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newMember),
-      });
-
-      const data: ApiResponse = await response.json();
-      if (!response.ok)
-        throw new Error(data.message || "Gagal menambahkan anggota.");
-
-      setMessage(data.message);
+      setMessage(res.message);
       resetForm();
       if (onSuccess) onSuccess();
       setTimeout(() => {
@@ -150,28 +133,43 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
           {/* Foto */}
           <div className="flex flex-col items-center gap-2">
             <div
-              className="w-32 h-32 rounded-sm bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden cursor-pointer hover:border-[#00CCFF] transition"
+              className="w-32 h-32 rounded-sm bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden cursor-pointer hover:border-[#00CCFF] transition relative"
               onClick={() => fileInputRef.current?.click()}
             >
               {photoPreview ? (
                 <Image
                   src={photoPreview}
                   alt="Preview foto"
-                  width={128}
-                  height={128}
-                  className="object-cover w-full h-full"
+                  fill
+                  style={{ objectFit: 'cover' }}
                 />
               ) : (
                 <Upload className="h-8 w-8 text-gray-400" />
               )}
             </div>
-            <button
-              type="button"
-              onClick={() => fileInputRef.current?.click()}
-              className="text-xs text-[#00CCFF] hover:underline"
-            >
-              {photoPreview ? "Ganti foto" : "Pilih foto"}
-            </button>
+            <div className="flex gap-2">
+                <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="text-xs text-[#00CCFF] hover:underline"
+                >
+                {photoPreview ? "Ganti foto" : "Pilih foto"}
+                </button>
+                {photoPreview && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                        setPhotoPreview("");
+                        setPhotoFile(null);
+                        if (fileInputRef.current) fileInputRef.current.value = "";
+                    }}
+                    className="text-xs text-red-500 hover:underline"
+                  >
+                    Hapus
+                  </button>
+                )}
+            </div>
+            
             <input
               ref={fileInputRef}
               type="file"

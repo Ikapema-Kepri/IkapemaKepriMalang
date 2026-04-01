@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useRef, useCallback, memo } from "react";
-import { Pencil, Trash2, Plus } from "lucide-react";
+import { Pencil, Trash2, Plus, Eye } from "lucide-react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/UI/table";
 import { Button } from "@/components/UI/button";
-import { sampleBeritaKegiatan, BeritaKegiatanItem } from "@/data/sampleData";
+import { berita, Berita } from "@/data/sampleData";
 import {
   FormInput,
   FormTextarea,
@@ -22,47 +22,58 @@ type ModalMode = "add" | "edit";
 interface ModalState {
   open: boolean;
   mode: ModalMode;
-  item: BeritaKegiatanItem | null;
+  item: Berita | null;
 }
 
 interface BeritaCardProps {
-  item: BeritaKegiatanItem;
-  onEdit: (item: BeritaKegiatanItem) => void;
-  onDelete: (id: number) => void;
+  item: Berita;
+  onEdit: (item: Berita) => void;
+  onDelete: (id: string) => void;
 }
 
 // ─── BeritaCard (memoized) ────────────────────────────────────────────────────
 
 const BeritaCard = memo(function BeritaCard({ item, onEdit, onDelete }: BeritaCardProps) {
   return (
-    <div className="flex flex-col rounded-lg border border-border bg-card overflow-hidden shadow-sm">
+    <div className="flex flex-col rounded-lg border border-border bg-card overflow-hidden shadow-sm relative group hover:border-[#00CCFF]/30 transition-colors duration-200">
       <div className="relative w-full aspect-video overflow-hidden bg-muted">
-        <img src={item.photoUrl} alt={item.title} className="w-full h-full object-cover" />
+        <img src={item.thumbnail || "/LogoIkapema.webp"} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
         <span
-          className={`absolute top-4 right-4 px-2 py-1 rounded-sm text-[14px] font-medium tracking-wide ${
-            item.status === "Published" ? "bg-green-50 text-success" : "bg-yellow-50 text-warning"
+          className={`absolute top-4 right-4 px-2 py-1 rounded-[4px] text-[12px] font-medium tracking-wide ${
+            item.status === "Published" ? "bg-green-50 text-success" : item.status === "Draft" ? "bg-yellow-50 text-warning" : "bg-gray-100 text-gray-500"
           }`}
         >
-          {item.status === "Published" ? "Terpublikasi" : "Draft"}
+          {item.status === "Published" ? "Terpublikasi" : item.status}
         </span>
+        {item.is_featured && (
+          <span className="absolute top-4 left-4 px-2.5 py-1 rounded-[4px] text-[11px] font-bold bg-[#00A3CC] text-white tracking-wide shadow-sm">
+            FEATURED
+          </span>
+        )}
       </div>
       <div className="flex flex-col gap-1.5 p-3 flex-1">
-        <p className="text-sm font-semibold text-foreground leading-snug line-clamp-2">{item.title}</p>
-        <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3">{item.description}</p>
+        <p className="text-sm font-semibold text-foreground leading-snug line-clamp-2" title={item.title}>{item.title}</p>
+        <p className="text-[11px] font-bold text-[#00A3CC] tracking-wider mt-1">{item.category?.toUpperCase() || "UMUM"}</p>
+        <p className="text-[11px] text-muted-foreground mt-0.5">Oleh: <span className="font-medium text-foreground">{item.author || "Admin"}</span></p>
       </div>
-      <div className="flex flex-row p-3 justify-between">
-        <p className="text-xs text-foreground flex items-center text-center">
-          {new Date(item.date).toLocaleDateString("en-GB", {
-            day: "2-digit",
-            month: "short",
-            year: "numeric",
-          })}
-        </p>
-        <div className="flex items-center justify-between gap-1.5">
+      <div className="flex flex-col p-3 border-t border-border mt-auto">
+        <div className="flex justify-between items-center mb-3">
+          <p className="text-[11px] text-muted-foreground font-medium">
+            {item.published_at ? new Date(item.published_at).toLocaleDateString("id-ID", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            }) : "Belum dipublikasi"}
+          </p>
+          <p className="text-[11px] text-muted-foreground flex items-center gap-1 font-medium">
+            <Eye size={13} /> {item.views || 0}
+          </p>
+        </div>
+        <div className="flex items-center justify-between gap-1.5 border-t border-transparent pt-1">
           <Button variant="primary" className="text-warning rounded-sm" onClick={() => onEdit(item)}>
             <Pencil size={13} />
           </Button>
-          <Button variant="primary" className="text-alert rounded-sm" onClick={() => onDelete(item.id)}>
+          <Button variant="primary" className="text-alert rounded-sm" onClick={() => onDelete(item.id!)}>
             <Trash2 size={13} />
           </Button>
         </div>
@@ -74,7 +85,7 @@ const BeritaCard = memo(function BeritaCard({ item, onEdit, onDelete }: BeritaCa
 // ─── FormBeritaKegiatan ───────────────────────────────────────────────────────
 
 const FormBeritaKegiatan = () => {
-  const [items, setItems] = useState<BeritaKegiatanItem[]>(sampleBeritaKegiatan);
+  const [items, setItems] = useState<Berita[]>(berita);
   const [modal, setModal] = useState<ModalState>({ open: false, mode: "add", item: null });
 
   // Individual state per field
@@ -82,29 +93,33 @@ const FormBeritaKegiatan = () => {
   const [formDescription, setFormDescription] = useState("");
   const [formDate, setFormDate] = useState("");
   const [formLabel, setFormLabel] = useState("");
-  const [formStatus, setFormStatus] = useState<"Published" | "Draft">("Draft");
+  const [formAuthor, setFormAuthor] = useState("Admin");
+  const [formStatus, setFormStatus] = useState<"Published" | "Draft" | "Archived">("Draft");
 
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
   const openAdd = useCallback(() => {
     setFormTitle("");
     setFormDescription("");
     setFormDate("");
     setFormLabel("");
+    setFormAuthor("Admin");
     setFormStatus("Draft");
     setPreview(null);
     setModal({ open: true, mode: "add", item: null });
   }, []);
 
-  const openEdit = useCallback((item: BeritaKegiatanItem) => {
+  const openEdit = useCallback((item: Berita) => {
     setFormTitle(item.title);
-    setFormDescription(item.description);
-    setFormDate(item.date);
-    setFormLabel(item.label);
+    setFormDescription(item.summary || "");
+    const d = item.published_at ? new Date(item.published_at) : null;
+    setFormDate(d && !isNaN(d.getTime()) ? d.toISOString().split("T")[0] : "");
+    setFormLabel(item.category || "");
+    setFormAuthor(item.author || "Admin");
     setFormStatus(item.status);
-    setPreview(item.photoUrl);
+    setPreview(item.thumbnail || null);
     setModal({ open: true, mode: "edit", item });
   }, []);
 
@@ -127,29 +142,37 @@ const FormBeritaKegiatan = () => {
   const handleSave = useCallback(() => {
     if (!formTitle.trim()) return;
     if (modal.mode === "add") {
-      const newItem: BeritaKegiatanItem = {
-        id: Date.now(),
+      const newItem: Berita = {
+        id: Date.now().toString(),
         title: formTitle,
-        description: formDescription,
-        label: formLabel,
-        photoUrl: preview || "",
-        date: formDate,
+        slug: formTitle.toLowerCase().replace(/ /g, "-"),
+        summary: formDescription,
+        content: formDescription,
+        category: formLabel,
+        thumbnail: preview || "",
+        published_at: formDate,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        tags: [],
+        author: formAuthor,
         status: formStatus,
+        views: 0,
+        is_featured: false,
       };
       setItems((prev) => [...prev, newItem]);
     } else if (modal.mode === "edit" && modal.item) {
       setItems((prev) =>
         prev.map((k) =>
           k.id === modal.item!.id
-            ? { ...k, title: formTitle, description: formDescription, label: formLabel, photoUrl: preview || k.photoUrl, date: formDate, status: formStatus }
+            ? { ...k, title: formTitle, summary: formDescription, category: formLabel, thumbnail: preview || k.thumbnail, published_at: formDate, status: formStatus, author: formAuthor }
             : k
         )
       );
     }
     closeModal();
-  }, [formTitle, formDescription, formLabel, preview, formDate, formStatus, modal, closeModal]);
+  }, [formTitle, formDescription, formLabel, formAuthor, preview, formDate, formStatus, modal, closeModal]);
 
-  const handleDelete = useCallback((id: number) => setDeleteId(id), []);
+  const handleDelete = useCallback((id: string) => setDeleteId(id), []);
   const cancelDelete = useCallback(() => setDeleteId(null), []);
   const confirmDelete = useCallback(() => {
     if (deleteId !== null) {
@@ -221,7 +244,14 @@ const FormBeritaKegiatan = () => {
                 type="text"
                 value={formLabel}
                 onChange={(e) => setFormLabel(e.target.value)}
-                placeholder="cth. Departemen Kominfo, Acara Sosial, dll"
+                placeholder="cth. event, workshop, dll"
+              />
+              <FormInput
+                label="Penulis"
+                type="text"
+                value={formAuthor}
+                onChange={(e) => setFormAuthor(e.target.value)}
+                placeholder="cth. Departemen Kominfo"
               />
               <FormTextarea
                 label="Deskripsi Berita"
@@ -239,10 +269,11 @@ const FormBeritaKegiatan = () => {
               <FormSelect
                 label="Status"
                 value={formStatus}
-                onChange={(e) => setFormStatus(e.target.value as "Published" | "Draft")}
+                onChange={(e) => setFormStatus(e.target.value as "Published" | "Draft" | "Archived")}
               >
                 <option value="Draft">Draft</option>
                 <option value="Published">Terpublikasi</option>
+                <option value="Archived">Diarsipkan</option>
               </FormSelect>
             </div>
             <ModalFooter

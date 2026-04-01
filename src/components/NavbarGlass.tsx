@@ -12,7 +12,7 @@ interface NavLink {
 const navLinks: NavLink[] = [
   { label: 'Beranda', href: '/beranda' },
   { label: 'Tentang', href: '/tentang' },
-  { label: 'Program', isComingSoon: true },
+  { label: 'Berita', href: '/berita' },
   {
     label: 'Struktur',
     dropdown: [

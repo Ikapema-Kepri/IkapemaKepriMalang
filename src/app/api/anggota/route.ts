@@ -3,14 +3,21 @@ import { db } from '../../../lib/firebase';
 import { collection, addDoc, getDocs, query, orderBy, limit } from 'firebase/firestore';
 import { fetchPaginatedData } from '../../../lib/firestore-service';
 import { Anggota, PaginationInfo } from '@/types';
+import cloudinary from '../../../lib/cloudinary';
+import { Buffer } from 'buffer';
 
 const anggotaCol = collection(db, 'anggota');
 
 const handlers = {
   async POST(req: NextRequest) {
     try {
-      const body = await req.json();
-      const { namaAnggota, universitas, programStudi, angkatan, isActive, photoURL } = body;
+      const formData = await req.formData();
+      const namaAnggota = formData.get('namaAnggota') as string | null;
+      const universitas = formData.get('universitas') as string | null;
+      const programStudi = formData.get('programStudi') as string | null;
+      const angkatan = formData.get('angkatan') as string | null;
+      const isActive = formData.get('isActive');
+      const file = formData.get('image') as File | null;
 
       if (!namaAnggota || !universitas || !programStudi) {
         return NextResponse.json(
@@ -27,17 +34,43 @@ const handlers = {
         nextId = typeof lastId === 'number' ? lastId + 1 : 1;
       }
 
-      const docRef = await addDoc(anggotaCol, {
+      const createData: any = {
         idAnggota: nextId,
         namaAnggota,
         universitas,
         programStudi,
         angkatan: angkatan || '',
-        photoURL: photoURL || null,
-        isActive: isActive !== undefined ? Boolean(isActive) : true,
+        photoURL: null,
+        anggotaPublicId: null,
+        isActive: isActive !== null ? (isActive === 'true') : true,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
-      });
+      };
+
+      if (file && file.size > 0) {
+        const arrayBuffer = await file.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+        const uploadResult = await new Promise<any>((resolve, reject) => {
+          cloudinary.uploader.upload_stream(
+            { resource_type: 'auto', folder: 'anggota' },
+            (error: any, result: any) => {
+              if (error || !result) {
+                reject(error || new Error('Upload failed'));
+                return;
+              }
+              resolve(result);
+            }
+          ).end(buffer);
+        });
+        
+        // Optimasi gambar menjadi rasio 1:1 (kotak) sesuai permintaan
+        const optimizedUrl = uploadResult.secure_url.replace('/upload/', '/upload/c_fill,ar_1:1/');
+
+        createData.photoURL = optimizedUrl;
+        createData.anggotaPublicId = uploadResult.public_id;
+      }
+
+      const docRef = await addDoc(anggotaCol, createData);
 
       return NextResponse.json(
         { message: 'Anggota berhasil ditambahkan!', id: docRef.id, anggotaId: nextId },

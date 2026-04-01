@@ -27,13 +27,22 @@ export interface Alumni {
   status: 'Terverifikasi' | 'Belum Terverifikasi';
 }
 
-export interface NewsItem {
-  id: number;
-  judul: string;
-  deskripsi: string;
-  foto: string;
+export interface Berita {
+  id?: string;
+  title: string;
+  slug: string;
+  summary: string;
+  content: string;
+  thumbnail: string;
+  category: string;
+  tags: string[];
+  author: string;
   status: 'Published' | 'Draft' | 'Archived';
-  tanggal: string;
+  published_at: string | Date | any;
+  created_at: string | Date | any;
+  updated_at: string | Date | any;
+  views: number;
+  is_featured: boolean;
 }
 
 export const members: Member[] = [
@@ -54,11 +63,143 @@ export const alumni: Alumni[] = [
   { id: 4, nama: "Hendro Wijaya", nim: "235150700111004", universitas: "Universitas Negeri Malang", prodi: "Teknik Komputer", angkatan: 2015, tahun_lulus: 2019, pekerjaan: "DevOps Engineer", perusahaan: "Tokopedia", linkedin: "https://linkedin.com/in/hendro", email: "hendro.w@outlook.com", telepon: "084567890123", alamat: "Jakarta Pusat", status: "Terverifikasi" },
 ];
 
-export const news: NewsItem[] = [
-  { id: 1, judul: "Ikapema Goes To School", deskripsi: "Roadshow sosialisasi kampus ke SMA se-Malang. Kegiatan ini bertujuan untuk memperkenalkan dunia perkuliahan kepada siswa-siswi SMA.", foto: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800", status: "Published", tanggal: "2025-11-10" },
-  { id: 2, judul: "Workshop UI/UX Design", deskripsi: "Workshop intensif untuk meningkatkan skill desain antarmuka bagi anggota Ikapema. Materi mencakup Figma dan prototyping.", foto: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=800", status: "Draft", tanggal: "2025-12-01" },
-  { id: 3, judul: "Ikapema Career Fair 2025", deskripsi: "Pameran karir tahunan yang menghadirkan berbagai perusahaan teknologi terkemuka untuk rekrutmen alumni dan anggota.", foto: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800", status: "Published", tanggal: "2025-10-15" },
-  { id: 4, judul: "Hackathon Ikapema", deskripsi: "Kompetisi programming 24 jam untuk mengembangkan solusi teknologi inovatif. Terbuka untuk semua anggota aktif.", foto: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800", status: "Archived", tanggal: "2025-09-20" },
+export const berita: Berita[] = [
+  {
+    id: "1",
+    title: "Ikapema Goes To School",
+    slug: "ikapema-goes-to-school",
+    summary: "Roadshow sosialisasi kampus ke SMA se-Malang. Kegiatan ini bertujuan untuk memperkenalkan dunia perkuliahan kepada siswa-siswi SMA.",
+    content: "<p>Roadshow sosialisasi kampus ke SMA se-Malang. Kegiatan ini bertujuan untuk memperkenalkan dunia perkuliahan kepada siswa-siswi SMA.</p>\n<p>Acara ini diselenggarakan setiap tahunnya agar para siswa...</p>",
+    thumbnail: "/kegiatan/IGS.webp",
+    category: "event",
+    tags: ["roadshow", "kampus", "sma"],
+    author: "Departemen Eksternal",
+    status: "Published",
+    published_at: "2025-11-10T08:00:00Z",
+    created_at: "2025-11-01T08:00:00Z",
+    updated_at: "2025-11-10T08:00:00Z",
+    views: 125,
+    is_featured: true
+  },
+  {
+    id: "2",
+    title: "Workshop UI/UX Design",
+    slug: "workshop-ui-ux-design",
+    summary: "Workshop intensif untuk meningkatkan skill desain antarmuka bagi anggota Ikapema. Materi mencakup Figma dan prototyping.",
+    content: "<p>Workshop intensif untuk meningkatkan skill desain antarmuka bagi anggota Ikapema. Materi mencakup Figma dan prototyping.</p>\n<p>Tersedia sertifikat bagi seluruh peserta yang hadir secara penuh.</p>",
+    thumbnail: "/kegiatan/Gathering.webp",
+    category: "workshop",
+    tags: ["uiux", "design", "figma"],
+    author: "Departemen Kominfo",
+    status: "Draft",
+    published_at: null,
+    created_at: "2025-12-01T08:00:00Z",
+    updated_at: "2025-12-01T08:00:00Z",
+    views: 0,
+    is_featured: false
+  },
+  {
+    id: "3",
+    title: "Ikapema Career Fair 2025",
+    slug: "ikapema-career-fair-2025",
+    summary: "Pameran karir tahunan yang menghadirkan berbagai perusahaan teknologi terkemuka untuk rekrutmen alumni dan anggota.",
+    content: "<p>Pameran karir tahunan yang menghadirkan berbagai perusahaan teknologi terkemuka untuk rekrutmen alumni dan anggota.</p>",
+    thumbnail: "/kegiatan/ODI.webp",
+    category: "event",
+    tags: ["careerfair", "rekrutmen", "alumni"],
+    author: "Departemen Eksternal",
+    status: "Published",
+    published_at: "2025-10-15T08:00:00Z",
+    created_at: "2025-10-01T08:00:00Z",
+    updated_at: "2025-10-15T08:00:00Z",
+    views: 540,
+    is_featured: true
+  },
+  {
+    id: "4",
+    title: "Hackathon Ikapema",
+    slug: "hackathon-ikapema",
+    summary: "Kompetisi programming 24 jam untuk mengembangkan solusi teknologi inovatif. Terbuka untuk semua anggota aktif.",
+    content: "<p>Kompetisi programming 24 jam untuk mengembangkan solusi teknologi inovatif. Terbuka untuk semua anggota aktif.</p>\n<p>Dipersilakan membentuk tim maksimum 3 orang.</p>",
+    thumbnail: "/kegiatan/TOPH.webp",
+    category: "competition",
+    tags: ["hackathon", "programming", "lomba"],
+    author: "Departemen Kominfo",
+    status: "Archived",
+    published_at: "2025-09-20T08:00:00Z",
+    created_at: "2025-09-10T08:00:00Z",
+    updated_at: "2025-09-25T08:00:00Z",
+    views: 95,
+    is_featured: false
+  },
+  {
+    id: "5",
+    title: "Hackathon Ikapema",
+    slug: "hackathon-ikapema",
+    summary: "Kompetisi programming 24 jam untuk mengembangkan solusi teknologi inovatif. Terbuka untuk semua anggota aktif.",
+    content: "<p>Kompetisi programming 24 jam untuk mengembangkan solusi teknologi inovatif. Terbuka untuk semua anggota aktif.</p>\n<p>Dipersilakan membentuk tim maksimum 3 orang.</p>",
+    thumbnail: "/kegiatan/TOPH.webp",
+    category: "competition",
+    tags: ["hackathon", "programming", "lomba"],
+    author: "Departemen Kominfo",
+    status: "Archived",
+    published_at: "2025-09-20T08:00:00Z",
+    created_at: "2025-09-10T08:00:00Z",
+    updated_at: "2025-09-25T08:00:00Z",
+    views: 95,
+    is_featured: false
+  },
+  {
+    id: "6",
+    title: "Hackathon Ikapema",
+    slug: "hackathon-ikapema",
+    summary: "Kompetisi programming 24 jam untuk mengembangkan solusi teknologi inovatif. Terbuka untuk semua anggota aktif.",
+    content: "<p>Kompetisi programming 24 jam untuk mengembangkan solusi teknologi inovatif. Terbuka untuk semua anggota aktif.</p>\n<p>Dipersilakan membentuk tim maksimum 3 orang.</p>",
+    thumbnail: "/kegiatan/TOPH.webp",
+    category: "competition",
+    tags: ["hackathon", "programming", "lomba"],
+    author: "Departemen Kominfo",
+    status: "Archived",
+    published_at: "2025-09-20T08:00:00Z",
+    created_at: "2025-09-10T08:00:00Z",
+    updated_at: "2025-09-25T08:00:00Z",
+    views: 95,
+    is_featured: false
+  },
+  {
+    id: "7",
+    title: "Hackathon Ikapema",
+    slug: "hackathon-ikapema",
+    summary: "Kompetisi programming 24 jam untuk mengembangkan solusi teknologi inovatif. Terbuka untuk semua anggota aktif.",
+    content: "<p>Kompetisi programming 24 jam untuk mengembangkan solusi teknologi inovatif. Terbuka untuk semua anggota aktif.</p>\n<p>Dipersilakan membentuk tim maksimum 3 orang.</p>",
+    thumbnail: "/kegiatan/TOPH.webp",
+    category: "competition",
+    tags: ["hackathon", "programming", "lomba"],
+    author: "Departemen Kominfo",
+    status: "Archived",
+    published_at: "2025-09-20T08:00:00Z",
+    created_at: "2025-09-10T08:00:00Z",
+    updated_at: "2025-09-25T08:00:00Z",
+    views: 95,
+    is_featured: false
+  },
+  {
+    id: "8",
+    title: "Hackathon Ikapema",
+    slug: "hackathon-ikapema",
+    summary: "Kompetisi programming 24 jam untuk mengembangkan solusi teknologi inovatif. Terbuka untuk semua anggota aktif.",
+    content: "<p>Kompetisi programming 24 jam untuk mengembangkan solusi teknologi inovatif. Terbuka untuk semua anggota aktif.</p>\n<p>Dipersilakan membentuk tim maksimum 3 orang.</p>",
+    thumbnail: "/kegiatan/TOPH.webp",
+    category: "competition",
+    tags: ["hackathon", "programming", "lomba"],
+    author: "Departemen Kominfo",
+    status: "Archived",
+    published_at: "2025-09-20T08:00:00Z",
+    created_at: "2025-09-10T08:00:00Z",
+    updated_at: "2025-09-25T08:00:00Z",
+    views: 95,
+    is_featured: false
+  },
 ];
 
 export type ActivityType = 'tambah' | 'update' | 'publish' | 'verifikasi' | 'hapus';

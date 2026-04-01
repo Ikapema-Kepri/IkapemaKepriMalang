@@ -12,6 +12,10 @@ interface ListAnggotaProps {
 }
 
 const ListAnggota: React.FC<ListAnggotaProps> = ({ searchQuery = '', onSearchChange }) => {
+    const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+    const [isImageDeleted, setIsImageDeleted] = React.useState(false);
+    const fileInputRef = React.useRef<HTMLInputElement>(null);
+
     const {
         currentMembers,
         loading,
@@ -36,6 +40,35 @@ const ListAnggota: React.FC<ListAnggotaProps> = ({ searchQuery = '', onSearchCha
         handleSearch,
         setEditData,
     } = useAnggota({ initialSearch: searchQuery });
+
+    const handleEditClickWithFile = (member: any) => {
+        handleEditClick(member);
+        setSelectedFile(null);
+        setIsImageDeleted(false);
+    };
+
+    const handleEditSubmitWithFile = (e: React.FormEvent) => {
+        e.preventDefault();
+        const formData = new FormData();
+        if (editData.namaAnggota) formData.append('namaAnggota', editData.namaAnggota);
+        if (editData.universitas) formData.append('universitas', editData.universitas);
+        if (editData.programStudi) formData.append('programStudi', editData.programStudi);
+        if (editData.angkatan) formData.append('angkatan', editData.angkatan);
+        formData.append('isActive', editData.isActive ? 'true' : 'false');
+
+        if (selectedFile) formData.append('image', selectedFile);
+        if (isImageDeleted && !selectedFile) formData.append('deleteImage', 'true');
+
+        handleEditSubmit(e, formData);
+        setSelectedFile(null);
+        setIsImageDeleted(false);
+    };
+
+    const cancelEditWithFile = () => {
+        cancelEdit();
+        setSelectedFile(null);
+        setIsImageDeleted(false);
+    };
 
     // Sync external search with internal state
     React.useEffect(() => {
@@ -95,9 +128,20 @@ const ListAnggota: React.FC<ListAnggotaProps> = ({ searchQuery = '', onSearchCha
                                     {editId === member.id ? (
                                         <>
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="space-y-2">
-                                                    <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
-                                                        {editData.photoURL ? (
+                                                <div className="space-y-2 flex flex-col items-start">
+                                                    <div 
+                                                        className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden cursor-pointer border border-dashed hover:border-[#00CCFF] relative group"
+                                                        onClick={() => fileInputRef.current?.click()}
+                                                    >
+                                                        {selectedFile ? (
+                                                            <Image
+                                                                src={URL.createObjectURL(selectedFile)}
+                                                                alt={editData.namaAnggota || 'Preview'}
+                                                                width={40}
+                                                                height={40}
+                                                                className="object-cover w-full h-full"
+                                                            />
+                                                        ) : (editData.photoURL && !isImageDeleted) ? (
                                                             <Image
                                                                 src={editData.photoURL}
                                                                 alt={editData.namaAnggota || 'Preview'}
@@ -118,19 +162,40 @@ const ListAnggota: React.FC<ListAnggotaProps> = ({ searchQuery = '', onSearchCha
                                                                 />
                                                             </svg>
                                                         )}
+                                                        <div className="absolute inset-0 bg-black/40 hidden group-hover:flex items-center justify-center">
+                                                            <span className="text-[8px] text-white">Ubah</span>
+                                                        </div>
                                                     </div>
                                                     <input
-                                                        type="url"
-                                                        name="photoURL"
-                                                        value={editData.photoURL || ''}
-                                                        onChange={handleEditChange}
-                                                        className="w-32 px-2 py-1 border rounded text-xs"
-                                                        placeholder="URL Foto"
+                                                        ref={fileInputRef}
+                                                        type="file"
+                                                        accept="image/*"
+                                                        className="hidden"
+                                                        onChange={(e) => {
+                                                            const file = e.target.files?.[0];
+                                                            if (file) {
+                                                                setSelectedFile(file);
+                                                                setIsImageDeleted(false);
+                                                            }
+                                                        }}
                                                     />
+                                                    {(editData.photoURL || selectedFile) && !isImageDeleted && (
+                                                        <button 
+                                                            type="button" 
+                                                            onClick={() => {
+                                                                setIsImageDeleted(true);
+                                                                setSelectedFile(null);
+                                                                if (fileInputRef.current) fileInputRef.current.value = "";
+                                                            }}
+                                                            className="text-[10px] text-red-500 hover:underline"
+                                                        >
+                                                            Hapus Foto
+                                                        </button>
+                                                    )}
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4">
-                                                <form onSubmit={handleEditSubmit} className="space-y-2">
+                                                <form onSubmit={handleEditSubmitWithFile} className="space-y-2">
                                                     <input
                                                         type="text"
                                                         name="namaAnggota"
@@ -200,13 +265,13 @@ const ListAnggota: React.FC<ListAnggotaProps> = ({ searchQuery = '', onSearchCha
                                             <td className="px-6 py-4">
                                                 <div className="flex gap-2">
                                                     <button
-                                                        onClick={handleEditSubmit}
+                                                        onClick={handleEditSubmitWithFile}
                                                         className="bg-[#00A3CC] text-white px-3 py-1 rounded text-sm hover:bg-[#005266] transition"
                                                     >
                                                         Simpan
                                                     </button>
                                                     <button
-                                                        onClick={cancelEdit}
+                                                        onClick={cancelEditWithFile}
                                                         className="bg-gray-300 text-gray-700 px-3 py-1 rounded text-sm hover:bg-gray-400 transition"
                                                     >
                                                         Batal
@@ -275,7 +340,7 @@ const ListAnggota: React.FC<ListAnggotaProps> = ({ searchQuery = '', onSearchCha
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                                 <div className="flex gap-2">
                                                     <button
-                                                        onClick={() => handleEditClick(member)}
+                                                        onClick={() => handleEditClickWithFile(member)}
                                                         className="bg-[#00A3CC] text-white px-3 py-1 rounded text-sm hover:bg-[#005266] transition"
                                                     >
                                                         Edit
