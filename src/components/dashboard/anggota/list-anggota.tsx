@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Card } from "@/components/UI/card";
 import { Table, TableHeader, TableBody, TableRow, TableHead } from "@/components/UI/table";
 import { useAnggota } from "@/hooks/useAnggota";
+import { Anggota } from "@/types";
 import { Search } from "lucide-react";
 import React from "react";
 
@@ -41,7 +42,7 @@ const ListAnggota: React.FC<ListAnggotaProps> = ({ searchQuery = '', onSearchCha
         setEditData,
     } = useAnggota({ initialSearch: searchQuery });
 
-    const handleEditClickWithFile = (member: any) => {
+    const handleEditClickWithFile = (member: Anggota) => {
         handleEditClick(member);
         setSelectedFile(null);
         setIsImageDeleted(false);

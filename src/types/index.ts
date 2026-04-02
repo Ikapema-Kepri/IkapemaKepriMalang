@@ -32,9 +32,9 @@ export interface Berita {
   tags?: string[];
   author: string;
   status: 'Published' | 'Draft' | 'Archived';
-  published_at?: string | Date | any;
-  created_at?: string | Date | any;
-  updated_at?: string | Date | any;
+  published_at?: string | Date | null;
+  created_at?: string | Date | null;
+  updated_at?: string | Date | null;
   views?: number;
   is_featured?: boolean;
 }
@@ -105,4 +105,10 @@ export interface ApiResponse<T = unknown> {
   error?: string;
   id?: string;
   pagination?: PaginationInfo;
+}
+
+export interface CloudinaryUploadResult {
+  secure_url: string;
+  public_id: string;
+  [key: string]: unknown;
 }

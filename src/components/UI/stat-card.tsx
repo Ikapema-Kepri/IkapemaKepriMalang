@@ -22,7 +22,7 @@ export function StatCard({
   icon: Icon, 
   trend, 
   className,
-  iconColor = "text-blue-600",
+  // iconColor = "text-blue-600",
   iconBgColor = "bg-blue-500/10",
   valueColor
 }: StatCardProps) {

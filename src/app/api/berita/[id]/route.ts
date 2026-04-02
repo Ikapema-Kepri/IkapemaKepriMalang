@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../../lib/firebase';
 import { doc, updateDoc, getDoc, deleteDoc } from 'firebase/firestore';
 import cloudinary from '../../../../lib/cloudinary';
+import { CloudinaryUploadResult } from '@/types';
 import { Buffer } from 'buffer';
 
 const handlers = {
@@ -71,7 +72,7 @@ const handlers = {
       const viewsStr = formData.get('views') as string | null;
       const file = formData.get('image') as File | null;
 
-      const updateData: any = {
+      const updateData: Record<string, unknown> = {
         updated_at: new Date().toISOString(),
       };
 
@@ -97,15 +98,15 @@ const handlers = {
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
 
-        const uploadResult = await new Promise<any>((resolve, reject) => {
+        const uploadResult = await new Promise<CloudinaryUploadResult >((resolve, reject) => {
           cloudinary.uploader.upload_stream(
             { resource_type: 'auto', folder: 'berita' },
-            (error: any, result: any) => {
+            (error: Error | null, result: unknown) => {
               if (error || !result) {
                 reject(error ?? new Error('Upload to Cloudinary failed'));
                 return;
               }
-              resolve(result);
+              resolve(result as CloudinaryUploadResult);
             }
           ).end(buffer);
         });

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../../lib/firebase';
 import { doc, deleteDoc, updateDoc, getDoc } from 'firebase/firestore';
 import cloudinary from '../../../../lib/cloudinary';
+import { CloudinaryUploadResult } from '@/types';
 import { Buffer } from 'buffer';
 
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -50,7 +51,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     }
 
     const oldData = docSnap.data();
-    const updateData: any = {
+    const updateData: Record<string, unknown> = {
       updatedAt: new Date().toISOString(),
     };
 
@@ -75,18 +76,18 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     if (file && file.size > 0) {
       const arrayBuffer = await file.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
-      const uploadResult = await new Promise<any>((resolve, reject) => {
+      const uploadResult = await new Promise<CloudinaryUploadResult>((resolve, reject) => {
         cloudinary.uploader.upload_stream(
           { resource_type: 'auto', folder: 'anggota' },
-          (error: any, result: any) => {
+          (error: Error | null, result: unknown) => {
             if (error || !result) reject(error || new Error('Upload to Cloudinary failed'));
-            else resolve(result);
+            else resolve(result as CloudinaryUploadResult);
           }
         ).end(buffer);
       });
 
       if (oldData.anggotaPublicId) {
-        try { await cloudinary.uploader.destroy(oldData.anggotaPublicId); } catch(delErr) {}
+        try { await cloudinary.uploader.destroy(oldData.anggotaPublicId); } catch { console.error('Cloudinary destroy failed'); }
       }
       
       // Optimasi gambar menjadi rasio 1:1 (kotak)
@@ -96,7 +97,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       updateData.anggotaPublicId = uploadResult.public_id;
     } else if (deleteImage) {
       if (oldData.anggotaPublicId) {
-        try { await cloudinary.uploader.destroy(oldData.anggotaPublicId); } catch(delErr) {}
+        try { await cloudinary.uploader.destroy(oldData.anggotaPublicId); } catch { console.error('Cloudinary destroy failed'); }
       }
       updateData.photoURL = null;
       updateData.anggotaPublicId = null;

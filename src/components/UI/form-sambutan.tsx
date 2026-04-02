@@ -9,6 +9,7 @@ import {
 } from "@/components/UI/table";
 import { ImageUp } from "lucide-react";
 import { useSambutan } from "@/hooks/useSambutan";
+import Image from "next/image";
 
 export function FormSambutan() {
   const [preview, setPreview] = useState<string | null>(null);
@@ -17,7 +18,7 @@ export function FormSambutan() {
   const [nama, setNama] = useState("");
   const [periode, setPeriode] = useState("");
   const [sambutanText, setSambutanText] = useState("");
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null!);
 
   const { sambutan, updateSambutan, isSubmitting } = useSambutan({ isAdmin: true });
 
@@ -100,7 +101,7 @@ export function FormSambutan() {
                     className="group relative w-full aspect-square bg-[#F7F5F0] rounded-sm border-2 border-dashed border-border hover:border-[#00CCFF] transition-colors overflow-hidden"
                   >
                     {preview ? (
-                      <img src={preview} alt="Preview" className="w-full h-full object-cover" />
+                      <Image src={preview} alt="Preview" className="w-full h-full object-cover" />
                     ) : (
                       <div className="flex flex-col items-center justify-center h-full gap-2 text-muted-foreground group-hover:text-[#00CCFF] transition-colors">
                         <ImageUp size={28} />

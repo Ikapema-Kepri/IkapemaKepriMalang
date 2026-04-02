@@ -9,7 +9,7 @@ import {
 } from "@/components/UI/table";
 import { ImageUp } from "lucide-react";
 import { useAsrama } from "@/hooks/useAsrama";
-
+import Image from "next/image";
 interface AsramaFormProps {
   label: string;
 }
@@ -20,7 +20,7 @@ function AsramaForm({ label }: AsramaFormProps) {
   const [isImageDeleted, setIsImageDeleted] = useState(false);
   const [nama, setNama] = useState("");
   const [alamat, setAlamat] = useState("");
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null!);
 
   const { asramaPutra, asramaPutri, updateAsrama, createAsrama, isSubmitting } = useAsrama({ isAdmin: true });
 
@@ -106,7 +106,7 @@ function AsramaForm({ label }: AsramaFormProps) {
                     className="group relative w-full aspect-video bg-[#F7F5F0] rounded-sm border-2 border-dashed border-border hover:border-[#00CCFF] transition-colors overflow-hidden"
                   >
                     {preview ? (
-                      <img src={preview} alt="Preview" className="w-full h-full object-cover" />
+                      <Image src={preview} alt="Preview" className="w-full h-full object-cover" />
                     ) : (
                       <div className="flex flex-col items-center justify-center h-full gap-2 text-muted-foreground group-hover:text-[#00CCFF] transition-colors">
                         <ImageUp size={28} />

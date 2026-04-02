@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import useSWR from 'swr';
 import { Kegiatan, ApiResponse } from '@/types';
 
@@ -42,8 +42,8 @@ export const useKegiatan = ({ isAdmin = false }: UseKegiatanProps = {}) => {
     swrConfig
   );
 
-  const kegiatan = data?.kegiatan || [];
-
+  const kegiatan = useMemo(() => data?.kegiatan || [], [data?.kegiatan]);
+ 
   // Debugging: Log koneksi Firebase
   console.log('🔥 Firebase Connection Debug (useKegiatan):', {
     kegiatan,

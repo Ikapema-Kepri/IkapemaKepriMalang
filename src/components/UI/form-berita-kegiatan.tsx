@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useCallback, memo, useEffect } from "react";
+import { useState, useRef, useCallback, memo} from "react";
 import { Pencil, Trash2, Plus, Eye, Loader2 } from "lucide-react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/UI/table";
 import { Button } from "@/components/UI/button";
@@ -14,6 +14,7 @@ import {
   ModalFooter,
   DeleteConfirmModal,
 } from "@/components/UI/form-shared";
+import Image from "next/image";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -37,7 +38,7 @@ const BeritaCard = memo(function BeritaCard({ item, onEdit, onDelete }: BeritaCa
   return (
     <div className="flex flex-col rounded-lg border border-border bg-card overflow-hidden shadow-sm relative group hover:border-[#00CCFF]/30 transition-colors duration-200">
       <div className="relative w-full aspect-video overflow-hidden bg-muted">
-        <img src={item.thumbnail || "/LogoIkapema.webp"} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        <Image src={item.thumbnail || "/LogoIkapema.webp"} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
         <span
           className={`absolute top-4 right-4 px-2 py-1 rounded-[4px] text-[12px] font-medium tracking-wide ${
             item.status === "Published" ? "bg-green-50 text-success" : item.status === "Draft" ? "bg-yellow-50 text-warning" : "bg-gray-100 text-gray-500"
@@ -97,7 +98,7 @@ const FormBeritaKegiatan = () => {
   
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null!);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   const openAdd = useCallback(() => {

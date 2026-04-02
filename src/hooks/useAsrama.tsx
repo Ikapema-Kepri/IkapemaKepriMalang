@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import useSWR from 'swr';
 import { Asrama, ApiResponse } from '@/types';
 
@@ -42,7 +42,7 @@ export const useAsrama = ({ isAdmin = false }: UseAsramaProps = {}) => {
     swrConfig
   );
 
-  const asrama = data?.asrama || [];
+  const asrama = useMemo(() => data?.asrama || [], [data?.asrama]);
 
   // Pisahkan asrama putra dan putri
   const asramaPutra = asrama.find(a => a.id === 'asramaPutra') || null;

@@ -19,7 +19,7 @@ export function FormMajalah() {
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isImageDeleted, setIsImageDeleted] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null as any);
+  const fileInputRef = useRef<HTMLInputElement>(null!);
 
   useEffect(() => {
     if (majalah) {

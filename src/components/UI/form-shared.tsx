@@ -2,6 +2,7 @@
 
 import { memo } from "react";
 import { X, ImageUp } from "lucide-react";
+import Image from "next/image";
 
 // ─── Interfaces ───────────────────────────────────────────────────────────────
 
@@ -301,7 +302,7 @@ export const ImageUploadField = memo(function ImageUploadField({
       }`}
     >
       {preview ? (
-        <img src={preview} alt="Preview" className="w-full h-full object-cover" />
+        <Image src={preview} alt="Preview" className="w-full h-full object-cover" />
       ) : (
         <div className="flex flex-col items-center justify-center h-full gap-2 text-muted-foreground group-hover:text-[#00CCFF] transition-colors">
           <ImageUp size={compact ? 20 : 24} />

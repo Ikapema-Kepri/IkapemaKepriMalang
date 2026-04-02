@@ -48,7 +48,7 @@ const HeroBackground: React.FC<HeroBackgroundProps> = ({ imageClasses, bannerUrl
     if (bannerUrl && bannerUrl !== imgSrc) {
       setImgSrc(bannerUrl);
     }
-  }, [bannerUrl]);
+  }, [bannerUrl, imgSrc]);
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");

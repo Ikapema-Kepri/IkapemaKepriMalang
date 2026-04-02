@@ -9,13 +9,14 @@ import {
 } from "@/components/UI/table";
 import { ImageUp } from "lucide-react";
 import { useBanner } from "@/hooks/useBanner";
+import Image from "next/image";
 
 export function FormHero() {
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null!);
 
   const { banner, createOrUpdateBanner, isSubmitting } = useBanner({ isAdmin: true });
 
@@ -91,7 +92,7 @@ export function FormHero() {
                     className="group relative w-full aspect-video bg-[#F7F5F0] rounded-sm border-2 border-dashed border-border hover:border-[#00CCFF] transition-colors overflow-hidden"
                   >
                     {preview ? (
-                      <img src={preview} alt="Preview" className="w-full h-full object-cover"/>
+                      <Image src={preview} alt="Preview" className="w-full h-full object-cover"/>
                     ) : (
                       <div className="flex flex-col items-center justify-center h-full gap-2 text-muted-foreground group-hover:text-[#00CCFF] transition-colors">
                         <ImageUp size={28} />

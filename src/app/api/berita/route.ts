@@ -2,10 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../lib/firebase';
 import { collection, addDoc, getDocs, orderBy, query } from 'firebase/firestore';
 import cloudinary from '../../../lib/cloudinary';
+import { CloudinaryUploadResult } from '@/types';
 import { Buffer } from 'buffer';
 
 const handlers = {
-  async GET(req: NextRequest) {
+  async GET() {
     try {
       const beritaRef = collection(db, 'berita');
       // Fetch ordered by created_at desc
@@ -63,15 +64,15 @@ const handlers = {
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
 
-        const uploadResult = await new Promise<any>((resolve, reject) => {
+        const uploadResult = await new Promise<CloudinaryUploadResult>((resolve, reject) => {
           cloudinary.uploader.upload_stream(
             { resource_type: 'auto', folder: 'berita' },
-            (error: any, result: any) => {
+            (error: Error | null, result: unknown) => {
               if (error || !result) {
                 reject(error ?? new Error('Upload to Cloudinary failed'));
                 return;
               }
-              resolve(result);
+              resolve(result as CloudinaryUploadResult);
             }
           ).end(buffer);
         });
@@ -117,8 +118,8 @@ const handlers = {
   }
 };
 
-export async function GET(req: NextRequest) {
-  return handlers.GET(req);
+export async function GET() {
+  return handlers.GET();
 }
 
 export async function POST(req: NextRequest) {

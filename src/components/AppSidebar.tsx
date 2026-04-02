@@ -160,7 +160,7 @@ const AppSidebar: React.FC = () => {
         {/* Admin avatar */}
         <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-[#00CCFF]/40 shrink-0">
           {adminProfile?.photoURL ? (
-            <img
+            <Image
               src={adminProfile.photoURL}
               alt="Avatar"
               className="w-full h-full object-cover"
@@ -188,7 +188,7 @@ const AppSidebar: React.FC = () => {
               <div className="flex items-center gap-2 px-2">
                 <div className="rounded-lg flex items-center justify-center shrink-0">
                   {adminProfile?.photoURL ? (
-                    <img
+                    <Image
                       src={adminProfile.photoURL}
                       alt="Avatar"
                       className="w-8 h-8 rounded-full object-cover"

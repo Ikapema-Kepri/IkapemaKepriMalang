@@ -36,7 +36,6 @@ const AsramaSection: React.FC = () => {
 
   if (asramaPutra) {
     asramaData.push({
-      id: asramaStyling.putra.id,
       image: asramaPutra.photoUrl || "/bg/AsramaPutra.webp",
       title: asramaPutra.name || "Asrama Mahasiswa Putra",
       address: asramaPutra.address || "Alamat belum tersedia",
@@ -46,7 +45,6 @@ const AsramaSection: React.FC = () => {
 
   if (asramaPutri) {
     asramaData.push({
-      id: asramaStyling.putri.id,
       image: asramaPutri.photoUrl || "/bg/AsramaPutri.webp",
       title: asramaPutri.name || "Asrama Mahasiswa Putri",
       address: asramaPutri.address || "Alamat belum tersedia",
@@ -58,14 +56,12 @@ const AsramaSection: React.FC = () => {
   if (asramaData.length === 0 && !loading) {
     asramaData.push(
       {
-        id: 1,
         image: "/bg/AsramaPutra.webp",
         title: "Asrama Mahasiswa Putra",
         address: "Jl. Saxophone Permata Kencana Blok C no 22, Tunggulwulung, Kec. Lowokwaru, Kota Malang, Jawa Timur 65143",
         ...asramaStyling.putra
       },
       {
-        id: 2,
         image: "/bg/AsramaPutri.webp",
         title: "Asrama Mahasiswa Putri",
         address: "Jl. Bukit Hijau Blok E. No 82, Tlogomas, Kec. Lowokwaru, Kota Malang, Jawa Timur 65144",

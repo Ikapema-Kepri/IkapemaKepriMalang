@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../lib/firebase';
 import { collection, addDoc, getDocs, query, orderBy, limit } from 'firebase/firestore';
 import { fetchPaginatedData } from '../../../lib/firestore-service';
-import { Anggota, PaginationInfo } from '@/types';
+import { Anggota, PaginationInfo, CloudinaryUploadResult } from '@/types';
 import cloudinary from '../../../lib/cloudinary';
 import { Buffer } from 'buffer';
 
@@ -34,7 +34,7 @@ const handlers = {
         nextId = typeof lastId === 'number' ? lastId + 1 : 1;
       }
 
-      const createData: any = {
+      const createData: Record<string, unknown> = {
         idAnggota: nextId,
         namaAnggota,
         universitas,
@@ -50,15 +50,15 @@ const handlers = {
       if (file && file.size > 0) {
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
-        const uploadResult = await new Promise<any>((resolve, reject) => {
+        const uploadResult = await new Promise<CloudinaryUploadResult>((resolve, reject) => {
           cloudinary.uploader.upload_stream(
             { resource_type: 'auto', folder: 'anggota' },
-            (error: any, result: any) => {
+            (error: Error | null, result: unknown) => {
               if (error || !result) {
                 reject(error || new Error('Upload failed'));
                 return;
               }
-              resolve(result);
+              resolve(result as CloudinaryUploadResult);
             }
           ).end(buffer);
         });

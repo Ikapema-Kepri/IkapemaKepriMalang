@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../../lib/firebase';
 import { doc, updateDoc, getDoc, setDoc } from 'firebase/firestore';
 import cloudinary from '../../../../lib/cloudinary';
+import { CloudinaryUploadResult } from '@/types';
 import { Buffer } from 'buffer';
 
 const handlers = {
@@ -84,7 +85,7 @@ const handlers = {
         );
       }
 
-      const createData: any = {
+      const createData: Record<string, unknown> = {
         name,
         address,
         updatedAt: new Date().toISOString(),
@@ -94,15 +95,15 @@ const handlers = {
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
 
-        const uploadResult = await new Promise<any>((resolve, reject) => {
+        const uploadResult = await new Promise<CloudinaryUploadResult>((resolve, reject) => {
           cloudinary.uploader.upload_stream(
             { resource_type: 'auto', folder: 'asrama' },
-            (error: any, result: any) => {
+            (error: Error | null, result: unknown) => {
               if (error || !result) {
                 reject(error ?? new Error('Upload to Cloudinary failed'));
                 return;
               }
-              resolve(result);
+              resolve(result as CloudinaryUploadResult);
             }
           ).end(buffer);
         });
@@ -162,7 +163,7 @@ const handlers = {
         );
       }
 
-      const updateData: any = {
+      const updateData: Record<string, unknown> = {
         name,
         address,
         updatedAt: new Date().toISOString(),
@@ -172,15 +173,15 @@ const handlers = {
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
 
-        const uploadResult = await new Promise<any>((resolve, reject) => {
+        const uploadResult = await new Promise<CloudinaryUploadResult>((resolve, reject) => {
           cloudinary.uploader.upload_stream(
             { resource_type: 'auto', folder: 'asrama' },
-            (error: any, result: any) => {
+            (error: Error | null, result: unknown) => {
               if (error || !result) {
                 reject(error ?? new Error('Upload to Cloudinary failed'));
                 return;
               }
-              resolve(result);
+              resolve(result as CloudinaryUploadResult);
             }
           ).end(buffer);
         });

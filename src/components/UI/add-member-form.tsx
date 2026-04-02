@@ -40,7 +40,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null!);
 
   if (!isOpen) return null;
 

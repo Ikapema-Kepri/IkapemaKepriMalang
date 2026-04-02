@@ -12,6 +12,7 @@ import {
   ModalFooter,
   DeleteConfirmModal,
 } from "@/components/UI/form-shared";
+import Image from "next/image";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -36,7 +37,7 @@ const AlumniCard = memo(function AlumniCard({ item, onEdit, onDelete }: AlumniCa
     <div className="flex flex-col rounded-lg border border-border bg-card overflow-hidden shadow-sm">
       <div className="flex flex-col md:grid md:grid-cols-3 flex-1">
         <div className="relative aspect-square overflow-hidden bg-muted">
-          <img src={item.photoUrl} alt={item.nama} className="w-full h-full object-cover" />
+          <Image src={item.photoUrl} alt={item.nama} className="w-full h-full object-cover" />
         </div>
         <div className="col-span-2 flex flex-col justify-center gap-2 px-4 py-3">
           <div className="flex items-center gap-1.5">
@@ -85,7 +86,7 @@ export function FormAlumni() {
   const [formTestimoni, setFormTestimoni] = useState("");
 
   const [preview, setPreview] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null!);
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
   const openAdd = useCallback(() => {

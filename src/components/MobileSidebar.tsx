@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { LogOut } from "lucide-react";
 import { memo } from "react";
+import Image from "next/image";
 
 interface MenuItem {
   name: string;
@@ -47,7 +48,7 @@ const MobileSidebar = memo(function MobileSidebar({
         <div className="flex items-center gap-3 px-4 py-4 border-b border-[#005266]">
           <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#00CCFF]/40 shrink-0">
             {photoURL ? (
-              <img src={photoURL} alt="Avatar" className="w-full h-full object-cover" />
+              <Image src={photoURL} alt="Avatar" className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full bg-[#005266] flex items-center justify-center text-[#00CCFF] font-bold text-sm select-none">
                 {(displayName[0] ?? "A").toUpperCase()}

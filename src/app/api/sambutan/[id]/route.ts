@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../../lib/firebase';
 import { doc, updateDoc, getDoc } from 'firebase/firestore';
+import { CloudinaryUploadResult } from '@/types';
 import cloudinary from '../../../../lib/cloudinary';
+
 import { Buffer } from 'buffer';
 
 const handlers = {
@@ -72,7 +74,7 @@ const handlers = {
         );
       }
 
-      const updateData: any = {
+      const updateData: Record<string, unknown> = {
         fullName,
         period,
         content,
@@ -84,15 +86,15 @@ const handlers = {
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
 
-        const uploadResult = await new Promise<any>((resolve, reject) => {
+        const uploadResult = await new Promise<CloudinaryUploadResult>((resolve, reject) => {
           cloudinary.uploader.upload_stream(
             { resource_type: 'auto', folder: 'sambutan' },
-            (error: any, result: any) => {
+            (error: Error | null, result: unknown) => {
               if (error || !result) {
                 reject(error ?? new Error('Upload to Cloudinary failed'));
                 return;
               }
-              resolve(result);
+              resolve(result as CloudinaryUploadResult);
             }
           ).end(buffer);
         });

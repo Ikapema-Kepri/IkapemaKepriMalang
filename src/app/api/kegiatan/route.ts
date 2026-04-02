@@ -4,6 +4,7 @@ import { collection, addDoc } from 'firebase/firestore';
 import { fetchPaginatedData } from '../../../lib/firestore-service';
 import { Kegiatan } from '@/types';
 import cloudinary from '../../../lib/cloudinary';
+import { CloudinaryUploadResult } from '@/types';
 import { Buffer } from 'buffer';
 
 const kegiatanCol = collection(db, 'kegiatan');
@@ -55,7 +56,7 @@ const handlers = {
         );
       }
 
-      const createData: any = {
+      const createData: Record<string, unknown> = {
         title,
         description,
         label: label || null,
@@ -67,15 +68,15 @@ const handlers = {
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
 
-        const uploadResult = await new Promise<any>((resolve, reject) => {
+        const uploadResult = await new Promise<CloudinaryUploadResult>((resolve, reject) => {
           cloudinary.uploader.upload_stream(
             { resource_type: 'auto', folder: 'kegiatan' },
-            (error: any, result: any) => {
+            (error: Error | null, result: unknown) => {
               if (error || !result) {
                 reject(error ?? new Error('Upload to Cloudinary failed'));
                 return;
               }
-              resolve(result);
+              resolve(result as CloudinaryUploadResult);
             }
           ).end(buffer);
         });
