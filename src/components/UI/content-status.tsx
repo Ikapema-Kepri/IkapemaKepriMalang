@@ -1,4 +1,5 @@
-import { news } from "@/data/sampleData";
+"use client";
+import { useBerita } from "@/hooks/useBerita";
 import {
   Table,
   TableBody,
@@ -23,6 +24,8 @@ const statusConfig = [
 ];
 
 export function ContentStatus() {
+  const { beritas, loading } = useBerita();
+
   return (
     <div className="rounded-lg border border-border bg-card shadow-sm">
       <div className="px-4 py-4 border-b border-border">
@@ -31,7 +34,7 @@ export function ContentStatus() {
       <Table>
         <TableBody>
           {statusConfig.map((item) => {
-            const count = news.filter((n) => n.status === item.status).length;
+            const count = loading ? "-" : beritas.filter((n) => n.status === item.status).length;
             return (
               <TableRow key={item.status}>
                 <TableCell>

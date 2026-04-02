@@ -110,6 +110,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       localStorage.removeItem('auth_remember_me');
       // Hapus cookie auth
       document.cookie = 'admin_auth=; path=/; Max-Age=0';
+      // Redirect ke halaman login yang bersih
+      window.location.href = '/adminaccess/login';
     } catch (error) {
       console.error('Error signing out:', error);
       throw error;

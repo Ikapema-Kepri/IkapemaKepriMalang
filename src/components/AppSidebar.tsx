@@ -11,6 +11,7 @@ import {
   LogOut,
   Home,
   Phone,
+  Settings
 } from "lucide-react";
 import { useState, useMemo, useCallback } from "react";
 import { useAuth } from "@/context/AuthContext";
@@ -35,6 +36,7 @@ const KELOLA_WEBSITE_ITEMS: MenuItem[] = [
   { name: "Alumni",          href: "/adminaccess/alumni",          icon: GraduationCap },
   { name: "Berita Kegiatan", href: "/adminaccess/berita-kegiatan", icon: Newspaper },
   { name: "Kontak",          href: "/adminaccess/kontak",          icon: Phone },
+  { name: "Pengaturan",      href: "/adminaccess/pengaturan",      icon: Settings },
 ];
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());

@@ -42,6 +42,16 @@ export interface DeleteConfirmModalProps {
   onConfirm: () => void;
 }
 
+export interface ConfirmModalProps {
+  title: string;
+  description: React.ReactNode;
+  onCancel: () => void;
+  onConfirm: () => void;
+  confirmText?: string;
+  cancelText?: string;
+  confirmVariant?: "danger" | "primary" | "cyan";
+}
+
 export interface ImageUploadFieldProps {
   label: string;
   preview: string | null;
@@ -204,6 +214,62 @@ export const DeleteConfirmModal = memo(function DeleteConfirmModal({
             className="px-4 py-2 text-sm font-medium rounded-sm bg-red-500 text-white hover:bg-red-600 transition-colors"
           >
             Hapus
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+});
+
+// ─── ConfirmModal ─────────────────────────────────────────────────────────────
+
+export const ConfirmModal = memo(function ConfirmModal({
+  title,
+  description,
+  onCancel,
+  onConfirm,
+  confirmText = "Konfirmasi",
+  cancelText = "Batal",
+  confirmVariant = "primary",
+}: ConfirmModalProps) {
+  const confirmBtnClass =
+    confirmVariant === "danger"
+      ? "bg-red-500 hover:bg-red-600 text-white border border-transparent"
+      : confirmVariant === "cyan" 
+      ? "bg-[#00CCFF] hover:bg-[#00b3e0] text-white border border-transparent"
+      : "bg-primary hover:bg-primary/90 text-primary-foreground border border-transparent";
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="absolute inset-0 bg-black/50" onClick={onCancel} />
+      <div className="relative z-10 w-full max-w-sm mx-4 rounded-xl bg-card border border-border shadow-xl">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+          <h3 className="text-base font-semibold text-foreground">{title}</h3>
+          <button
+            type="button"
+            onClick={onCancel}
+            className="p-1.5 rounded-md text-muted-foreground hover:bg-muted transition-colors"
+          >
+            <X size={18} />
+          </button>
+        </div>
+        <div className="px-5 py-5">
+          <div className="text-sm text-foreground">{description}</div>
+        </div>
+        <div className="flex justify-end gap-2 px-5 py-4 border-t border-border">
+          <button
+            type="button"
+            onClick={onCancel}
+            className="px-4 py-2 text-sm font-medium rounded-sm border border-border text-muted-foreground hover:bg-muted transition-colors"
+          >
+            {cancelText}
+          </button>
+          <button
+            type="button"
+            onClick={onConfirm}
+            className={`px-4 py-2 text-sm font-medium rounded-sm transition-colors ${confirmBtnClass}`}
+          >
+            {confirmText}
           </button>
         </div>
       </div>

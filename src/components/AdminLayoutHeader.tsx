@@ -17,7 +17,7 @@ const AdminLayoutHeader: React.FC = () => {
     if (pathname?.startsWith("/adminaccess/alumni")) return "Manajemen Alumni";
     if (pathname?.startsWith("/adminaccess/berita-kegiatan")) return "Berita Kegiatan";
     if (pathname?.startsWith("/adminaccess/kontak")) return "Manajemen Kontak";
-    if (pathname?.startsWith("/adminaccess/settings")) return "Settings";
+    if (pathname?.startsWith("/adminaccess/pengaturan")) return "Pengaturan";
     return "Admin Panel";
   };
 
@@ -30,7 +30,7 @@ const AdminLayoutHeader: React.FC = () => {
     if (pathname?.startsWith("/adminaccess/alumni")) return "Alumni";
     if (pathname?.startsWith("/adminaccess/berita-kegiatan")) return "Berita Kegiatan";
     if (pathname?.startsWith("/adminaccess/kontak")) return "Kontak";
-    if (pathname?.startsWith("/adminaccess/settings")) return "Settings";
+    if (pathname?.startsWith("/adminaccess/pengaturan")) return "Pengaturan";
     return "Admin";
   };
 
