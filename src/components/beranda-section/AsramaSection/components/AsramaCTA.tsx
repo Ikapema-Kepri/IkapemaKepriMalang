@@ -1,4 +1,5 @@
 import React, { memo } from "react";
+import { useContactAsrama } from "@/hooks/useContactAsrama";
 
 interface AsramaCTAProps {
   ctaRef: React.Ref<HTMLDivElement>;
@@ -6,8 +7,11 @@ interface AsramaCTAProps {
 }
 
 const AsramaCTA: React.FC<AsramaCTAProps> = ({ ctaRef, ctaContainerClasses }) => {
+  const { kontakAsrama } = useContactAsrama();
+  
   const handleAsramaClick = () => {
-    window.open("https://wa.link/uxn1bc", "_blank");
+    const whatsappUrl = kontakAsrama?.whatsappUrl || "https://wa.link/uxn1bc";
+    window.open(whatsappUrl, "_blank");
   };
 
   return (

@@ -5,24 +5,28 @@ import Image from "next/image";
 import { useSambutanAnimation } from "./hooks/useSambutanAnimation";
 import KetumProfile from "./components/KetumProfile";
 import SambutanText from "./components/SambutanText";
+import { useSambutan } from "@/hooks/useSambutan";
 
 const SambutanSection: React.FC = () => {
   // Memanggil custom hook untuk mendapatkan semua state dan logika animasi
   const { sectionRef, isSectionInView, headerClasses } = useSambutanAnimation();
-  
+
+  // Menggunakan hook useSambutan untuk mendapatkan data sambutan dari Firebase
+  const { sambutan} = useSambutan();
+
   const [isIOS, setIsIOS] = useState(false);
 
   useEffect(() => {
     const detectIOS = () => {
-      return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+      return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
              (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     };
-    
+
     setIsIOS(detectIOS());
   }, []);
 
-  const headingImageSrc = isIOS 
-    ? "/heading/HeadingSambutan.webp" 
+  const headingImageSrc = isIOS
+    ? "/heading/HeadingSambutan.webp"
     : "/heading/HeadingSambutan.svg";
 
   return (
@@ -40,8 +44,8 @@ const SambutanSection: React.FC = () => {
         </div>
 
         <div className="flex flex-col-reverse md:flex-row items-center gap-8 md:gap-12 lg:gap-[10.55vh]">
-          <SambutanText isVisible={isSectionInView} />
-          <KetumProfile isVisible={isSectionInView} />
+          <SambutanText isVisible={isSectionInView} sambutan={sambutan} />
+          <KetumProfile isVisible={isSectionInView} sambutan={sambutan} />
         </div>
       </div>
     </section>

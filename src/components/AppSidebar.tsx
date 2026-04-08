@@ -1,73 +1,177 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { 
-  LayoutDashboard, 
+import dynamic from "next/dynamic";
+import {
+  LayoutDashboard,
   Users,
-  GraduationCap, 
+  GraduationCap,
   Newspaper,
   LogOut,
-  Menu,
-  X
+  Home,
+  Phone,
+  Settings
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useSidebar } from "@/context/SidebarContext";
 import Image from "next/image";
+import useSWR from "swr";
+
+interface MenuItem {
+  name: string;
+  href: string;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
+}
+
+
+const MAIN_MENU_ITEMS: MenuItem[] = [
+  { name: "Dashboard", href: "/adminaccess/dashboard", icon: LayoutDashboard },
+];
+
+const KELOLA_WEBSITE_ITEMS: MenuItem[] = [
+  { name: "Beranda",         href: "/adminaccess/beranda",         icon: Home },
+  { name: "Anggota",         href: "/adminaccess/anggota",         icon: Users },
+  { name: "Alumni",          href: "/adminaccess/alumni",          icon: GraduationCap },
+  { name: "Berita Kegiatan", href: "/adminaccess/berita-kegiatan", icon: Newspaper },
+  { name: "Kontak",          href: "/adminaccess/kontak",          icon: Phone },
+  { name: "Pengaturan",      href: "/adminaccess/pengaturan",      icon: Settings },
+];
+
+const fetcher = (url: string) => fetch(url).then((r) => r.json());
+
+const MobileSidebar = dynamic(() => import("./MobileSidebar"), {
+  ssr: false,
+  loading: () => null,
+});
+
+const LogoutDialog = dynamic(() => import("./LogoutDialog"), {
+  ssr: false,
+  loading: () => null,
+});
+
+import { memo } from "react";
+
+interface NavLinkProps {
+  item: MenuItem;
+  isActive: boolean;
+  collapsed: boolean;
+  onClick?: () => void;
+}
+
+const NavLink = memo(function NavLink({ item, isActive, collapsed, onClick }: NavLinkProps) {
+  const Icon = item.icon;
+  return (
+    <Link
+      href={item.href}
+      onClick={onClick}
+      title={collapsed ? item.name : undefined}
+      className={`
+        flex items-center gap-3 px-3 py-2.5 rounded-lg
+        transition-colors duration-200
+        ${isActive ? "bg-[#005266] text-[#00CCFF]" : "text-gray-300 hover:bg-[#005266]/40 hover:text-white"}
+        ${collapsed ? "justify-center" : ""}
+      `}
+    >
+      <Icon size={20} className="shrink-0" />
+      {!collapsed && <span className="font-medium">{item.name}</span>}
+    </Link>
+  );
+});
 
 const AppSidebar: React.FC = () => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const { collapsed } = useSidebar();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
 
-  const menuItems = [
-    {
-      name: "Dashboard",
-      href: "/adminaccess/dashboard",
-      icon: LayoutDashboard,
+  // SWR â€” revalidate admin profile (display name / photo from Firebase user token)
+  const swrKey = user?.uid ? `/api/auth/profile?uid=${user.uid}` : null;
+  const { data: adminProfile } = useSWR(swrKey, fetcher, {
+    revalidateOnFocus: false,
+    dedupingInterval: 60_000,
+    fallbackData: {
+      displayName: user?.displayName ?? user?.email ?? "Admin",
+      photoURL: user?.photoURL ?? null,
     },
-    {
-      name: "Anggota",
-      href: "/adminaccess/anggota",
-      icon: Users,
-    },
-    {
-      name: "Alumni",
-      href: "/adminaccess/alumni",
-      icon: GraduationCap,
-    },
-    {
-      name: "Berita Kegiatan",
-      href: "/adminaccess/berita-kegiatan",
-      icon: Newspaper,
-    },
-  ];
+  });
 
-  const handleLogout = async () => {
+  // useMemo â€” compute active states once per pathname change
+  const mainMenuWithActive = useMemo(
+    () => MAIN_MENU_ITEMS.map((item) => ({ ...item, isActive: pathname === item.href })),
+    [pathname]
+  );
+
+  const kelolaMenuWithActive = useMemo(
+    () => KELOLA_WEBSITE_ITEMS.map((item) => ({ ...item, isActive: !!pathname?.startsWith(item.href) })),
+    [pathname]
+  );
+
+  // useCallback â€” stable references for handlers
+  const handleLogout = useCallback(async () => {
     if (showLogoutDialog) {
       await logout();
       setShowLogoutDialog(false);
     } else {
       setShowLogoutDialog(true);
     }
-  };
+  }, [showLogoutDialog, logout]);
 
-  const cancelLogout = () => {
-    setShowLogoutDialog(false);
-  };
+  const cancelLogout = useCallback(() => setShowLogoutDialog(false), []);
+  const openMobile = useCallback(() => setIsOpen(true), []);
+  const closeMobile = useCallback(() => setIsOpen(false), []);
 
   return (
     <>
-      {/* Mobile menu button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-white shadow-md"
-      >
-        {isOpen ? <X size={24} /> : <Menu size={24} />}
-      </button>
+      {/* ── Mobile Top Navbar ──────────────────────────────────────── */}
+      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-[#002933] border-b border-[#005266] shadow-md flex items-center justify-between px-4">
+        {/* Animated hamburger button */}
+        <button
+          type="button"
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+          onClick={isOpen ? closeMobile : openMobile}
+          className="flex flex-col justify-center items-center w-9 h-9 rounded-lg hover:bg-[#005266]/60 transition-colors gap-[5px] shrink-0"
+        >
+          <span
+            className={`block h-0.5 w-5 bg-white rounded-full transition-all duration-300 origin-center ${
+              isOpen ? "rotate-45 translate-y-1.75" : ""
+            }`}
+          />
+          <span
+            className={`block h-0.5 bg-white rounded-full transition-all duration-300 ${
+              isOpen ? "w-0 opacity-0" : "w-5"
+            }`}
+          />
+          <span
+            className={`block h-0.5 w-5 bg-white rounded-full transition-all duration-300 origin-center ${
+              isOpen ? "-rotate-45 -translate-y-1.75" : ""
+            }`}
+          />
+        </button>
+
+        {/* Brand */}
+        <div className="flex items-center gap-2">
+          <Image src="/LogoIkapema.webp" alt="Ikapema" width={28} height={28} className="rounded-md" />
+          <span className="text-white font-semibold text-sm tracking-wide">Ikapema Kepri—Malang</span>
+        </div>
+
+        {/* Admin avatar */}
+        <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-[#00CCFF]/40 shrink-0">
+          {adminProfile?.photoURL ? (
+            <Image
+              src={adminProfile.photoURL}
+              alt="Avatar"
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full bg-[#005266] flex items-center justify-center text-[#00CCFF] text-sm font-bold select-none">
+              {(adminProfile?.displayName ?? "A")[0].toUpperCase()}
+            </div>
+          )}
+        </div>
+      </header>
 
       {/* Desktop Sidebar */}
       <aside
@@ -78,16 +182,26 @@ const AppSidebar: React.FC = () => {
         `}
       >
         <div className="flex flex-col h-full">
-          {/* Logo */}
+          {/* Logo + Admin Profile */}
           <div className="flex items-center justify-center py-4 border-b border-[#005266]">
             {!collapsed ? (
-              <div className="flex items-center gap-2">
-                <div className="rounded-lg flex items-center justify-center">
-                  <Image src="/LogoIkapema.webp" alt="Logo" width={32} height={32} />
+              <div className="flex items-center gap-2 px-2">
+                <div className="rounded-lg flex items-center justify-center shrink-0">
+                  {adminProfile?.photoURL ? (
+                    <Image
+                      src={adminProfile.photoURL}
+                      alt="Avatar"
+                      className="w-8 h-8 rounded-full object-cover"
+                    />
+                  ) : (
+                    <Image src="/LogoIkapema.webp" alt="Logo" width={32} height={32} />
+                  )}
                 </div>
-                <div className="flex flex-col">
-                  <span className="font-semibold text-lg">Ikapema</span>
-                  <span className="font-normal text-xs">Admin Dashboard</span>
+                <div className="flex flex-col min-w-0">
+                  <span className="font-semibold text-sm leading-tight truncate">
+                    {adminProfile?.displayName ?? "Admin"}
+                  </span>
+                  <span className="font-normal text-xs text-gray-400 truncate">Admin Dashboard</span>
                 </div>
               </div>
             ) : (
@@ -98,32 +212,35 @@ const AppSidebar: React.FC = () => {
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 p-2 space-y-1">
-            {menuItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = pathname === item.href;
-              
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`
-                    flex items-center gap-3 px-3 py-2.5 rounded-lg
-                    transition-colors duration-200
-                    ${
-                      isActive
-                        ? "bg-[#005266] text-[#00CCFF]"
-                        : "text-gray-300 hover:bg-[#005266]/40 hover:text-white"
-                    }
-                    ${collapsed ? "justify-center" : ""}
-                  `}
-                  title={collapsed ? item.name : undefined}
-                >
-                  <Icon size={20} className="shrink-0" />
-                  {!collapsed && <span className="font-medium">{item.name}</span>}
-                </Link>
-              );
-            })}
+          <nav className="flex-1 p-2 space-y-4 overflow-y-auto">
+            {/* Main */}
+            <div>
+              {!collapsed && (
+                <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-widest text-gray-400">
+                  Main
+                </p>
+              )}
+              <div className="space-y-1">
+                {mainMenuWithActive.map((item) => (
+                  <NavLink key={item.href} item={item} isActive={item.isActive} collapsed={collapsed} />
+                ))}
+              </div>
+            </div>
+
+            {/* Kelola Website */}
+            <div>
+              {!collapsed && (
+                <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-widest text-gray-400">
+                  Kelola Website
+                </p>
+              )}
+              {collapsed && <div className="border-t border-[#005266] mb-1" />}
+              <div className="space-y-1">
+                {kelolaMenuWithActive.map((item) => (
+                  <NavLink key={item.href} item={item} isActive={item.isActive} collapsed={collapsed} />
+                ))}
+              </div>
+            </div>
           </nav>
 
           {/* Logout */}
@@ -145,96 +262,30 @@ const AppSidebar: React.FC = () => {
         </div>
       </aside>
 
-      {/* Mobile Sidebar */}
-      <aside
-        className={`
-          lg:hidden fixed top-0 left-0 z-40 h-screen w-64 bg-gray-900 text-white
-          transition-transform duration-300 ease-in-out
-          ${isOpen ? "translate-x-0" : "-translate-x-full"}
-        `}
-      >
-        <div className="flex flex-col h-full">
-          {/* Logo */}
-          <div className="flex items-center gap-2 p-4 border-b border-gray-800">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center">
-              <span className="text-white font-bold text-sm">IK</span>
-            </div>
-            <span className="font-semibold text-lg">Ikapema</span>
-          </div>
+      {/* Mobile Sidebar — lazy loaded */}
+      <MobileSidebar
+        isOpen={isOpen}
+        onClose={closeMobile}
+        onOpen={openMobile}
+        mainMenuItems={mainMenuWithActive}
+        kelolaWebsiteItems={kelolaMenuWithActive}
+        onLogout={handleLogout}
+        displayName={adminProfile?.displayName ?? undefined}
+        photoURL={adminProfile?.photoURL ?? null}
+      />
 
-          {/* Navigation */}
-          <nav className="flex-1 p-2 space-y-1">
-            {menuItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = pathname === item.href;
-              
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className={`
-                    flex items-center gap-3 px-3 py-2.5 rounded-lg
-                    transition-colors duration-200
-                    ${
-                      isActive
-                        ? "bg-blue-600 text-white"
-                        : "text-gray-300 hover:bg-gray-800 hover:text-white"
-                    }
-                  `}
-                >
-                  <Icon size={20} className="shrink-0" />
-                  <span className="font-medium">{item.name}</span>
-                </Link>
-              );
-            })}
-          </nav>
+      {/* Overlay for mobile — smooth fade */}
+      <div
+        aria-hidden="true"
+        onClick={closeMobile}
+        className={`lg:hidden fixed inset-0 bg-black/50 z-30 transition-opacity duration-300 ${
+          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+      />
 
-          {/* Logout */}
-          <div className="p-2 border-t border-gray-800">
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg
-                transition-colors duration-200 text-gray-300 hover:text-white hover:bg-red-600"
-            >
-              <LogOut size={20} className="shrink-0" />
-              <span className="font-medium">Logout</span>
-            </button>
-            <p className="text-xs text-gray-400 text-center mt-2">v1.0.0</p>
-          </div>
-        </div>
-      </aside>
-
-      {/* Overlay for mobile */}
-      {isOpen && (
-        <div
-          onClick={() => setIsOpen(false)}
-          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
-        />
-      )}
-
-      {/* Logout Confirmation Dialog */}
+      {/* Logout Dialog â€” lazy loaded */}
       {showLogoutDialog && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg shadow-xl p-6 max-w-md w-full mx-4">
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">Konfirmasi Logout</h2>
-            <p className="text-gray-600 mb-6">Anda yakin ingin keluar dari dashboard admin?</p>
-            <div className="flex gap-3 justify-end">
-              <button
-                onClick={cancelLogout}
-                className="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
-              >
-                Batal
-              </button>
-              <button
-                onClick={handleLogout}
-                className="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 transition-colors"
-              >
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
+        <LogoutDialog onConfirm={handleLogout} onCancel={cancelLogout} />
       )}
     </>
   );

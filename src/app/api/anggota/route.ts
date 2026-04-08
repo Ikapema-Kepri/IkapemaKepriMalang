@@ -1,15 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../lib/firebase';
 import { collection, addDoc, getDocs, query, orderBy, limit } from 'firebase/firestore';
-import { Anggota, PaginationInfo } from '@/types';
+import { fetchPaginatedData } from '../../../lib/firestore-service';
+import { Anggota, PaginationInfo, CloudinaryUploadResult } from '@/types';
+import cloudinary from '../../../lib/cloudinary';
+import { Buffer } from 'buffer';
 
 const anggotaCol = collection(db, 'anggota');
 
 const handlers = {
   async POST(req: NextRequest) {
     try {
-      const body = await req.json();
-      const { namaAnggota, universitas, programStudi, photoURL } = body;
+      const formData = await req.formData();
+      const namaAnggota = formData.get('namaAnggota') as string | null;
+      const universitas = formData.get('universitas') as string | null;
+      const programStudi = formData.get('programStudi') as string | null;
+      const angkatan = formData.get('angkatan') as string | null;
+      const isActive = formData.get('isActive');
+      const file = formData.get('image') as File | null;
 
       if (!namaAnggota || !universitas || !programStudi) {
         return NextResponse.json(
@@ -18,7 +26,6 @@ const handlers = {
         );
       }
 
-      // Ambil id terbesar saat ini
       const q = query(anggotaCol, orderBy('idAnggota', 'desc'), limit(1));
       const snapshot = await getDocs(q);
       let nextId = 1;
@@ -27,16 +34,43 @@ const handlers = {
         nextId = typeof lastId === 'number' ? lastId + 1 : 1;
       }
 
-      const docRef = await addDoc(anggotaCol, {
+      const createData: Record<string, unknown> = {
         idAnggota: nextId,
         namaAnggota,
         universitas,
         programStudi,
-        photoURL: photoURL || null,
-        isActive: true,
+        angkatan: angkatan || '',
+        photoURL: null,
+        anggotaPublicId: null,
+        isActive: isActive !== null ? (isActive === 'true') : true,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
-      });
+      };
+
+      if (file && file.size > 0) {
+        const arrayBuffer = await file.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+        const uploadResult = await new Promise<CloudinaryUploadResult>((resolve, reject) => {
+          cloudinary.uploader.upload_stream(
+            { resource_type: 'auto', folder: 'anggota' },
+            (error: Error | null, result: unknown) => {
+              if (error || !result) {
+                reject(error || new Error('Upload failed'));
+                return;
+              }
+              resolve(result as CloudinaryUploadResult);
+            }
+          ).end(buffer);
+        });
+        
+        // Optimasi gambar menjadi rasio 1:1 (kotak) sesuai permintaan
+        const optimizedUrl = uploadResult.secure_url.replace('/upload/', '/upload/c_fill,ar_1:1/');
+
+        createData.photoURL = optimizedUrl;
+        createData.anggotaPublicId = uploadResult.public_id;
+      }
+
+      const docRef = await addDoc(anggotaCol, createData);
 
       return NextResponse.json(
         { message: 'Anggota berhasil ditambahkan!', id: docRef.id, anggotaId: nextId },
@@ -52,20 +86,33 @@ const handlers = {
 
   async GET(req: NextRequest) {
     try {
-      const { search, page = '1', limit = '24' } = Object.fromEntries(req.nextUrl.searchParams.entries());
+      const { search, page = '1', limit = '24', sortBy = 'createdAt', order = 'desc' } = Object.fromEntries(req.nextUrl.searchParams.entries());
       const currentPage = parseInt(page);
-      const pageLimit = parseInt(limit);
+      const pageLimit = Math.min(parseInt(limit), 100); // Max 100 items per request
       
-      const anggotaSnapshot = await getDocs(anggotaCol);
-      let anggotaList = anggotaSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...(doc.data() as Anggota)
-      }));
+      // Build optimized Firestore query
+      const validSortFields = ['createdAt', 'namaAnggota', 'universitas', 'programStudi', 'idAnggota'] as const;
+      const validSortBy = validSortFields.includes(sortBy as typeof validSortFields[number]) ? sortBy : 'createdAt';
+      const validOrder = (order === 'asc' || order === 'desc') ? order : 'desc';
+
+      // Fetch all data using firestore service (will be optimized with cursor-based pagination later)
+      const { data: anggotaList } = await fetchPaginatedData<Anggota>(
+        'anggota',
+        { 
+          pageSize: 1000, // Large limit to get all data for client-side filtering
+          orderByField: validSortBy,
+          orderDirection: validOrder as 'asc' | 'desc'
+        }
+      );
+
+      // Filter only active members (isActive === true, handles both boolean and legacy string values)
+      let filteredList = anggotaList.filter(a => a.isActive === true || (a.isActive as unknown) === 'true');
 
       // Filter by search query (nama, universitas, programStudi)
+      // Note: For better performance, consider using Algolia or Typesense for full-text search
       if (search && search.trim() !== "") {
         const q = search.trim().toLowerCase();
-        anggotaList = anggotaList.filter(
+        filteredList = filteredList.filter(
           (a) =>
             (a.namaAnggota && a.namaAnggota.toLowerCase().includes(q)) ||
             (a.universitas && a.universitas.toLowerCase().includes(q)) ||
@@ -74,11 +121,11 @@ const handlers = {
       }
 
       // Calculate pagination
-      const totalItems = anggotaList.length;
+      const totalItems = filteredList.length;
       const totalPages = Math.ceil(totalItems / pageLimit);
       const startIndex = (currentPage - 1) * pageLimit;
       const endIndex = startIndex + pageLimit;
-      const paginatedData = anggotaList.slice(startIndex, endIndex);
+      const paginatedData = filteredList.slice(startIndex, endIndex);
 
       const pagination: PaginationInfo = {
         currentPage,
@@ -88,12 +135,20 @@ const handlers = {
         hasPrev: currentPage > 1
       };
 
-      return NextResponse.json({
+      // Add caching headers for better performance
+      const response = NextResponse.json({
         message: 'Daftar anggota berhasil diambil.',
         data: paginatedData,
-        pagination
+        pagination,
+        timestamp: new Date().toISOString()
       });
+
+      // Cache for 60 seconds, revalidate in background
+      response.headers.set('Cache-Control', 's-maxage=60, stale-while-revalidate=30');
+      
+      return response;
     } catch (error: unknown) {
+      console.error('Error fetching anggota:', error);
       return NextResponse.json(
         { message: 'Gagal mengambil data anggota.', error: error instanceof Error ? error.message : String(error) },
         { status: 500 }

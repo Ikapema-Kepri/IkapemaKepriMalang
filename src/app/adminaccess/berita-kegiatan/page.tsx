@@ -1,9 +1,9 @@
+import FormBeritaKegiatan from "@/components/UI/form-berita-kegiatan";
 
-
-const BeritaPage : React.FC = () => {
+const BeritaKegiatanPage : React.FC = () => {
     return (
-        <div>Ini halaman Berita Kegiatan</div>
-    )
+        <FormBeritaKegiatan/>
+    );
 }
 
-export default BeritaPage;
+export default BeritaKegiatanPage;

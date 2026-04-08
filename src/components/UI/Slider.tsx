@@ -7,6 +7,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 import Image from 'next/image';
+import { useKegiatan } from "@/hooks/useKegiatan";
 
 // Define the type for a single slide
 interface Slide {
@@ -107,7 +108,7 @@ const slideData: Slide[] = [
     title: "Pelantikan Pengurus Harian",
     description:
       "Merupakan kegiatan resmi yang menandai pengukuhan dan pengesahan anggota Ikapema Kepri-Malang yang telah terpilih sebagai Pengurus Harian. Kegiatan ini bertujuan untuk memberikan legitimasi kepada para pengurus dalam menjalankan tugas dan tanggung jawab mereka selama masa jabatan.",
-    image: "/kegiatan/PelantikanPH.webp",
+    image: "/kegiatsxan/PelantikanPH.webp",
     categories: ["Agenda"],
   },
   {
@@ -143,6 +144,16 @@ const SwiperPaginationStyles = () => (
 
 const Slider: React.FC<SliderProps> = () => {
   const [hideContentIndex, setHideContentIndex] = useState<number | null>(null);
+  const { kegiatan } = useKegiatan();
+
+  const backendSlides: Slide[] = kegiatan.map((k) => ({
+    title: k.title || "Kegiatan Ikapema",
+    description: k.description || "",
+    image: k.photoUrl || "",
+    categories: k.label ? [k.label] : [],
+  }));
+
+  const currentSlides = backendSlides.length > 0 ? backendSlides : slideData;
 
   return (
     <main className="flex items-center justify-center max-w-screen max-h-screen bg-[#E5FAFF] font-['Noto_Sans'] overflow-hidden">
@@ -151,7 +162,7 @@ const Slider: React.FC<SliderProps> = () => {
         <Swiper
           modules={[Pagination]}
           grabCursor
-          initialSlide={Math.floor(slideData.length / 2)}
+          initialSlide={Math.floor(currentSlides.length / 2)}
           centeredSlides={true}
           slidesPerView="auto"
           speed={800}
@@ -168,7 +179,7 @@ const Slider: React.FC<SliderProps> = () => {
             1280: { spaceBetween: 24 },
           }}
         >
-          {slideData.map((slide, index) => (
+          {currentSlides.map((slide, index) => (
             <SwiperSlide key={index} className="!w-auto">
               {({ isActive }) => {
                 const isHide = hideContentIndex === index;

@@ -5,6 +5,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import LayoutWrapper from "@/components/LayoutWrapper";
 import { MAINTENANCE_MODE } from "@/lib/maintenance";
 import MaintenancePageComponent from "@/components/maintenance/maintenance-page";
+import { SWRProvider } from "@/components/providers/SWRProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -96,11 +97,13 @@ export default function RootLayout({
     <html lang="id" className="w-full max-w-[100vw] overflow-x-hidden">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased w-full max-w-[100vw] overflow-x-hidden min-h-screen`}>
-        <AuthProvider>
-          <LayoutWrapper>
-            {children}
-          </LayoutWrapper>
-        </AuthProvider>
+        <SWRProvider>
+          <AuthProvider>
+            <LayoutWrapper>
+              {children}
+            </LayoutWrapper>
+          </AuthProvider>
+        </SWRProvider>
       </body>
     </html>
   );

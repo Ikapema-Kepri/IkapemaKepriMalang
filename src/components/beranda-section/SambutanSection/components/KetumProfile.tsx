@@ -1,8 +1,25 @@
 import React, { memo, useMemo } from "react";
 import Image from "next/image";
+import { Sambutan } from "@/types";
 
+interface KetumProfileProps {
+  isVisible: boolean;
+  sambutan?: Sambutan | null;
+}
 
-const KetumProfile = memo(({ isVisible }: { isVisible: boolean }) => {
+const KetumProfile = memo(({ isVisible, sambutan }: KetumProfileProps) => {
+  // Debugging: Log data sambutan yang diterima
+  console.log('🔥 Firebase Connection Debug (KetumProfile):', {
+    sambutan,
+    hasData: !!sambutan,
+    fullName: sambutan?.fullName,
+    period: sambutan?.period,
+    photoUrl: sambutan?.photoUrl,
+    photoPath: sambutan?.photoPath,
+    isVisible,
+    timestamp: new Date().toISOString()
+  });
+
   const imageContainerClasses = useMemo(
     () =>
       `relative flex flex-col items-center transition-all duration-1000 ease-out ${
@@ -27,13 +44,17 @@ const KetumProfile = memo(({ isVisible }: { isVisible: boolean }) => {
     [isVisible]
   );
 
+  const namaKetua = sambutan?.fullName || "Mgs Achmad Dachlan R";
+  const jabatan = sambutan?.period ? `Ketua Umum IKAPEMA Kepri—Malang ${sambutan.period}` : "Ketua Umum IKAPEMA Kepri—Malang 2024/2025";
+  const photoURL = sambutan?.photoUrl || sambutan?.photoPath || "/bg/FotoKetum.svg";
+
   return (
     <div className="w-full md:w-1/2 lg:w-2/5 flex justify-center">
       <div className={imageContainerClasses}>
         <div className="relative mb-4 sm:mb-6 md:mb-8 lg:mb-[3.954vh]">
           <Image
-            src="/bg/FotoKetum.svg"
-            alt="Foto Ketua Umum IKAPEMA KEPRI"
+            src={photoURL}
+            alt={`Foto ${namaKetua}`}
             width={400}
             height={400}
             className={imageClasses}
@@ -42,10 +63,10 @@ const KetumProfile = memo(({ isVisible }: { isVisible: boolean }) => {
         </div>
         <div className={textContainerClasses}>
           <h3 className="text-sm sm:text-base md:text-lg lg:text-[3.295vh] xl:text-[3.954vh] 2xl:text-[4.942vh] font-bold text-[#005266] mb-2 sm:mb-2 md:mb-3 lg:mb-2 leading-tight break-words">
-            Mgs Achmad Dachlan R
+            {namaKetua}
           </h3>
           <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-medium text-gray-600 leading-tight break-words">
-            Ketua Umum IKAPEMA Kepri—Malang 2024/2025
+            {jabatan}
           </p>
         </div>
       </div>

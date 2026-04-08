@@ -1,26 +1,28 @@
 "use client";
 
-import AddMemberForm from '@/components/UI/add-member-form';
-import ImageUploader from '@/components/UI/image-uploader';
-import MemberList from '@/components/UI/member-list';
-import ProtectedRoute from '@/components/UI/protected-route';
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
-const DashboardPage: React.FC = () => {
+const AdminAccessPage: React.FC = () => {
+  const router = useRouter();
+  const { isAuthenticated, loading } = useAuth();
+
+  useEffect(() => {
+    if (!loading) {
+      if (isAuthenticated) {
+        router.push("/adminaccess/dashboard");
+      } else {
+        router.push("/adminaccess/login");
+      }
+    }
+  }, [isAuthenticated, loading, router]);
+
   return (
-    <ProtectedRoute>
-      <div className="flex flex-col lg:flex-row gap-8">
-        {/* Form di kiri, 1/3 layar */}
-        <div className="w-full lg:w-1/3 space-y-6">
-          <AddMemberForm />
-          <ImageUploader />
-        </div>
-        {/* List member di kanan, 2/3 layar */}
-        <div className="w-full lg:w-2/3">
-          <MemberList />
-        </div>
-      </div>
-    </ProtectedRoute>
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00A3CC]"></div>
+    </div>
   );
 };
 
-export default DashboardPage;
+export default AdminAccessPage;
