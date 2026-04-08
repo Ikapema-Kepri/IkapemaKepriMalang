@@ -17,7 +17,7 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { collapsed } = useSidebar();
   
   return (
-    <div className="flex h-screen overflow-hidden bg-[#E5FAFF]">
+    <div className="flex h-screen overflow-hidden bg-[#F7F5F0]">
       {/* Sidebar - Fixed di kiri */}
       <AppSidebar />
       
@@ -45,8 +45,18 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
   const isAdminRoute = pathname?.startsWith("/adminaccess");
 
   if (isAdminRoute) {
-    // Jika user belum login, tampilkan dengan Navbar dan Footer
+    // Jika user belum login
     if (!isAuthenticated && !loading) {
+      // Khusus halaman login, sembunyikan Navbar dan Footer
+      if (pathname === '/adminaccess/login') {
+        return (
+          <main className="w-full max-w-[100vw] overflow-x-hidden min-h-screen">
+            {children}
+          </main>
+        );
+      }
+      
+      // Route admin lainnya yang belum login
       return (
         <>
           <NavbarClientWrapper />
@@ -63,6 +73,15 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
       <SidebarProvider>
         <AdminLayout>{children}</AdminLayout>
       </SidebarProvider>
+    );
+  }
+
+  // Jika di halaman maintenance, jangan tampilkan Navbar dan Footer
+  if (pathname === '/maintenance') {
+    return (
+      <main className="w-full max-w-[100vw] overflow-x-hidden">
+        {children}
+      </main>
     );
   }
 

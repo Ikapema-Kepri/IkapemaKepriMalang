@@ -20,7 +20,7 @@ const LoginForm: React.FC = () => {
 
     try {
       await login(email, password, rememberMe);
-      router.push('/adminaccess');
+      router.push('/adminaccess/dashboard');
     } catch (error: unknown) {
       console.error('Login error:', error);
       

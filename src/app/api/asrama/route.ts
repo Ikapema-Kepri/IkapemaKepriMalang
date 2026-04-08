@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { db } from '../../../lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { Asrama } from '@/types';
@@ -12,7 +12,7 @@ const handlers = {
       const snapshots = await Promise.all(asramaPromises);
 
       const asrama: Asrama[] = snapshots
-        .map((docSnap, index) => {
+        .map((docSnap) => {
           if (docSnap.exists()) {
             return {
               id: docSnap.id,

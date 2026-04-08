@@ -134,6 +134,56 @@ export const useAnggota = ({ initialSearch = '', itemsPerPage = 20 }: UseAnggota
     }
   };
 
+  const createAnggota = useCallback(async (anggotaData: Omit<Anggota, 'id'> | FormData) => {
+    try {
+      const isFormData = anggotaData instanceof FormData;
+      const response = await fetch('/api/anggota', {
+        method: 'POST',
+        ...(isFormData 
+          ? { body: anggotaData }
+          : { 
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(anggotaData),
+            }
+        ),
+      });
+
+      const data: ApiResponse = await response.json();
+      if (!response.ok) throw new Error(data.message || 'Gagal menambahkan anggota.');
+
+      await mutate();
+      return { success: true, message: 'Anggota berhasil ditambahkan.' };
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : 'Gagal menambahkan anggota.';
+      return { success: false, message };
+    }
+  }, [mutate]);
+
+  const updateAnggota = useCallback(async (id: string, anggotaData: Partial<Anggota> | FormData) => {
+    try {
+      const isFormData = anggotaData instanceof FormData;
+      const response = await fetch(`/api/anggota/${id}`, {
+        method: 'PUT',
+        ...(isFormData 
+          ? { body: anggotaData }
+          : { 
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(anggotaData),
+            }
+        ),
+      });
+
+      const data: ApiResponse = await response.json();
+      if (!response.ok) throw new Error(data.message || 'Gagal mengupdate anggota.');
+
+      await mutate();
+      return { success: true, message: 'Anggota berhasil diupdate.' };
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : 'Gagal mengupdate anggota.';
+      return { success: false, message };
+    }
+  }, [mutate]);
+
   const handleEditClick = (member: Anggota) => {
     setEditId(member.id ?? null);
     setEditData({
@@ -150,22 +200,24 @@ export const useAnggota = ({ initialSearch = '', itemsPerPage = 20 }: UseAnggota
     setEditData({ ...editData, [e.target.name]: e.target.value });
   };
 
-  const handleEditSubmit = async (e: React.FormEvent) => {
+  const handleEditSubmit = async (e: React.FormEvent, formDataOverride?: FormData) => {
     e.preventDefault();
     if (!editId) return;
     try {
-      const response = await fetch(`/api/anggota/${editId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(editData),
-      });
-      const data: ApiResponse = await response.json();
-      if (!response.ok) throw new Error(data.message || 'Gagal mengedit anggota.');
+      let res;
+      if (formDataOverride) {
+        res = await updateAnggota(editId, formDataOverride);
+      } else {
+        const payload = {
+          ...editData,
+          isActive: editData.isActive === true || (editData.isActive as unknown) === 'true',
+        };
+        res = await updateAnggota(editId, payload);
+      }
+      if (!res.success) throw new Error(res.message);
       
       setEditId(null);
       setEditData({});
-      
-      await mutate();
     } catch (e: unknown) {
       alert(e instanceof Error ? e.message : 'Gagal mengedit anggota.');
     }
@@ -253,6 +305,8 @@ export const useAnggota = ({ initialSearch = '', itemsPerPage = 20 }: UseAnggota
     debouncedSearch,
     handleSearch,
     handleDelete,
+    createAnggota,
+    updateAnggota,
     handleEditClick,
     handleEditChange,
     handleEditSubmit,
@@ -263,5 +317,6 @@ export const useAnggota = ({ initialSearch = '', itemsPerPage = 20 }: UseAnggota
     getPageNumbers,
     fetchMembers,
     mutate,
+    setEditData,
   };
 };

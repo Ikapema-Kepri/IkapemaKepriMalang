@@ -142,7 +142,3 @@ export async function POST(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   return handlers.PUT(req);
 }
-
-export async function DELETE() {
-  return handlers.DELETE();
-}

@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../lib/firebase';
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import cloudinary from '../../../lib/cloudinary';
+import { CloudinaryUploadResult } from '@/types';
+import { Buffer } from 'buffer';
 
 const handlers = {
   async GET() {
@@ -38,8 +41,10 @@ const handlers = {
 
   async POST(req: NextRequest) {
     try {
-      const body = await req.json();
-      const { filePath, fileUrl } = body;
+      const formData = await req.formData();
+      const title = formData.get('title') as string | null;
+      const fileUrl = formData.get('fileUrl') as string | null;
+      const file = formData.get('image') as File | null;
 
       if (!fileUrl) {
         return NextResponse.json(
@@ -59,12 +64,33 @@ const handlers = {
         );
       }
 
-      // Create majalah with fixed ID "majalah"
-      await setDoc(docRef, {
-        filePath: filePath || null,
+      const createData: Record<string, unknown> = {
+        title: title || null,
         fileUrl,
         updatedAt: new Date().toISOString(),
-      });
+      };
+
+      if (file && file.size > 0) {
+        const arrayBuffer = await file.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+        const uploadResult = await new Promise<CloudinaryUploadResult>((resolve, reject) => {
+          cloudinary.uploader.upload_stream(
+            { resource_type: 'auto', folder: 'majalah' },
+            (error: Error | null, result: unknown) => {
+              if (error || !result) {
+                reject(error ?? new Error('Upload to Cloudinary failed'));
+                return;
+              }
+              resolve(result as CloudinaryUploadResult);
+            }
+          ).end(buffer);
+        });
+        createData.photoUrl = uploadResult.secure_url;
+        createData.majalahPublicId = uploadResult.public_id;
+      }
+
+      // Create majalah with fixed ID "majalah"
+      await setDoc(docRef, createData);
 
       return NextResponse.json(
         { message: 'Majalah berhasil dibuat!', id: 'majalah' },
@@ -81,8 +107,11 @@ const handlers = {
 
   async PUT(req: NextRequest) {
     try {
-      const body = await req.json();
-      const { filePath, fileUrl } = body;
+      const formData = await req.formData();
+      const title = formData.get('title') as string | null;
+      const fileUrl = formData.get('fileUrl') as string | null;
+      const file = formData.get('image') as File | null;
+      const deleteImage = formData.get('deleteImage') === 'true';
 
       if (!fileUrl) {
         return NextResponse.json(
@@ -93,11 +122,53 @@ const handlers = {
 
       // Update majalah with fixed ID "majalah"
       const docRef = doc(db, 'majalah', 'majalah');
-      await updateDoc(docRef, {
-        filePath: filePath || null,
+      const docSnap = await getDoc(docRef);
+      if (!docSnap.exists()) {
+        return NextResponse.json(
+          { message: 'Majalah tidak ditemukan.' },
+          { status: 404 }
+        );
+      }
+      
+      const oldData = docSnap.data();
+
+      const updateData: Record<string, unknown> = {
+        title: title || null,
         fileUrl,
         updatedAt: new Date().toISOString(),
-      });
+      };
+
+      if (file && file.size > 0) {
+        const arrayBuffer = await file.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+        const uploadResult = await new Promise<CloudinaryUploadResult>((resolve, reject) => {
+          cloudinary.uploader.upload_stream(
+            { resource_type: 'auto', folder: 'majalah' },
+            (error: Error | null, result: unknown) => {
+              if (error || !result) {
+                reject(error ?? new Error('Upload to Cloudinary failed'));
+                return;
+              }
+              resolve(result as CloudinaryUploadResult);
+            }
+          ).end(buffer);
+        });
+
+        if (oldData.majalahPublicId) {
+          try { await cloudinary.uploader.destroy(oldData.majalahPublicId); } catch { console.error('Cloudinary destroy failed'); }
+        }
+        updateData.photoUrl = uploadResult.secure_url;
+        updateData.majalahPublicId = uploadResult.public_id;
+      } else if (deleteImage) {
+        if (oldData.majalahPublicId) {
+          try { await cloudinary.uploader.destroy(oldData.majalahPublicId); } catch { console.error('Cloudinary destroy failed'); }
+        }
+        updateData.photoUrl = null;
+        updateData.photoPath = null;
+        updateData.majalahPublicId = null;
+      }
+
+      await updateDoc(docRef, updateData);
 
       return NextResponse.json(
         { message: 'Majalah berhasil diupdate!' },

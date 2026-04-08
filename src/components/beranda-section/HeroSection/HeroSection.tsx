@@ -1,10 +1,11 @@
 "use client";
 
-import React, { memo } from "react";
+import React, { memo, useMemo } from "react";
 import { useHeroAnimation } from "./hooks/useHeroAnimation";
 import HeroBackground from "./components/HeroBackground";
 import HeroContent from "./components/HeroContent";
 import ScrollIndicator from "./components/ScrollIndicator";
+import { useBanner } from "@/hooks/useBanner";
 
 interface HeroSectionPagesProps {
   title?: string;
@@ -26,16 +27,32 @@ const HeroSectionPages: React.FC<HeroSectionPagesProps> = ({
   onScrollClick,
 }) => {
   const { backgroundRef, imageClasses } = useHeroAnimation();
+  const { banner } = useBanner();
+
+  const bannerUrl = useMemo(
+    () => banner?.bannerUrl ?? "/Hero.webp",
+    [banner?.bannerUrl]
+  );
+
+  const displayTitle = useMemo(
+    () => banner?.title ?? title,
+    [banner?.title, title]
+  );
+
+  const displaySubtitle = useMemo(
+    () => banner?.subtitle ? <blockquote>{banner.subtitle}</blockquote> : subtitle,
+    [banner?.subtitle, subtitle]
+  );
 
   return (
     <section
       ref={backgroundRef}
       className="relative w-full min-h-screen flex flex-col items-center justify-center bg-[#E5FAFF] text-white overflow-hidden"
     >
-      <HeroBackground imageClasses={imageClasses} />
+      <HeroBackground imageClasses={imageClasses} bannerUrl={bannerUrl} />
       <HeroContent
-        title={title}
-        subtitle={subtitle}
+        title={displayTitle}
+        subtitle={displaySubtitle}
         buttonText={buttonText}
         onButtonClick={onButtonClick}
       />

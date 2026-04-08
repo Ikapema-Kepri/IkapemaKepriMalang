@@ -55,15 +55,21 @@ export const useBanner = ({ isAdmin = false }: UseBannerProps = {}) => {
     timestamp: new Date().toISOString()
   });
 
-  const createBanner = useCallback(async (bannerData: Omit<Banner, 'id'>) => {
+  const createBanner = useCallback(async (bannerData: Omit<Banner, 'id'> | FormData) => {
     if (!isAdmin) return { success: false, message: 'Unauthorized' };
 
     setIsSubmitting(true);
     try {
+      const isFormData = bannerData instanceof FormData;
       const response = await fetch('/api/banner', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(bannerData),
+        ...(isFormData 
+          ? { body: bannerData }
+          : { 
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(bannerData)
+            }
+        ),
       });
 
       const data: ApiResponse = await response.json();
@@ -79,15 +85,25 @@ export const useBanner = ({ isAdmin = false }: UseBannerProps = {}) => {
     }
   }, [isAdmin, mutate]);
 
-  const updateBanner = useCallback(async (bannerData: Partial<Banner>) => {
+  const updateBanner = useCallback(async (bannerData: Partial<Banner> | FormData, id?: string) => {
     if (!isAdmin) return { success: false, message: 'Unauthorized' };
 
     setIsSubmitting(true);
     try {
-      const response = await fetch('/api/banner', {
+      const isFormData = bannerData instanceof FormData;
+      // Gunakan ID dari parameter, dari formData, dari object, atau default pakai banner?.id yang ada
+      const targetId = id || (isFormData ? bannerData.get('id') : bannerData.id) || banner?.id;
+      const url = targetId ? `/api/banner/${targetId}` : '/api/banner';
+
+      const response = await fetch(url, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(bannerData),
+        ...(isFormData 
+          ? { body: bannerData } // Browser otomatis handle boundary multipart/form-data
+          : { 
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(bannerData),
+            }
+        ),
       });
 
       const data: ApiResponse = await response.json();
@@ -101,9 +117,9 @@ export const useBanner = ({ isAdmin = false }: UseBannerProps = {}) => {
     } finally {
       setIsSubmitting(false);
     }
-  }, [isAdmin, mutate]);
+  }, [isAdmin, mutate, banner]);
 
-  const createOrUpdateBanner = useCallback(async (bannerData: Omit<Banner, 'id'>) => {
+  const createOrUpdateBanner = useCallback(async (bannerData: Omit<Banner, 'id'> | FormData, id?: string) => {
     if (!isAdmin) return { success: false, message: 'Unauthorized' };
 
     setIsSubmitting(true);
@@ -111,7 +127,7 @@ export const useBanner = ({ isAdmin = false }: UseBannerProps = {}) => {
       // Check if banner already exists
       if (banner) {
         // Update existing banner
-        return await updateBanner(bannerData);
+        return await updateBanner(bannerData, id);
       } else {
         // Create new banner
         return await createBanner(bannerData);

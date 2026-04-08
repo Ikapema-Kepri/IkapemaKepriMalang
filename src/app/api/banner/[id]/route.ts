@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../../lib/firebase';
 import { doc, updateDoc, getDoc, deleteDoc } from 'firebase/firestore';
+import cloudinary from '../../../../lib/cloudinary';
+import { CloudinaryUploadResult } from '@/types';
+import { Buffer } from 'buffer';
 
 const handlers = {
   async GET(req: NextRequest, { params }: { params: { id: string } }) {
     try {
-      const { id } = params;
+      const { id } = await Promise.resolve(params);
       const docRef = doc(db, 'banner', id);
       const docSnap = await getDoc(docRef);
 
@@ -41,16 +44,7 @@ const handlers = {
 
   async PUT(req: NextRequest, { params }: { params: { id: string } }) {
     try {
-      const { id } = params;
-      const body = await req.json();
-      const { bannerUrl, bannerPath } = body;
-
-      if (!bannerUrl) {
-        return NextResponse.json(
-          { message: 'Banner URL wajib diisi.' },
-          { status: 400 }
-        );
-      }
+      const { id } = await Promise.resolve(params);
 
       const docRef = doc(db, 'banner', id);
       const docSnap = await getDoc(docRef);
@@ -62,11 +56,52 @@ const handlers = {
         );
       }
 
-      await updateDoc(docRef, {
-        bannerUrl,
-        bannerPath: bannerPath || null,
+      const oldData = docSnap.data();
+
+      const formData = await req.formData();
+      const title = formData.get('title') as string | null;
+      const subtitle = formData.get('subtitle') as string | null;
+      const file = formData.get('image') as File | null;
+
+      const updateData: Record<string, unknown> = {
         updatedAt: new Date().toISOString(),
-      });
+      };
+
+      if (title !== null) updateData.title = title;
+      if (subtitle !== null) updateData.subtitle = subtitle;
+
+      if (file && file.size > 0) {
+        // Upload gambar baru ke Cloudinary
+        const arrayBuffer = await file.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+
+        const uploadResult = await new Promise<CloudinaryUploadResult>((resolve, reject) => {
+          cloudinary.uploader.upload_stream(
+            { resource_type: 'auto', folder: 'banner' },
+            (error: Error | null, result: unknown) => {
+              if (error || !result) {
+                reject(error ?? new Error('Upload to Cloudinary failed'));
+                return;
+              }
+              resolve(result as CloudinaryUploadResult);
+            }
+          ).end(buffer);
+        });
+
+        // Hapus gambar lama pakai public_id
+        if (oldData.bannerPublicId) {
+          try {
+            await cloudinary.uploader.destroy(oldData.bannerPublicId);
+          } catch (delError) {
+            console.error('Error deleting old image from Cloudinary:', delError);
+          }
+        }
+
+        updateData.bannerUrl = uploadResult.secure_url;
+        updateData.bannerPublicId = uploadResult.public_id;
+      }
+
+      await updateDoc(docRef, updateData);
 
       return NextResponse.json(
         { message: 'Banner berhasil diupdate!' },
@@ -83,7 +118,7 @@ const handlers = {
 
   async DELETE(req: NextRequest, { params }: { params: { id: string } }) {
     try {
-      const { id } = params;
+      const { id } = await Promise.resolve(params);
 
       const docRef = doc(db, 'banner', id);
       const docSnap = await getDoc(docRef);
