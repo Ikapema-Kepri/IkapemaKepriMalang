@@ -107,7 +107,7 @@ export interface KontakWhatsapp extends BaseKontak {
   namaKontak?: string;
   nomorKontak?: string;
   nomorApi?: string;
-  departemeni?: string;
+  departemen?: string;
   pesanDefault?: string;
 }
 
