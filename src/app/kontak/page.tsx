@@ -33,7 +33,6 @@ export default function ContactPage() {
     kontakWhatsapp,
     kontakEmail,
     kontakSekretariat,
-    loading
   } = useKontak();
 
   // State untuk mendeteksi iOS
