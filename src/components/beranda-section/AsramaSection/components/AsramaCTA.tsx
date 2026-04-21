@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { useContactAsrama } from "@/hooks/useContactAsrama";
+import { useContactAsrama } from "@/hooks/useKontakAsrama";
 
 interface AsramaCTAProps {
   ctaRef: React.Ref<HTMLDivElement>;

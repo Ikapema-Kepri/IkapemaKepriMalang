@@ -90,6 +90,39 @@ export interface Majalah {
   majalahPublicId?: string;
   updatedAt?: string;
 }
+export interface BaseKontak {
+  isActive?: boolean;
+  updatedAt?: string;
+  createdAt?: string;
+}
+
+export interface KontakInstagram extends BaseKontak {
+  id: 'instagram'; // Harus persis 'instagram'
+  username?: string;
+  url?: string;
+}
+
+export interface KontakWhatsapp extends BaseKontak {
+  id: 'whatsapp'; // Harus persis 'whatsapp'
+  namaKontak?: string;
+  nomorKontak?: string;
+  nomorApi?: string;
+  departemeni?: string;
+  pesanDefault?: string;
+}
+
+export interface KontakEmail extends BaseKontak {
+  id: 'email'; // Harus persis 'email'
+  alamatEmail?: string;
+}
+
+export interface KontakSekretariat extends BaseKontak {
+  id: 'sekretariat'; // Harus persis 'sekretariat'
+  namaLokasi?: string;
+  alamat?: string;
+  gmapsUrl?: string;
+  jamOperasional?: string;
+}
 
 export interface PaginationInfo {
   currentPage: number;
