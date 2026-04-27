@@ -14,7 +14,6 @@ import {
 } from "@/components/UI/form-shared";
 import Image from "next/image";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
 
 type ModalMode = "add" | "edit";
 
@@ -30,14 +29,12 @@ interface AlumniCardProps {
   onDelete: (id: number) => void;
 }
 
-// ─── AlumniCard (memoized) ────────────────────────────────────────────────────
-
 const AlumniCard = memo(function AlumniCard({ item, onEdit, onDelete }: AlumniCardProps) {
   return (
     <div className="flex flex-col rounded-lg border border-border bg-card overflow-hidden shadow-sm">
       <div className="flex flex-col md:grid md:grid-cols-3 flex-1">
         <div className="relative aspect-square overflow-hidden bg-muted">
-          <Image src={item.photoUrl} alt={item.nama} className="w-full h-full object-cover" />
+          <Image src={item.photoUrl} alt={item.nama} fill className="object-cover" />
         </div>
         <div className="col-span-2 flex flex-col justify-center gap-2 px-4 py-3">
           <div className="flex items-center gap-1.5">
@@ -74,7 +71,6 @@ const AlumniCard = memo(function AlumniCard({ item, onEdit, onDelete }: AlumniCa
   );
 });
 
-// ─── FormAlumni ───────────────────────────────────────────────────────────────
 
 export function FormAlumni() {
   const [items, setItems] = useState<AlumniShowcaseItem[]>(sampleAlumniShowcase);

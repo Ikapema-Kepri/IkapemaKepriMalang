@@ -9,7 +9,9 @@ import {
 } from "@/components/UI/table";
 import { ImageUp } from "lucide-react";
 import { useAsrama } from "@/hooks/useAsrama";
+import { useContactAsrama } from "@/hooks/useKontakAsrama";
 import Image from "next/image";
+
 interface AsramaFormProps {
   label: string;
 }
@@ -74,7 +76,7 @@ function AsramaForm({ label }: AsramaFormProps) {
   };
 
   return (
-    <div className="rounded-lg border border-border bg-card shadow-sm">
+    <div className="rounded-lg border border-border bg-card shadow-sm h-fit">
       {/* Header */}
       <div className="px-4 py-4 border-b border-border flex items-center justify-between">
         <div>
@@ -106,7 +108,7 @@ function AsramaForm({ label }: AsramaFormProps) {
                     className="group relative w-full aspect-video bg-[#F7F5F0] rounded-sm border-2 border-dashed border-border hover:border-[#00CCFF] transition-colors overflow-hidden"
                   >
                     {preview ? (
-                      <Image src={preview} alt="Preview" className="w-full h-full object-cover" />
+                      <Image src={preview} alt="Preview" fill className=" object-cover" />
                     ) : (
                       <div className="flex flex-col items-center justify-center h-full gap-2 text-muted-foreground group-hover:text-[#00CCFF] transition-colors">
                         <ImageUp size={28} />
@@ -169,11 +171,93 @@ function AsramaForm({ label }: AsramaFormProps) {
   );
 }
 
+function KontakAsramaForm() {
+  const { kontakAsrama, updateContactAsrama, createContactAsrama, isSubmitting, loading } = useContactAsrama({ isAdmin: true });
+  
+  const [buttonLabel, setButtonLabel] = useState("");
+  const [whatsappUrl, setWhatsappUrl] = useState("");
+  const [isActive, setIsActive] = useState(true);
+
+  useEffect(() => {
+    if (kontakAsrama) {
+      setButtonLabel(kontakAsrama.buttonLabel || "");
+      setWhatsappUrl(kontakAsrama.whatsappUrl || "");
+      setIsActive(kontakAsrama.isActive ?? true);
+    }
+  }, [kontakAsrama]);
+
+  const handleSubmit = async () => {
+    const data = { buttonLabel, whatsappUrl, isActive };
+    const res = kontakAsrama 
+        ? await updateContactAsrama(data)
+        : await createContactAsrama(data as any);
+
+    if (res.success) {
+      alert(`Kontak asrama berhasil disimpan!`);
+    } else {
+      alert(`Gagal menyimpan kontak asrama: ` + res.message);
+    }
+  };
+
+  return (
+    <div className="rounded-lg border border-border bg-card shadow-sm md:col-span-2">
+      <div className="px-4 py-4 border-b border-border flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-lg font-semibold text-foreground">Kontak Asrama (Tombol Hubung)</h2>
+          <p className="text-xs text-muted-foreground mt-0.5">Atur tombol kontak WhatsApp yang melayang/muncul pada asrama</p>
+        </div>
+        <button
+          type="button"
+          onClick={handleSubmit}
+          disabled={isSubmitting || loading}
+          className="px-4 py-2 text-sm font-medium rounded-sm bg-[#00CCFF] text-white hover:bg-[#00b3e0] transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+        >
+          {isSubmitting ? "Menyimpan..." : "Simpan Perubahan"}
+        </button>
+      </div>
+
+      <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="flex flex-col gap-1.5">
+           <label className="text-sm font-medium text-foreground">Label Tombol</label>
+           <input
+             type="text"
+             value={buttonLabel}
+             onChange={(e) => setButtonLabel(e.target.value)}
+             placeholder="Contoh: Hubungi Kami"
+             className="w-full rounded-sm border border-border bg-[#F7F5F0] px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#00CCFF]/40 focus:border-[#00CCFF] transition-colors"
+           />
+        </div>
+        <div className="flex flex-col gap-1.5">
+           <label className="text-sm font-medium text-foreground">URL WhatsApp (wa.me/...)</label>
+           <input
+             type="text"
+             value={whatsappUrl}
+             onChange={(e) => setWhatsappUrl(e.target.value)}
+             placeholder="Contoh: https://wa.me/628123456789"
+             className="w-full rounded-sm border border-border bg-[#F7F5F0] px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#00CCFF]/40 focus:border-[#00CCFF] transition-colors"
+           />
+        </div>
+        
+        <div className="flex items-center gap-2 cursor-pointer md:col-span-2" onClick={() => setIsActive(!isActive)}>
+          <input 
+            type="checkbox" 
+            checked={isActive} 
+            readOnly
+            className="w-4 h-4 text-[#00CCFF] bg-gray-100 border-gray-300 rounded focus:ring-[#00CCFF] accent-[#00CCFF]"
+          />
+          <label className="text-sm font-semibold text-foreground cursor-pointer">Tampilkan Tombol Kontak Asrama</label>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function FormAsrama() {
   return (
-    <div className="flex flex-col md:grid md:grid-cols-2 gap-6">
+    <div className="flex flex-col md:grid md:grid-cols-2 gap-6 items-start">
       <AsramaForm label="Asrama Putra" />
       <AsramaForm label="Asrama Putri" />
+      <KontakAsramaForm />
     </div>
   );
 }

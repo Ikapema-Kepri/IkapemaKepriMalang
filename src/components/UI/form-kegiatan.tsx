@@ -37,7 +37,7 @@ const KegiatanCard = memo(function KegiatanCard({ item, onEdit, onDelete }: Kegi
   return (
     <div className="flex flex-col rounded-lg border border-border bg-card overflow-hidden shadow-sm">
       <div className="relative w-full aspect-video overflow-hidden bg-muted">
-        <Image src={item.photoUrl || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800"} alt={item.title || "Kegiatan"} className="w-full h-full object-cover" />
+        <Image src={item.photoUrl || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800"} alt={item.title || "Kegiatan"} fill className="w-full h-full object-cover" />
       </div>
       <div className="flex flex-col gap-1.5 p-3 flex-1">
         <span className="inline-block self-start rounded-full bg-[#00CCFF]/10 text-[#00CCFF] text-[10px] md:text-xs font-medium px-2.5 py-0.5">
