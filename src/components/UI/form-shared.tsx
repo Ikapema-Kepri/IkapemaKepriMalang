@@ -302,7 +302,7 @@ export const ImageUploadField = memo(function ImageUploadField({
       }`}
     >
       {preview ? (
-        <Image src={preview} alt="Preview" className="w-full h-full object-cover" />
+        <Image src={preview} alt="Preview" fill className="w-full h-full object-cover" />
       ) : (
         <div className="flex flex-col items-center justify-center h-full gap-2 text-muted-foreground group-hover:text-[#00CCFF] transition-colors">
           <ImageUp size={compact ? 20 : 24} />
