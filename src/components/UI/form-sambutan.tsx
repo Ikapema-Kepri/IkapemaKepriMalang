@@ -101,7 +101,7 @@ export function FormSambutan() {
                     className="group relative w-full aspect-square bg-[#F7F5F0] rounded-sm border-2 border-dashed border-border hover:border-[#00CCFF] transition-colors overflow-hidden"
                   >
                     {preview ? (
-                      <Image src={preview} alt="Preview" className="w-full h-full object-cover" />
+                      <Image src={preview} alt="Preview" fill className="object-cover" />
                     ) : (
                       <div className="flex flex-col items-center justify-center h-full gap-2 text-muted-foreground group-hover:text-[#00CCFF] transition-colors">
                         <ImageUp size={28} />

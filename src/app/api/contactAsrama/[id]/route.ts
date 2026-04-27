@@ -7,7 +7,7 @@ const handlers = {
   async GET(req: NextRequest, { params }: { params: { id: string } }) {
     try {
       const { id } = params;
-      const docRef = doc(db, 'contactAsrama', id);
+      const docRef = doc(db, 'kontakAsrama', id);
       const docSnap = await getDoc(docRef);
 
       if (!docSnap.exists()) {
@@ -54,7 +54,7 @@ const handlers = {
         );
       }
 
-      const docRef = doc(db, 'contactAsrama', id);
+      const docRef = doc(db, 'kontakAsrama', id);
       const docSnap = await getDoc(docRef);
 
       if (!docSnap.exists()) {
@@ -98,7 +98,7 @@ const handlers = {
       }
 
       // Check if document with this ID already exists
-      const docRef = doc(db, 'contactAsrama', id);
+      const docRef = doc(db, 'kontakAsrama', id);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {

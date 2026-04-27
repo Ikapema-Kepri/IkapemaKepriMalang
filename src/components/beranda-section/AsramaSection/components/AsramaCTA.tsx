@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { useContactAsrama } from "@/hooks/useContactAsrama";
+import { useContactAsrama } from "@/hooks/useKontakAsrama";
 
 interface AsramaCTAProps {
   ctaRef: React.Ref<HTMLDivElement>;
@@ -22,7 +22,7 @@ const AsramaCTA: React.FC<AsramaCTAProps> = ({ ctaRef, ctaContainerClasses }) =>
       >
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-all duration-700"></div>
         <span className="relative z-10 flex items-center space-x-2">
-          <span>Lihat Detail Asrama</span>
+          <span>{kontakAsrama?.buttonLabel}</span>
           <svg
             className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
             fill="none"

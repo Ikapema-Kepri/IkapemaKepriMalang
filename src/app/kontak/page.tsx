@@ -13,6 +13,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import { useKontak } from "@/hooks/userKontak";
 
 const Card = React.forwardRef<
   HTMLDivElement,
@@ -27,6 +28,13 @@ const Card = React.forwardRef<
 Card.displayName = "Card";
 
 export default function ContactPage() {
+  const {
+    kontakInstagram,
+    kontakWhatsapp,
+    kontakEmail,
+    kontakSekretariat,
+  } = useKontak();
+
   // State untuk mendeteksi iOS
   const [isIOS, setIsIOS] = useState(false);
 
@@ -124,6 +132,7 @@ export default function ContactPage() {
           className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-6 auto-rows-fr"
         >
           {/* Instagram - Tall Card */}
+          {(!kontakInstagram || kontakInstagram.isActive !== false) && (
           <motion.div
             variants={cardVariants}
             className="md:col-span-2 md:row-span-2"
@@ -158,7 +167,7 @@ export default function ContactPage() {
                   Ikuti update terbaru kami
                 </p>
                 <motion.a
-                  href="https://www.instagram.com/ikapemakeprimalang/"
+                  href={kontakInstagram?.url || "https://www.instagram.com/ikapemakeprimalang/"}
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{
@@ -169,13 +178,15 @@ export default function ContactPage() {
                   whileTap={{ scale: 0.95 }}
                   className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-2 rounded-full text-sm font-medium shadow-lg hover:shadow-xl transition-shadow duration-300"
                 >
-                  @ikapemakeprimalang
+                  {kontakInstagram?.username || "@ikapemakeprimalang"}
                 </motion.a>
               </motion.div>
             </Card>
           </motion.div>
+          )}
 
           {/* WhatsApp - Wide Card (Modified to match Email) */}
+          {(!kontakWhatsapp || kontakWhatsapp.isActive !== false) && (
           <motion.div variants={cardVariants} className="md:col-span-4">
             <Card className="h-full glass-strong rounded-3xl border-0 shadow-2xl transition-all duration-500 group cursor-pointer hover:border-2 hover:border-green-400 hover:shadow-[0_0_25px_rgba(34,197,94,0.3)]">
               <motion.div
@@ -209,7 +220,7 @@ export default function ContactPage() {
                       Terhubung langsung dengan kami
                     </p>
                     <motion.a
-                      href="https://wa.link/1yq1z6"
+                      href={kontakWhatsapp?.nomorApi ? `https://wa.me/${kontakWhatsapp.nomorApi}?text=${encodeURIComponent(kontakWhatsapp.pesanDefault || '')}` : "https://wa.link/1yq1z6"}
                       target="_blank"
                       rel="noopener noreferrer"
                       whileHover={{
@@ -220,15 +231,17 @@ export default function ContactPage() {
                       whileTap={{ scale: 0.95 }}
                       className="text-green-600 font-medium text-lg hover:text-green-500 transition-colors duration-300 inline-block"
                     >
-                      +62 898-8821-793
+                      {kontakWhatsapp?.nomorKontak || "+62 898-8821-793"}
                     </motion.a>
                   </div>
                 </div>
               </motion.div>
             </Card>
           </motion.div>
+          )}
 
           {/* Email - Wide Card */}
+          {(!kontakEmail || kontakEmail.isActive !== false) && (
           <motion.div variants={cardVariants} className="md:col-span-4">
             <Card className="h-full glass-strong rounded-3xl border-0 shadow-2xl transition-all duration-500 group cursor-pointer hover:border-2 hover:border-purple-400 hover:shadow-[0_0_25px_rgba(147,51,234,0.3)]">
               <motion.div
@@ -262,7 +275,7 @@ export default function ContactPage() {
                       Untuk komunikasi formal dan kerjasama
                     </p>
                     <motion.a
-                      href="mailto:ikapemakepri.malang@gmail.com"
+                      href={`mailto:${kontakEmail?.alamatEmail || "ikapemakepri.malang@gmail.com"}`}
                       whileHover={{
                         scale: 1.05,
                         y: -2,
@@ -271,15 +284,17 @@ export default function ContactPage() {
                       whileTap={{ scale: 0.95 }}
                       className="text-purple-600 font-medium text-lg hover:text-purple-500 transition-colors duration-300 inline-block"
                     >
-                      ikapemakepri.malang@gmail.com
+                      {kontakEmail?.alamatEmail || "ikapemakepri.malang@gmail.com"}
                     </motion.a>
                   </div>
                 </div>
               </motion.div>
             </Card>
           </motion.div>
+          )}
 
           {/* Office Address - Large Card */}
+          {(!kontakSekretariat || kontakSekretariat.isActive !== false) && (
           <motion.div
             variants={cardVariants}
             className="md:col-span-4 md:row-span-2"
@@ -319,26 +334,41 @@ export default function ContactPage() {
                 </div>
 
                 <div className="space-y-4">
-                  <motion.div
-                    whileHover={{
-                      scale: 1.02,
-                      y: -2,
-                      transition: { duration: 0.2 },
-                    }}
-                    className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 border border-white/30 shadow-lg"
-                  >
-                    <div className="text-lg font-semibold mb-2">
-                      Kantor Pusat
-                    </div>
-                    <div className="text-foreground/80 leading-relaxed">
-                      Perumahan Permata Kencana Blok C no 22,
-                      <br />
-                      Jl. Saxophone, Tunggulwulung, Kec. Lowokwaru, Kota Malang,<br />
-                      65143
-                      <br />
-                       Jawa Timur, Indonesia
-                    </div>
-                  </motion.div>
+                  {kontakSekretariat?.gmapsUrl ? (
+                    <a href={kontakSekretariat.gmapsUrl} target="_blank" rel="noopener noreferrer">
+                      <motion.div
+                        whileHover={{
+                          scale: 1.02,
+                          y: -2,
+                          transition: { duration: 0.2 },
+                        }}
+                        className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 border border-white/30 shadow-lg cursor-pointer hover:bg-white/30 transition-colors"
+                      >
+                        <div className="text-lg font-semibold mb-2 text-[#00A3CC]">
+                          {kontakSekretariat?.namaLokasi || "Asrama Putra Ikapema"}
+                        </div>
+                        <div className="text-foreground/80 leading-relaxed whitespace-pre-wrap">
+                          {kontakSekretariat?.alamat || "Perumahan Permata Kencana Blok C no 22,\nJl. Saxophone, Tunggulwulung, Kec. Lowokwaru, Kota Malang,\n65143\nJawa Timur, Indonesia"}
+                        </div>
+                      </motion.div>
+                    </a>
+                  ) : (
+                    <motion.div
+                      whileHover={{
+                        scale: 1.02,
+                        y: -2,
+                        transition: { duration: 0.2 },
+                      }}
+                      className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 border border-white/30 shadow-lg"
+                    >
+                      <div className="text-lg font-semibold mb-2">
+                        {kontakSekretariat?.namaLokasi || "Kantor Pusat"}
+                      </div>
+                      <div className="text-foreground/80 leading-relaxed whitespace-pre-wrap">
+                        {kontakSekretariat?.alamat || "Perumahan Permata Kencana Blok C no 22,\nJl. Saxophone, Tunggulwulung, Kec. Lowokwaru, Kota Malang,\n65143\nJawa Timur, Indonesia"}
+                      </div>
+                    </motion.div>
+                  )}
 
                   <motion.div
                     whileHover={{ x: 5 }}
@@ -352,14 +382,16 @@ export default function ContactPage() {
                     >
                       <Clock className="w-4 h-4" />
                     </motion.div>
-                    <span>Senin - Jumat: 08:00 - 17:00 WIB</span>
+                    <span>{kontakSekretariat?.jamOperasional || "Senin - Jumat: 08:00 - 17:00 WIB"}</span>
                   </motion.div>
                 </div>
               </motion.div>
             </Card>
           </motion.div>
+          )}
 
           {/* Contact Person - Modified to match Office Address height */}
+          {(!kontakWhatsapp || kontakWhatsapp.isActive !== false) && (
           <motion.div variants={cardVariants} className="md:col-span-2 md:row-span-2">
             <Card className="h-full glass-strong rounded-3xl border-0 shadow-2xl transition-all duration-500 group cursor-pointer hover:border-2 hover:border-indigo-400 hover:shadow-[0_0_30px_rgba(99,102,241,0.3)]">
               <motion.div
@@ -398,17 +430,18 @@ export default function ContactPage() {
                   }}
                   className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-2 rounded-full text-lg font-medium shadow-lg mb-2"
                 >
-                  Nova Syahfitri
+                  {kontakWhatsapp?.namaKontak || "Nova Syahfitri"}
                 </motion.div>
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   className="text-indigo-600 font-medium text-lg"
                 >
-                  Humas
+                  {kontakWhatsapp?.departemen || "Humas"}
                 </motion.div>
               </motion.div>
             </Card>
           </motion.div>
+          )}
         </motion.div>
 
         {/* Footer */}
