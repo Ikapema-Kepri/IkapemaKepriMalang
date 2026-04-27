@@ -11,6 +11,7 @@ import { ImageUp } from "lucide-react";
 import { useAsrama } from "@/hooks/useAsrama";
 import { useContactAsrama } from "@/hooks/useKontakAsrama";
 import Image from "next/image";
+import type { KontakAsrama } from "@/types";
 
 interface AsramaFormProps {
   label: string;
@@ -187,10 +188,10 @@ function KontakAsramaForm() {
   }, [kontakAsrama]);
 
   const handleSubmit = async () => {
-    const data = { buttonLabel, whatsappUrl, isActive };
+    const data: Omit<KontakAsrama, 'id'> = { buttonLabel, whatsappUrl, isActive };
     const res = kontakAsrama 
         ? await updateContactAsrama(data)
-        : await createContactAsrama(data as any);
+        : await createContactAsrama(data);
 
     if (res.success) {
       alert(`Kontak asrama berhasil disimpan!`);
