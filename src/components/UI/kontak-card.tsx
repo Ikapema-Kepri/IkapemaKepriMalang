@@ -1,16 +1,50 @@
 import React from 'react';
 import { LucideIcon } from 'lucide-react';
+import { KontakInstagram, KontakWhatsapp, KontakEmail, KontakSekretariat } from '@/types';
+
+type AnyContact = KontakInstagram | KontakWhatsapp | KontakEmail | KontakSekretariat;
 
 interface KontakCardProps {
-    icon: LucideIcon    ;
+    icon: LucideIcon;
     label: string;
-    value: string;
-    href: string;
+    data?: AnyContact | null;
     cta: string;
     accent: string;
 }
 
-const KontakCard = ({ icon: Icon, label, value, href, cta, accent }: KontakCardProps) => {
+const KontakCard = ({ icon: Icon, label, data, cta, accent }: KontakCardProps) => {
+  // Fungsi penolong untuk menetapkan value dan tautan otomatis berdasarkan "id" tipe kontak
+  const getDisplayData = () => {
+    if (!data) return { value: '-', href: '#' };
+
+    switch (data.id) {
+      case 'instagram':
+        return {
+          value: data.username || "@ikapemakeprimalang",
+          href: data.url || "https://www.instagram.com/ikapemakeprimalang/"
+        };
+      case 'whatsapp':
+        return {
+          value: `${data.namaKontak || "Nova Syahfitri"} - ${data.departemen || "Humas"}`,
+          href: data.nomorApi ? `https://wa.me/${data.nomorApi}?text=${encodeURIComponent(data.pesanDefault || '')}` : "https://wa.link/1yq1z6"
+        };
+      case 'email':
+        return {
+          value: data.alamatEmail || "ikapemakepri.malang@gmail.com",
+          href: `mailto:${data.alamatEmail || "ikapemakepri.malang@gmail.com"}`
+        };
+      case 'sekretariat':
+        return {
+          value: data.namaLokasi || "Asrama Putra Ikapema",
+          href: data.mapsUrl
+        };
+      default:
+        return { value: '-', href: '#' };
+    }
+  };
+
+  const { value, href } = getDisplayData();
+
   return (
     <a
       href={href}
