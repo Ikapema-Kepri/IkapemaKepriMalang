@@ -38,7 +38,6 @@ const socialMediaLinks = [
 
 const Footer = () => {
   const {
-      kontakInstagram,
       kontakWhatsapp,
       kontakEmail,
       kontakSekretariat,

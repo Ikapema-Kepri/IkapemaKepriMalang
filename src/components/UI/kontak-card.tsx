@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import { LucideIcon } from 'lucide-react';
 
 interface KontakCardProps {

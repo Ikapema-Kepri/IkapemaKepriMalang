@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, easeOut } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Instagram,
   MessageCircle,
@@ -38,30 +38,6 @@ export default function ContactPage() {
 
   // State untuk mendeteksi iOS
   const [isIOS, setIsIOS] = useState(false);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.5,
-        ease: easeOut,
-      },
-    },
-  };
 
   const headerRef = useRef<HTMLDivElement>(null);
   //   const contentRef = useRef<HTMLDivElement>(null);
