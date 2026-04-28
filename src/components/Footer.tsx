@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaInstagram, FaYoutube, FaTiktok } from "react-icons/fa";
 import { Mail, Phone, MapPin } from "lucide-react";
+import { useKontak } from "@/hooks/userKontak";
 
 const quickLinks = [
   { label: "Beranda", href: "/" },
@@ -13,23 +14,6 @@ const quickLinks = [
   { label: "Kontak", href: "/kontak" },
 ];
 
-const contactInfo = [
-  {
-    icon: Phone,
-    label: "Phone",
-    value: "+62 898-8821-793",
-  },
-  {
-    icon: Mail,
-    label: "Email",
-    value: "@ikapemakeprimalang",
-  },
-  {
-    icon: MapPin,
-    label: "Address",
-    value: "Perumahan Permata Kencana Blok C no 22, Jl. Saxophone, Tunggulwulung, Kec. Lowokwaru, Kota Malang, Jawa Timur 65143",
-  },
-];
 
 const socialMediaLinks = [
   {
@@ -53,6 +37,29 @@ const socialMediaLinks = [
 ];
 
 const Footer = () => {
+  const {
+      kontakWhatsapp,
+      kontakEmail,
+      kontakSekretariat,
+    } = useKontak();
+const contactInfo = [
+  {
+    icon: Phone,
+    label: "Phone",
+    value: kontakWhatsapp?.nomorKontak
+  },
+  {
+    icon: Mail,
+    label: "Email",
+    value: kontakEmail?.alamatEmail,
+  },
+  {
+    icon: MapPin,
+    label: "Address",
+    value: kontakSekretariat?.alamat,
+  },
+];
+
   return (
     <footer className="w-full bg-[#005266] text-white" style={{ minHeight: 400 }}>
       <div className="max-w-[1440px] mx-auto h-full flex flex-col justify-center">

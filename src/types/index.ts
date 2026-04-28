@@ -120,7 +120,8 @@ export interface KontakSekretariat extends BaseKontak {
   id: 'sekretariat'; // Harus persis 'sekretariat'
   namaLokasi?: string;
   alamat?: string;
-  gmapsUrl?: string;
+  mapsUrl?: string;
+  mapsEmbedUrl?: string;
   jamOperasional?: string;
 }
 
