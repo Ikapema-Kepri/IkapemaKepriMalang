@@ -10,7 +10,7 @@ const ALLOWED_FIELDS: Record<KontakId, string[]> = {
   instagram: ['username', 'url', 'isActive'],
   whatsapp: ['namaKontak', 'nomorKontak', 'nomorApi', 'departemen', 'pesanDefault', 'isActive'],
   email: ['alamatEmail', 'isActive'],
-  sekretariat: ['namaLokasi', 'alamat', 'gmapsUrl', 'jamOperasional', 'isActive'],
+  sekretariat: ['namaLokasi', 'alamat', 'mapsUrl', 'mapsEmbedUrl', 'jamOperasional', 'isActive'],
 };
 
 export async function GET(
