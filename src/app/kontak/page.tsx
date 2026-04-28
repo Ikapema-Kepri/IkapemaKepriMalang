@@ -101,38 +101,34 @@ export default function ContactPage() {
           </p>
         </motion.div>
 
-         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">  
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">  
           <KontakCard
             icon={Instagram}
             label="Instagram"
-            value= {kontakInstagram?.username || "@ikapemakeprimalang"}
-            href= {kontakInstagram?.url || "https://www.instagram.com/ikapemakeprimalang/"}
-            cta="Follow us"
+            data={kontakInstagram}
+            cta="Ikuti kami"
             accent="#E6007E"
           />
           <KontakCard
             icon={MessageCircle}
             label="WhatsApp"
-            value={`${kontakWhatsapp?.namaKontak || "Nova Syahfitri"} - ${kontakWhatsapp?.departemen || "Humas"}`}
-            href={kontakWhatsapp?.nomorApi ? `https://wa.me/${kontakWhatsapp.nomorApi}?text=${encodeURIComponent(kontakWhatsapp.pesanDefault || '')}` : "https://wa.link/1yq1z6"}
-            cta="Chat us"
+            data={kontakWhatsapp}
+            cta="Hubungi kami"
             accent="#25D366"
           />
           <KontakCard
             icon={Mail}
             label="Email"
-            value= {kontakEmail?.alamatEmail || "ikapemakepri.malang@gmail.com"}
-            href= {`mailto:${kontakEmail?.alamatEmail || "ikapemakepri.malang@gmail.com"}`}
-            cta="Email us"
-            accent= "#0077ffff"
+            data={kontakEmail}
+            cta="Kirim email"
+            accent="#0077ffff"
           />
           <KontakCard
             icon={MapPin}
             label="Sekretariat"
-            value= {kontakSekretariat?.namaLokasi || "Asrama Putra Ikapema"}
-            href= {kontakSekretariat?.mapsUrl || "https://maps.app.goo.gl/1yq1z6"}
-            cta="View on map"
-            accent= "#ff9900ff"
+            data={kontakSekretariat}
+            cta="Lihat di"
+            accent="#ff9900ff"
           />
         </div>
 
