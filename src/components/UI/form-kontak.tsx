@@ -19,7 +19,7 @@ export function FormKontak() {
   const [instagram, setInstagram] = useState({ username: "", url: "", isActive: true });
   const [email, setEmail] = useState({ alamatEmail: "", isActive: true });
   const [whatsapp, setWhatsapp] = useState({ namaKontak: "", nomorKontak: "", nomorApi: "", departemen: "", pesanDefault: "", isActive: true });
-  const [sekretariat, setSekretariat] = useState({ namaLokasi: "", alamat: "", gmapsUrl: "", jamOperasional: "", isActive: true });
+  const [sekretariat, setSekretariat] = useState({ namaLokasi: "", alamat: "", mapsUrl: "", mapsEmbedUrl: "", jamOperasional: "", isActive: true });
 
   const [saveStatus, setSaveStatus] = useState<"idle" | "success" | "error">("idle");
   const [statusMessage, setStatusMessage] = useState("");
@@ -61,7 +61,8 @@ export function FormKontak() {
       setSekretariat({
         namaLokasi: kontakSekretariat.namaLokasi || "",
         alamat: kontakSekretariat.alamat || "",
-        gmapsUrl: kontakSekretariat.gmapsUrl || "",
+        mapsUrl: kontakSekretariat.mapsUrl || "",
+        mapsEmbedUrl: kontakSekretariat.mapsEmbedUrl || "",
         jamOperasional: kontakSekretariat.jamOperasional || "",
         isActive: kontakSekretariat.isActive ?? true,
       });
@@ -217,7 +218,8 @@ export function FormKontak() {
                     </div>
                     {renderInput("Nama Lokasi", sekretariat.namaLokasi, (val) => setSekretariat({ ...sekretariat, namaLokasi: val }), "Sekretariat Ikapema Kepri Malang")}
                     {renderInput("Alamat Lengkap", sekretariat.alamat, (val) => setSekretariat({ ...sekretariat, alamat: val }), "Jl. Contoh No. 123", "textarea", 3)}
-                    {renderInput("URL Google Maps", sekretariat.gmapsUrl, (val) => setSekretariat({ ...sekretariat, gmapsUrl: val }), "https://maps.google.com/...")}
+                    {renderInput("URL Google Maps", sekretariat.mapsUrl, (val) => setSekretariat({ ...sekretariat, mapsUrl: val }), "https://maps.google.com/...")}
+                    {renderInput("URL Google Maps Embed", sekretariat.mapsEmbedUrl, (val) => setSekretariat({ ...sekretariat, mapsEmbedUrl: val }), "https://maps.google.com/...")}
                     {renderInput("Jam Operasional", sekretariat.jamOperasional, (val) => setSekretariat({ ...sekretariat, jamOperasional: val }), "Senin - Jumat, 09:00 - 17:00")}
                     {renderToggle("Tampilkan Info Sekretariat", sekretariat.isActive, (checked) => setSekretariat({ ...sekretariat, isActive: checked }))}
                   </div>
