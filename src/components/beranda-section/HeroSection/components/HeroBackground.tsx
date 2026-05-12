@@ -1,11 +1,12 @@
 import React, { memo, useState, useEffect } from "react";
-import Image from "next/image";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/opacity.css";
 
-const FALLBACK_IMAGE = "/Hero.png";
+const FALLBACK_IMAGE = "/Hero.webp";
 
 const CLIP_PATH_ID = "hero-shape-clip";
 const SCALE_X = 1 / 1920;
-const SCALE_Y = 1 / 968; 
+const SCALE_Y = 1 / 968;
 
 const HeroClipDefs = memo(() => (
   <svg
@@ -66,16 +67,15 @@ const HeroBackground: React.FC<HeroBackgroundProps> = ({ imageClasses, bannerUrl
         className="absolute inset-0 w-full h-full"
         style={isDesktop ? { clipPath: `url(#${CLIP_PATH_ID})` } : undefined}
       >
-        <Image
+        <LazyLoadImage
           src={imgSrc}
           alt="IKAPEMA KEPRI-MALANG Background"
-          fill
-          sizes="100vw"
-          priority
-          quality={80}
-          className={imageClasses}
+          effect="opacity"
+          className={`absolute inset-0 w-full h-full object-cover ${imageClasses}`}
+          wrapperClassName="absolute inset-0 w-full h-full block"
           onError={() => setImgSrc(FALLBACK_IMAGE)}
         />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#00A3CC]/50 to-[#002933]/90 pointer-events-none" />
       </div>
       <DecorativeDots />
     </>
