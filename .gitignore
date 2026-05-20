@@ -36,7 +36,10 @@ yarn-error.log*
 
 # IDE
 .vscode/
-.idea/
+.idea/ 
 
 # OS
 Thumbs.db
+
+# Preview page
+src/app/preview/
