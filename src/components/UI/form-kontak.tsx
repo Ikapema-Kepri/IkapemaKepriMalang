@@ -23,9 +23,6 @@ export function FormKontak() {
   const [whatsapp, setWhatsapp] = useState({ namaKontak: "", nomorKontak: "", nomorApi: "", departemen: "", pesanDefault: "", isActive: true });
   const [sekretariat, setSekretariat] = useState({ namaLokasi: "", alamat: "", mapsUrl: "", mapsEmbedUrl: "", jamOperasional: "", isActive: true });
 
-  const [saveStatus, setSaveStatus] = useState<"idle" | "success" | "error">("idle");
-  const [statusMessage, setStatusMessage] = useState("");
-
   useEffect(() => {
     if (kontakInstagram) {
       setInstagram({
@@ -136,8 +133,6 @@ export function FormKontak() {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          {saveStatus === "success" && <span className="text-xs text-green-600 font-medium">{statusMessage}</span>}
-          {saveStatus === "error" && <span className="text-xs text-red-500 font-medium">{statusMessage}</span>}
           <button
             type="button"
             onClick={handleSave}
