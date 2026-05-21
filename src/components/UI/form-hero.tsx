@@ -10,6 +10,8 @@ import {
 import { ImageUp } from "lucide-react";
 import { useBanner } from "@/hooks/useBanner";
 import Image from "next/image";
+import { triggerModal } from "@/store/useModalStore";
+import StatusModal from "@/components/UI/status-modal";
 
 export function FormHero() {
   const [preview, setPreview] = useState<string | null>(null);
@@ -52,10 +54,10 @@ export function FormHero() {
 
     const res = await createOrUpdateBanner(formData, 'banner');
     if (res.success) {
-      alert("Hero section berhasil disimpan!");
+      triggerModal("success", "Hero section berhasil disimpan!");
       setSelectedFile(null);
     } else {
-      alert("Gagal menyimpan: " + res.message);
+      triggerModal("error", "Gagal menyimpan: " + res.message);
     }
   };
 
@@ -151,6 +153,7 @@ export function FormHero() {
           </TableRow>
         </TableBody>
       </Table>
+      <StatusModal />
     </div>
   );
 }

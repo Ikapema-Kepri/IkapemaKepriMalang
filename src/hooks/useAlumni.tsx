@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import useSWR from 'swr';
 import { Anggota, ApiResponse, PaginationInfo } from '@/types';
+import { triggerModal } from '@/store/useModalStore';
 
 interface AlumniResponse {
   members: Anggota[];
@@ -128,8 +129,9 @@ export const useAlumni = ({ initialSearch = '', itemsPerPage = 20 }: UseAlumniPr
       if (members.length === 1 && currentPage > 1) {
         setCurrentPage(currentPage - 1);
       }
+      triggerModal("success", "Alumni berhasil dihapus.");
     } catch (e: unknown) {
-      alert(e instanceof Error ? e.message : 'Gagal menghapus alumni.');
+      triggerModal("error", e instanceof Error ? e.message : 'Gagal menghapus alumni.');
       await mutate();
     }
   };
@@ -154,14 +156,17 @@ export const useAlumni = ({ initialSearch = '', itemsPerPage = 20 }: UseAlumniPr
     e.preventDefault();
     if (!editId) return;
     try {
-      const payload = {
-        ...editData,
-        isActive: editData.isActive === true || (editData.isActive as unknown) === 'true',
-      };
+      // API route menggunakan req.formData(), sehingga payload harus dikirim sebagai FormData
+      const formData = new FormData();
+      if (editData.namaAnggota) formData.append('namaAnggota', editData.namaAnggota);
+      if (editData.universitas) formData.append('universitas', editData.universitas);
+      if (editData.programStudi) formData.append('programStudi', editData.programStudi);
+      if (editData.angkatan) formData.append('angkatan', editData.angkatan);
+      formData.append('isActive', editData.isActive === true || (editData.isActive as unknown) === 'true' ? 'true' : 'false');
+
       const response = await fetch(`/api/anggota/${editId}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: formData, // Tidak perlu Content-Type header, browser set otomatis untuk FormData
       });
       const data: ApiResponse = await response.json();
       if (!response.ok) throw new Error(data.message || 'Gagal mengedit alumni.');
@@ -170,8 +175,9 @@ export const useAlumni = ({ initialSearch = '', itemsPerPage = 20 }: UseAlumniPr
       setEditData({});
       
       await mutate();
+      triggerModal("success", "Data alumni berhasil diperbarui!");
     } catch (e: unknown) {
-      alert(e instanceof Error ? e.message : 'Gagal mengedit alumni.');
+      triggerModal("error", e instanceof Error ? e.message : 'Gagal mengedit alumni.');
     }
   };
 

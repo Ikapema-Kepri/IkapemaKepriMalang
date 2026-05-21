@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/UI/table";
 import { Instagram, Mail, Phone, MapPin } from "lucide-react";
 import { useKontak } from "@/hooks/userKontak";
+import { triggerModal } from "@/store/useModalStore";
+import StatusModal from "@/components/UI/status-modal";
 
 export function FormKontak() {
   const {
@@ -69,11 +71,6 @@ export function FormKontak() {
     }
   }, [kontakSekretariat]);
 
-  const showStatus = (type: "success" | "error", msg: string) => {
-    setSaveStatus(type);
-    setStatusMessage(msg);
-    setTimeout(() => setSaveStatus("idle"), 3000);
-  };
 
   const handleSave = async () => {
     const updates = [
@@ -87,10 +84,10 @@ export function FormKontak() {
     const allSuccess = results.every((r) => r?.success);
 
     if (allSuccess) {
-      showStatus("success", "Semua data kontak berhasil disimpan!");
+      triggerModal("success", "Semua data kontak berhasil disimpan!");
     } else {
       const errMsg = results.find((r) => !r?.success)?.message || "Gagal menyimpan beberapa kontak.";
-      showStatus("error", errMsg);
+      triggerModal("error", errMsg);
     }
   };
 
@@ -230,6 +227,7 @@ export function FormKontak() {
           </TableBody>
         </Table>
       )}
+      <StatusModal />
     </div>
   );
 }
