@@ -2,9 +2,8 @@
 
 import React from 'react'
 import { useModalStore } from '@/store/useModalStore'
-import Image from 'next/image'
-import { Dice1 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import Image from 'next/image'
 
 const IMAGE_ASSETS = {
     success: "/icon/status-success.webp",
@@ -13,7 +12,7 @@ const IMAGE_ASSETS = {
 }
 
 const StatusModal = () => {
-    const { isOpen, status, message, imageUrl, closeModal} = useModalStore();
+    const { isOpen, status, message, closeModal} = useModalStore();
 
     const currentImage = IMAGE_ASSETS[status];
     const buttonColor = 
@@ -56,7 +55,7 @@ const StatusModal = () => {
                         className="w-full max-w-sm rounded-xl bg-white p-6 text-center shadow-lg"
                     >
                         <div className="mx-auto mb-4 flex justify-center">
-                            <img 
+                            <Image
                                 src={currentImage} 
                                 alt={`Status: ${status}`} 
                                 className="h-50 w-100 object-contain" // Sesuaikan ukuran dengan Tailwind

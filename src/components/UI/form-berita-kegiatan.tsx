@@ -18,8 +18,6 @@ import Image from "next/image";
 import { triggerModal } from "@/store/useModalStore";
 import StatusModal from "@/components/UI/status-modal";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 type ModalMode = "add" | "edit";
 
 interface ModalState {
@@ -33,8 +31,6 @@ interface BeritaCardProps {
   onEdit: (item: Berita) => void;
   onDelete: (id: string) => void;
 }
-
-// ─── BeritaCard (memoized) ────────────────────────────────────────────────────
 
 const BeritaCard = memo(function BeritaCard({ item, onEdit, onDelete }: BeritaCardProps) {
   return (
@@ -90,7 +86,6 @@ const FormBeritaKegiatan = () => {
   
   const [modal, setModal] = useState<ModalState>({ open: false, mode: "add", item: null });
 
-  // Individual state per field
   const [formTitle, setFormTitle] = useState("");
   const [formDescription, setFormDescription] = useState("");
   const [formDate, setFormDate] = useState("");
@@ -178,6 +173,8 @@ const FormBeritaKegiatan = () => {
 
   const handleDelete = useCallback((id: string) => setDeleteId(id), []);
   const cancelDelete = useCallback(() => setDeleteId(null), []);
+  const deleteName = beritas.find((k) => k.id === deleteId)?.title ?? "";
+
   const confirmDelete = useCallback(async () => {
     if (deleteId !== null) {
       await deleteBerita(deleteId);
@@ -186,9 +183,7 @@ const FormBeritaKegiatan = () => {
     } else {
       triggerModal("error", `Gagal menghapus berita "${deleteName}".`)
     }
-  }, [deleteId, deleteBerita]);
-
-  const deleteName = beritas.find((k) => k.id === deleteId)?.title ?? "";
+  }, [deleteId, deleteBerita, deleteName]);
 
   return (
     <>
