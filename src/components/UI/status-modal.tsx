@@ -56,9 +56,12 @@ const StatusModal = () => {
                     >
                         <div className="mx-auto mb-4 flex justify-center">
                             <Image
+                                width={200}
+                                height={100}
                                 src={currentImage} 
                                 alt={`Status: ${status}`} 
                                 className="h-50 w-100 object-contain" // Sesuaikan ukuran dengan Tailwind
+                                unoptimized
                             />
                         </div>
                         <p className="mt-2 text-sm text-gray-500">{message}</p>
