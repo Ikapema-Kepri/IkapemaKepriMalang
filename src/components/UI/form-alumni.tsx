@@ -146,8 +146,8 @@ export function FormAlumni() {
         triggerModal("success", `Data alumni "${formNama}" berhasil diupdate!`);
       }
       closeModal();
-    } catch (error: any) {
-      triggerModal("error", "Gagal menyimpan data alumni: " + (error?.message || "Terjadi kesalahan sistem."));
+    } catch (error: unknown) {
+      triggerModal("error", "Gagal menyimpan data alumni: " + (error instanceof Error ? error.message : "Terjadi kesalahan sistem."));
     }
   }, [formNama, formTempatBekerja, formTestimoni, preview, modal, closeModal]);
 
@@ -165,8 +165,8 @@ export function FormAlumni() {
         }
         setDeleteId(null);
       }
-    } catch (error: any) {
-      triggerModal("error", "Gagal menghapus alumni: " + (error?.message || "Terjadi kesalahan sistem."));
+    } catch (error: unknown) {
+      triggerModal("error", "Gagal menghapus alumni: " + (error instanceof Error ? error.message : "Terjadi kesalahan sistem."));
     }
   }, [deleteId, items]);
 

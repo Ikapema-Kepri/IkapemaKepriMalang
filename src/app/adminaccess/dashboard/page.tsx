@@ -4,10 +4,47 @@ import { StatCard } from '@/components/UI/stat-card';
 import { ActivitiesTable } from '@/components/UI/activities-table';
 import { MemberComposition } from '@/components/UI/member-composition';
 import { ContentStatus } from '@/components/UI/content-status';
-import { dashboardStats } from "@/data/sampleData";
+import { useStatCard } from '@/hooks/useStatCard';
 import ProtectedRoute from '@/components/UI/protected-route';
 
 const DashboardPage: React.FC = () => {
+    const { stats, loading } = useStatCard();
+
+    const dashboardStats = [
+        {
+            title: 'Total Anggota',
+            value: loading ? '...' : (stats?.totalAnggota ?? 0),
+            icon: '👥',
+            iconBgColor: 'bg-bg-success',
+            valueColor: 'border-success',
+            iconColor: 'text-success',
+        },
+        {
+            title: 'Anggota Aktif',
+            value: loading ? '...' : (stats?.totalAnggotaAktif ?? 0),
+            icon: '📈',
+            iconBgColor: 'bg-bg-notice',
+            valueColor: 'border-notice',
+            iconColor: 'text-notice',
+        },
+        {
+            title: 'Total Alumni',
+            value: loading ? '...' : (stats?.totalAlumni ?? 0),
+            icon: '🎓',
+            iconBgColor: 'bg-bg-warning',
+            valueColor: 'border-warning',
+            iconColor: 'text-warning',
+        },
+        {
+            title: 'Berita Terpublikasi',
+            value: loading ? '...' : (stats?.totalBeritaPublished ?? 0),
+            icon: '📰',
+            iconBgColor: 'bg-bg-info',
+            valueColor: 'border-info',
+            iconColor: 'text-info',
+        },
+    ];
+
     return (
         <ProtectedRoute>
             <div className="space-y-6 animate-fade-in">
@@ -22,7 +59,6 @@ const DashboardPage: React.FC = () => {
                         iconColor={stat.iconColor}
                         iconBgColor={stat.iconBgColor}
                         valueColor={stat.valueColor}
-                        trend={stat.trend}
                     />
                 ))}
             </div>
