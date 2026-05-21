@@ -20,7 +20,7 @@ const StatusModal = () => {
         status === "success" 
             ? "bg-green-600 hover:bg-green-700" 
             : status === "info" 
-            ? "bg-blue-600 hover:bg-blue-700" 
+            ? "bg-yellow-600 hover:bg-yellow-700" 
             : "bg-red-600 hover:bg-red-700";
 
     return (

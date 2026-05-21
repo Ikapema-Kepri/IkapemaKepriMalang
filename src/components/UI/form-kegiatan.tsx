@@ -14,6 +14,8 @@ import {
   DeleteConfirmModal,
 } from "@/components/UI/form-shared";
 import Image from "next/image";
+import { triggerModal } from "@/store/useModalStore";
+import StatusModal from "@/components/UI/status-modal";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -37,7 +39,7 @@ const KegiatanCard = memo(function KegiatanCard({ item, onEdit, onDelete }: Kegi
   return (
     <div className="flex flex-col rounded-lg border border-border bg-card overflow-hidden shadow-sm">
       <div className="relative w-full aspect-video overflow-hidden bg-muted">
-        <Image src={item.photoUrl || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800"} alt={item.title || "Kegiatan"} fill className="w-full h-full object-cover" />
+        <Image src={item.photoUrl || "x"} alt={item.title || "Kegiatan"} fill className="w-full h-full object-cover" />
       </div>
       <div className="flex flex-col gap-1.5 p-3 flex-1">
         <span className="inline-block self-start rounded-full bg-[#00CCFF]/10 text-[#00CCFF] text-[10px] md:text-xs font-medium px-2.5 py-0.5">
@@ -144,15 +146,17 @@ export function FormKegiatan() {
 
     if (modal.mode === "add") {
       const res = await createKegiatan(formData);
-      if (!res.success) {
-        alert("Gagal menambah kegiatan: " + res.message);
-        return;
+      if (res.success) {
+        triggerModal("success", "Berhasil menambah kegiatan");
+      } else {
+        triggerModal("error", "Gagal menambah kegiatan: " + res.message);
       }
     } else if (modal.mode === "edit" && modal.item?.id) {
       const res = await updateKegiatan(modal.item.id, formData);
-      if (!res.success) {
-        alert("Gagal mengupdate kegiatan: " + res.message);
-        return;
+      if (res.success) {
+        triggerModal("success", "Kegiatan " + modal.item.title + " berhasil diupdate");
+      } else {
+        triggerModal("error", "Gagal mengupdate kegiatan " + modal.item.title + ": " + res.message);
       }
     }
     closeModal();
@@ -164,7 +168,11 @@ export function FormKegiatan() {
   const confirmDelete = async () => {
     if (deleteId !== null) {
       const res = await deleteKegiatan(deleteId);
-      if (!res.success) alert("Gagal menghapus kegiatan: " + res.message);
+      if (res.success) {
+        triggerModal("success", "Kegiatan " + deleteName + " berhasil dihapus");
+      } else {
+        triggerModal("error", "Gagal menghapus kegiatan " + deleteName + ": " + res.message);
+      }
       setDeleteId(null);
     }
   };
@@ -199,6 +207,7 @@ export function FormKegiatan() {
             </TableRow>
           </TableBody>
         </Table>
+        <StatusModal />
       </div>
 
       {/* Add / Edit Modal */}

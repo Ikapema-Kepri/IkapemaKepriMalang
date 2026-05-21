@@ -5,6 +5,7 @@ import { Table, TableHeader, TableBody, TableRow, TableHead } from "@/components
 import { useAlumni } from "@/hooks/useAlumni";
 import { Search } from "lucide-react";
 import React from "react";
+import StatusModal from "@/components/UI/status-modal";
 
 interface ListAlumniProps {
   searchQuery?: string;
@@ -383,6 +384,7 @@ const ListAlumni: React.FC<ListAlumniProps> = ({ searchQuery = '', onSearchChang
                     </div>
                 )}
             </Card>
+            <StatusModal />
         </div>
     );
 };

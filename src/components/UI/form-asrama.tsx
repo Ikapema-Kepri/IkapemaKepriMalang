@@ -12,6 +12,8 @@ import { useAsrama } from "@/hooks/useAsrama";
 import { useContactAsrama } from "@/hooks/useKontakAsrama";
 import Image from "next/image";
 import type { KontakAsrama } from "@/types";
+import { triggerModal } from "@/store/useModalStore";
+import StatusModal from "@/components/UI/status-modal";
 
 interface AsramaFormProps {
   label: string;
@@ -68,11 +70,11 @@ function AsramaForm({ label }: AsramaFormProps) {
         : await createAsrama(idAsrama, formData);
 
     if (res.success) {
-      alert(`${label} berhasil disimpan!`);
+      triggerModal("success", `${label} berhasil disimpan!`);
       setSelectedFile(null);
       setIsImageDeleted(false);
     } else {
-      alert(`Gagal menyimpan ${label}: ` + res.message);
+      triggerModal("error", `Gagal menyimpan ${label}: ` + res.message);
     }
   };
 
@@ -168,6 +170,7 @@ function AsramaForm({ label }: AsramaFormProps) {
           </TableRow>
         </TableBody>
       </Table>
+      <StatusModal />
     </div>
   );
 }
