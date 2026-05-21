@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import useSWR from 'swr';
 import { Anggota, ApiResponse, PaginationInfo } from '@/types';
+import { triggerModal } from '@/store/useModalStore';
 
 interface AnggotaResponse {
   members: Anggota[];
@@ -128,8 +129,9 @@ export const useAnggota = ({ initialSearch = '', itemsPerPage = 20 }: UseAnggota
       if (members.length === 1 && currentPage > 1) {
         setCurrentPage(currentPage - 1);
       }
+      triggerModal("success", "Anggota berhasil dihapus.");
     } catch (e: unknown) {
-      alert(e instanceof Error ? e.message : 'Gagal menghapus anggota.');
+      triggerModal("error", e instanceof Error ? e.message : 'Gagal menghapus anggota.');
       await mutate();
     }
   };
@@ -218,8 +220,9 @@ export const useAnggota = ({ initialSearch = '', itemsPerPage = 20 }: UseAnggota
       
       setEditId(null);
       setEditData({});
+      triggerModal("success", "Data anggota berhasil diperbarui!");
     } catch (e: unknown) {
-      alert(e instanceof Error ? e.message : 'Gagal mengedit anggota.');
+      triggerModal("error", e instanceof Error ? e.message : 'Gagal mengedit anggota.');
     }
   };
 

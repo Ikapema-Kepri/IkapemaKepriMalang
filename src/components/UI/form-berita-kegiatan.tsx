@@ -15,6 +15,8 @@ import {
   DeleteConfirmModal,
 } from "@/components/UI/form-shared";
 import Image from "next/image";
+import { triggerModal } from "@/store/useModalStore";
+import StatusModal from "@/components/UI/status-modal";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -38,7 +40,7 @@ const BeritaCard = memo(function BeritaCard({ item, onEdit, onDelete }: BeritaCa
   return (
     <div className="flex flex-col rounded-lg border border-border bg-card overflow-hidden shadow-sm relative group hover:border-[#00CCFF]/30 transition-colors duration-200">
       <div className="relative w-full aspect-video overflow-hidden bg-muted">
-        <Image src={item.thumbnail || "/LogoIkapema.webp"} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        <Image src={item.thumbnail || "/LogoIkapema.webp"} alt={item.title} fill className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
         <span
           className={`absolute top-4 right-4 px-2 py-1 rounded-[4px] text-[12px] font-medium tracking-wide ${
             item.status === "Published" ? "bg-green-50 text-success" : item.status === "Draft" ? "bg-yellow-50 text-warning" : "bg-gray-100 text-gray-500"
@@ -167,9 +169,10 @@ const FormBeritaKegiatan = () => {
     
     const res = await createOrUpdateBerita(formData, id);
     if (res?.success) {
+      triggerModal("success", `Berita "${formTitle}" berhasil ${modal.mode === "edit" ? "diperbarui" : "ditambahkan"}!`);
       closeModal();
     } else {
-      alert(res?.message || "Terjadi kesalahan.");
+      triggerModal("error", res?.message || "Terjadi kesalahan.");
     }
   }, [formTitle, formDescription, formLabel, formAuthor, selectedFile, formDate, formStatus, modal, closeModal, createOrUpdateBerita]);
 
@@ -178,7 +181,10 @@ const FormBeritaKegiatan = () => {
   const confirmDelete = useCallback(async () => {
     if (deleteId !== null) {
       await deleteBerita(deleteId);
-      setDeleteId(null);
+      triggerModal("success", `Berita "${deleteName}" berhasil dihapus!`)
+      setDeleteId(null);  
+    } else {
+      triggerModal("error", `Gagal menghapus berita "${deleteName}".`)
     }
   }, [deleteId, deleteBerita]);
 
@@ -220,6 +226,7 @@ const FormBeritaKegiatan = () => {
             </TableRow>
           </TableBody>
         </Table>
+        <StatusModal />
       </div>
 
       {/* Add / Edit Modal */}

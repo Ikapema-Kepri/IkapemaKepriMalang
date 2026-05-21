@@ -9,6 +9,8 @@ import {
 } from "@/components/UI/table";
 import { ImageUploadField, FormInput } from "@/components/UI/form-shared";
 import { useMajalah } from "@/hooks/useMajalah";
+import { triggerModal } from "@/store/useModalStore";
+import StatusModal from "@/components/UI/status-modal";
 
 export function FormMajalah() {
   const { majalah, createOrUpdateMajalah, isSubmitting } = useMajalah({ isAdmin: true });
@@ -63,11 +65,11 @@ export function FormMajalah() {
 
     const res = await createOrUpdateMajalah(formData);
     if (res.success) {
-      alert("Majalah berhasil disimpan!");
+      triggerModal("success", "Majalah berhasil disimpan!");
       setSelectedFile(null);
       setIsImageDeleted(false);
     } else {
-      alert("Gagal menyimpan majalah: " + res.message);
+      triggerModal("error", "Gagal menyimpan majalah: " + res.message);
     }
   };
 
@@ -133,6 +135,7 @@ export function FormMajalah() {
           </TableRow>
         </TableBody>
       </Table>
+      <StatusModal />
     </div>
   );
 }

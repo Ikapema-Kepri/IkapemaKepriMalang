@@ -10,6 +10,8 @@ import {
 import { ImageUp } from "lucide-react";
 import { useSambutan } from "@/hooks/useSambutan";
 import Image from "next/image";
+import { triggerModal } from "@/store/useModalStore";
+import StatusModal from "@/components/UI/status-modal";
 
 export function FormSambutan() {
   const [preview, setPreview] = useState<string | null>(null);
@@ -59,11 +61,11 @@ export function FormSambutan() {
 
     const res = await updateSambutan(formData);
     if (res.success) {
-      alert("Sambutan section berhasil disimpan!");
+      triggerModal("success", "Sambutan section berhasil disimpan!");
       setSelectedFile(null);
       setIsImageDeleted(false);
     } else {
-      alert("Gagal menyimpan: " + res.message);
+      triggerModal("error", "Gagal menyimpan: " + res.message);
     }
   };
 
@@ -170,6 +172,7 @@ export function FormSambutan() {
           </TableRow>
         </TableBody>
       </Table>
+      <StatusModal />
     </div>
   );
 }

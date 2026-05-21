@@ -13,6 +13,8 @@ import {
   DeleteConfirmModal,
 } from "@/components/UI/form-shared";
 import Image from "next/image";
+import { triggerModal } from "@/store/useModalStore";
+import StatusModal from "@/components/UI/status-modal";
 
 
 type ModalMode = "add" | "edit";
@@ -118,36 +120,55 @@ export function FormAlumni() {
   }, []);
 
   const handleSave = useCallback(() => {
-    if (!formNama.trim()) return;
-    if (modal.mode === "add") {
-      const newItem: AlumniShowcaseItem = {
-        id: Date.now(),
-        nama: formNama,
-        tempatBekerja: formTempatBekerja,
-        testimoni: formTestimoni,
-        photoUrl: preview ?? `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(formNama)}`,
-      };
-      setItems((prev) => [...prev, newItem]);
-    } else if (modal.mode === "edit" && modal.item) {
-      setItems((prev) =>
-        prev.map((a) =>
-          a.id === modal.item!.id
-            ? { ...a, nama: formNama, tempatBekerja: formTempatBekerja, testimoni: formTestimoni, photoUrl: preview ?? a.photoUrl }
-            : a
-        )
-      );
+    try {
+      if (!formNama.trim()) {
+        triggerModal("error", "Gagal menyimpan: Nama alumni tidak boleh kosong!");
+        return;
+      }
+      if (modal.mode === "add") {
+        const newItem: AlumniShowcaseItem = {
+          id: Date.now(),
+          nama: formNama,
+          tempatBekerja: formTempatBekerja,
+          testimoni: formTestimoni,
+          photoUrl: preview ?? `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(formNama)}`,
+        };
+        setItems((prev) => [...prev, newItem]);
+        triggerModal("success", `Alumni "${formNama}" berhasil ditambahkan!`);
+      } else if (modal.mode === "edit" && modal.item) {
+        setItems((prev) =>
+          prev.map((a) =>
+            a.id === modal.item!.id
+              ? { ...a, nama: formNama, tempatBekerja: formTempatBekerja, testimoni: formTestimoni, photoUrl: preview ?? a.photoUrl }
+              : a
+          )
+        );
+        triggerModal("success", `Data alumni "${formNama}" berhasil diupdate!`);
+      }
+      closeModal();
+    } catch (error: any) {
+      triggerModal("error", "Gagal menyimpan data alumni: " + (error?.message || "Terjadi kesalahan sistem."));
     }
-    closeModal();
   }, [formNama, formTempatBekerja, formTestimoni, preview, modal, closeModal]);
 
   const handleDelete = useCallback((id: number) => setDeleteId(id), []);
   const cancelDelete = useCallback(() => setDeleteId(null), []);
   const confirmDelete = useCallback(() => {
-    if (deleteId !== null) {
-      setItems((prev) => prev.filter((a) => a.id !== deleteId));
-      setDeleteId(null);
+    try {
+      if (deleteId !== null) {
+        const itemToDelete = items.find((a) => a.id === deleteId);
+        if (itemToDelete) {
+          setItems((prev) => prev.filter((a) => a.id !== deleteId));
+          triggerModal("success", `Alumni "${itemToDelete.nama}" berhasil dihapus!`);
+        } else {
+          triggerModal("error", "Gagal menghapus: Alumni tidak ditemukan!");
+        }
+        setDeleteId(null);
+      }
+    } catch (error: any) {
+      triggerModal("error", "Gagal menghapus alumni: " + (error?.message || "Terjadi kesalahan sistem."));
     }
-  }, [deleteId]);
+  }, [deleteId, items]);
 
   const deleteName = items.find((a) => a.id === deleteId)?.nama ?? "";
 
@@ -181,6 +202,7 @@ export function FormAlumni() {
             </TableRow>
           </TableBody>
         </Table>
+        <StatusModal />
       </div>
 
       {/* Add / Edit Modal */}

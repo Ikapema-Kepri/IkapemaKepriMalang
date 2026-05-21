@@ -6,6 +6,7 @@ import { useAnggota } from "@/hooks/useAnggota";
 import { Anggota } from "@/types";
 import { Search } from "lucide-react";
 import React from "react";
+import StatusModal from "@/components/UI/status-modal";
 
 interface ListAnggotaProps {
   searchQuery?: string;
@@ -449,6 +450,7 @@ const ListAnggota: React.FC<ListAnggotaProps> = ({ searchQuery = '', onSearchCha
                     </div>
                 )}
             </Card>
+            <StatusModal />
         </div>
     );
 };

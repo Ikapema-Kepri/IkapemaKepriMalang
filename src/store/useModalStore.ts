@@ -21,3 +21,7 @@ export const useModalStore = create<ModalState>((set) => ({
   closeModal: () => 
     set({ isOpen: false }),
 }));
+
+export const triggerModal = (status: ModalStatus, message: string, imageUrl: string = "") => {
+  useModalStore.getState().openModal(status, message, imageUrl);
+};
