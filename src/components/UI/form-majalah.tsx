@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Table,
   TableBody,
@@ -21,7 +21,17 @@ export function FormMajalah() {
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isImageDeleted, setIsImageDeleted] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null!);
+  const handleFileDrop = useCallback((file: File) => {
+    setSelectedFile(file);
+    setPreview(URL.createObjectURL(file));
+    setIsImageDeleted(false);
+  }, []);
+
+  const handleRemoveImage = () => {
+    setPreview(null);
+    setSelectedFile(null);
+    setIsImageDeleted(true);
+  };
 
   useEffect(() => {
     if (majalah) {
@@ -32,22 +42,6 @@ export function FormMajalah() {
       }
     }
   }, [majalah, selectedFile, isImageDeleted]);
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
-      setPreview(URL.createObjectURL(file));
-      setIsImageDeleted(false);
-    }
-  };
-
-  const handleRemoveImage = () => {
-    setPreview(null);
-    setSelectedFile(null);
-    setIsImageDeleted(true);
-    if (fileInputRef.current) fileInputRef.current.value = "";
-  };
 
   const handleSubmit = async () => {
     if (!fileUrl) {
@@ -99,11 +93,10 @@ export function FormMajalah() {
                 <ImageUploadField
                   label="Foto Cover Majalah"
                   preview={preview}
-                  onUploadClick={() => fileInputRef.current?.click()}
+                  onFileDrop={handleFileDrop}
                   onRemove={handleRemoveImage}
-                  fileInputRef={fileInputRef}
-                  onFileChange={handleImageChange}
-                  uploadHint="PNG, JPG, WEBP — maks. 5MB"
+                  uploadHint="PNG, JPG, WEBP — maks. 1MB"
+                  maxSize={1048576}
                 />
 
                 <FormInput

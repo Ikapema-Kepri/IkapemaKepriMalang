@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Table,
   TableBody,
@@ -12,15 +12,37 @@ import { useBanner } from "@/hooks/useBanner";
 import Image from "next/image";
 import { triggerModal } from "@/store/useModalStore";
 import StatusModal from "@/components/UI/status-modal";
+import { useDropzone } from 'react-dropzone';
 
 export function FormHero() {
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
-  const fileInputRef = useRef<HTMLInputElement>(null!);
 
   const { banner, createOrUpdateBanner, isSubmitting } = useBanner({ isAdmin: true });
+  
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    const file = acceptedFiles[0];
+    if (!file) return;
+    setSelectedFile(file);
+    setPreview(URL.createObjectURL(file));
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    maxSize: 5242880, // 5MB dalam bytes
+    accept: { 'image/jpeg': [], 'image/png': [], 'image/webp': [] },
+    multiple: false,
+    onDrop,
+    onDropRejected: (fileRejections) => {
+      const code = fileRejections[0]?.errors[0]?.code;
+      if (code === 'file-too-large') {
+        triggerModal("error", "Ukuran file melebihi batas 5MB.");
+      } else {
+        triggerModal("error", "File tidak didukung, gunakan jpg, png, atau webp");
+      }
+    },
+  });
 
   useEffect(() => {
     if (banner) {
@@ -32,18 +54,10 @@ export function FormHero() {
     }
   }, [banner, selectedFile]);
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
-      setPreview(URL.createObjectURL(file));
-    }
-  };
 
   const handleRemoveImage = () => {
     setPreview(null);
     setSelectedFile(null);
-    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   const handleSubmit = async () => {
@@ -88,17 +102,26 @@ export function FormHero() {
                 {/* Upload Gambar — 3 kolom */}
                 <div className="col-span-3 flex flex-col gap-2">
                   <span className="text-sm font-bold text-foreground">Gambar Hero</span>
+                  {/* getRootProps dipasang di button upload saja, bukan seluruh kolom */}
                   <button
                     type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="group relative w-full aspect-video bg-[#F7F5F0] rounded-sm border-2 border-dashed border-border hover:border-[#00CCFF] transition-colors overflow-hidden"
+                    {...getRootProps()}
+                    className={`group relative w-full aspect-video rounded-sm border-2 border-dashed transition-colors overflow-hidden ${
+                      isDragActive
+                        ? 'border-[#00CCFF] bg-[#E6FAFF]'
+                        : 'bg-[#F7F5F0] border-border hover:border-[#00CCFF]'
+                    }`}
                   >
+                    {/* Input hidden dikelola penuh oleh dropzone — jangan tambahkan ref/onChange manual */}
+                    <input {...getInputProps()} />
                     {preview ? (
                       <Image src={preview} alt="Preview" width={1920} height={1080} className="w-full h-full object-cover"/>
                     ) : (
                       <div className="flex flex-col items-center justify-center h-full gap-2 text-muted-foreground group-hover:text-[#00CCFF] transition-colors">
                         <ImageUp size={28} />
-                        <span className="text-xs font-medium">Klik untuk upload gambar</span>
+                        <span className="text-xs font-medium">
+                          {isDragActive ? 'Lepaskan gambar di sini...' : 'Klik atau seret gambar ke sini'}
+                        </span>
                         <span className="text-xs">PNG, JPG, WEBP — maks. 5MB · Resolusi rekomendasi 1920×1080</span>
                       </div>
                     )}
@@ -115,13 +138,6 @@ export function FormHero() {
                       Hapus gambar
                     </button>
                   )}
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handleImageChange}
-                  />
                 </div>
 
                 {/* Title & Subtitle — 2 kolom */}

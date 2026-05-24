@@ -72,6 +72,18 @@ export interface Kegiatan {
   createdAt?: string;
 }
 
+export interface AlumniShowcase {
+  id?: string;
+  nama?: string;
+  tempatBekerja?: string;
+  testimoni?: string;
+  photoUrl?: string;
+  photoPath?: string;
+  alumniShowcasePublicId?: string;
+  updatedAt?: string;
+  createdAt?: string;
+}
+
 export interface KontakAsrama {
   id?: string;
   buttonLabel?: string;

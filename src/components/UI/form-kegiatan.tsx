@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback, memo } from "react";
+import { useState, useCallback, memo } from "react";
 import { Pencil, Trash2, Plus } from "lucide-react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/UI/table";
 import { useKegiatan } from "@/hooks/useKegiatan";
@@ -39,7 +39,7 @@ const KegiatanCard = memo(function KegiatanCard({ item, onEdit, onDelete }: Kegi
   return (
     <div className="flex flex-col rounded-lg border border-border bg-card overflow-hidden shadow-sm">
       <div className="relative w-full aspect-video overflow-hidden bg-muted">
-        <Image src={item.photoUrl || "x"} alt={item.title || "Kegiatan"} fill className="w-full h-full object-cover" />
+        <Image src={item.photoUrl || ""} alt={item.title || "Kegiatan"} fill className="w-full h-full object-cover" />
       </div>
       <div className="flex flex-col gap-1.5 p-3 flex-1">
         <span className="inline-block self-start rounded-full bg-[#00CCFF]/10 text-[#00CCFF] text-[10px] md:text-xs font-medium px-2.5 py-0.5">
@@ -84,8 +84,13 @@ export function FormKegiatan() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isImageDeleted, setIsImageDeleted] = useState(false);
   
-  const fileInputRef = useRef<HTMLInputElement>(null!);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+
+  const onDrop = useCallback((file: File) => {
+    setSelectedFile(file);
+    setPreview(URL.createObjectURL(file));
+    setIsImageDeleted(false);
+  }, []);
 
   const openAdd = useCallback(() => {
     setFormTitle("");
@@ -112,23 +117,12 @@ export function FormKegiatan() {
     setPreview(null);
     setSelectedFile(null);
     setIsImageDeleted(false);
-    if (fileInputRef.current) fileInputRef.current.value = "";
-  }, []);
-
-  const handleImageChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
-      setPreview(URL.createObjectURL(file));
-      setIsImageDeleted(false);
-    }
   }, []);
 
   const handleRemoveImage = useCallback(() => {
     setPreview(null);
     setSelectedFile(null);
     setIsImageDeleted(true);
-    if (fileInputRef.current) fileInputRef.current.value = "";
   }, []);
 
   const handleSave = async () => {
@@ -223,11 +217,10 @@ export function FormKegiatan() {
               <ImageUploadField
                 label="Foto Kegiatan"
                 preview={preview}
-                onUploadClick={() => fileInputRef.current?.click()}
+                onFileDrop={onDrop}
                 onRemove={handleRemoveImage}
-                fileInputRef={fileInputRef}
-                onFileChange={handleImageChange}
-                uploadHint="PNG, JPG, WEBP — maks. 5MB"
+                uploadHint="PNG, JPG, WEBP — maks. 1MB"
+                maxSize={1048576}
               />
               <FormInput
                 label="Nama Kegiatan"

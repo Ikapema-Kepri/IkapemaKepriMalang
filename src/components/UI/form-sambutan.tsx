@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback} from "react";
 import {
   Table,
   TableBody,
@@ -12,6 +12,7 @@ import { useSambutan } from "@/hooks/useSambutan";
 import Image from "next/image";
 import { triggerModal } from "@/store/useModalStore";
 import StatusModal from "@/components/UI/status-modal";
+import { useDropzone } from 'react-dropzone';
 
 export function FormSambutan() {
   const [preview, setPreview] = useState<string | null>(null);
@@ -23,6 +24,28 @@ export function FormSambutan() {
   const fileInputRef = useRef<HTMLInputElement>(null!);
 
   const { sambutan, updateSambutan, isSubmitting } = useSambutan({ isAdmin: true });
+
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+      const file = acceptedFiles[0];
+      if (!file) return;
+      setSelectedFile(file);
+      setPreview(URL.createObjectURL(file));
+    }, []);
+  
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+      maxSize: 1048576, // 1MB dalam bytes
+      accept: { 'image/*': [] },
+      multiple: false,
+      onDrop,
+      onDropRejected: (fileRejections) => {
+        const code = fileRejections[0]?.errors[0]?.code;
+        if (code === 'file-too-large') {
+          triggerModal("error", "Ukuran file melebihi batas 5MB.");
+        } else {
+          triggerModal("error", "File ditolak: format tidak didukung.");
+        }
+      },
+    });
 
   useEffect(() => {
     if (sambutan) {
@@ -99,9 +122,11 @@ export function FormSambutan() {
                   <span className="text-sm font-bold text-foreground">Foto Ketua Umum</span>
                   <button
                     type="button"
-                    onClick={() => fileInputRef.current?.click()}
+                    {...getRootProps()}
+                    // onClick={() => fileInputRef.current?.click()}
                     className="group relative w-full aspect-square bg-[#F7F5F0] rounded-sm border-2 border-dashed border-border hover:border-[#00CCFF] transition-colors overflow-hidden"
                   >
+                  <input {...getInputProps()} />
                     {preview ? (
                       <Image src={preview} alt="Preview" fill className="object-cover" />
                     ) : (
