@@ -1,8 +1,12 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { X, ImageUp } from "lucide-react";
 import Image from "next/image";
+import { useDropzone } from "react-dropzone";
+import { triggerModal } from "@/store/useModalStore";
+
+
 
 // ─── Interfaces ───────────────────────────────────────────────────────────────
 
@@ -56,15 +60,15 @@ export interface ConfirmModalProps {
 export interface ImageUploadFieldProps {
   label: string;
   preview: string | null;
-  onUploadClick: () => void;
   onRemove: () => void;
-  fileInputRef: React.RefObject<HTMLInputElement>;
-  onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onFileDrop: (file: File) => void;
   /** "video" = aspect-video (default), "square" = aspect-square */
   aspectRatio?: "video" | "square";
   uploadHint?: string;
   /** Compact mode: small thumbnail on left + info on right (used in modals) */
   compact?: boolean;
+  /** Batas ukuran file dalam bytes (default: 1MB) */
+  maxSize?: number;
 }
 
 // ─── Shared input class ───────────────────────────────────────────────────────
@@ -283,31 +287,55 @@ export const ConfirmModal = memo(function ConfirmModal({
 export const ImageUploadField = memo(function ImageUploadField({
   label,
   preview,
-  onUploadClick,
   onRemove,
-  fileInputRef,
-  onFileChange,
+  onFileDrop,
   aspectRatio = "video",
   uploadHint,
   compact = false,
+  maxSize = 1048576, // default 1MB
 }: ImageUploadFieldProps) {
   const aspectCls = aspectRatio === "square" ? "aspect-square" : "aspect-video";
+
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    const file = acceptedFiles[0];
+    if (!file) return;
+    onFileDrop(file);
+  }, [onFileDrop]);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    maxSize,
+    accept: { 'image/jpeg': [], 'image/png': [], 'image/webp': [] },
+    multiple: false,
+    onDrop,
+    onDropRejected: (fileRejections) => {
+      const code = fileRejections[0]?.errors[0]?.code;
+      if (code === 'file-too-large') {
+        const mb = (maxSize / 1048576).toFixed(0);
+        triggerModal("error", `Ukuran file melebihi batas ${mb}MB.`);
+      } else {
+        triggerModal("error", "File tidak didukung, gunakan JPG, PNG, atau WEBP.");
+      }
+    },
+  });
 
   const uploadButton = (
     <button
       type="button"
-      onClick={onUploadClick}
-      className={`group relative bg-[#F7F5F0] rounded-sm border-2 border-dashed border-border hover:border-[#00CCFF] transition-colors overflow-hidden ${
+      {...getRootProps()}
+      className={`group relative bg-[#F7F5F0] rounded-sm border-2 border-dashed transition-colors overflow-hidden ${
+        isDragActive ? 'border-[#00CCFF] bg-[#E6FAFF]' : 'border-border hover:border-[#00CCFF]'
+      } ${
         compact ? "shrink-0 w-28 aspect-square" : `w-full ${aspectCls}`
       }`}
     >
+      <input {...getInputProps()} />
       {preview ? (
         <Image src={preview} alt="Preview" fill className="w-full h-full object-cover" />
       ) : (
         <div className="flex flex-col items-center justify-center h-full gap-2 text-muted-foreground group-hover:text-[#00CCFF] transition-colors">
-          <ImageUp size={compact ? 20 : 24} />
+          <ImageUp size={compact ? 20 : 28} />
           <span className={`font-medium text-center px-1 leading-tight ${compact ? "text-[10px]" : "text-xs"}`}>
-            {compact ? "Klik untuk upload" : "Klik untuk upload foto"}
+            {isDragActive ? 'Lepaskan gambar di sini...' : (compact ? 'Klik atau seret' : 'Klik atau seret gambar ke sini')}
           </span>
           {!compact && uploadHint && <span className="text-xs">{uploadHint}</span>}
         </div>
@@ -326,10 +354,6 @@ export const ImageUploadField = memo(function ImageUploadField({
     </button>
   ) : null;
 
-  const hiddenInput = (
-    <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={onFileChange} />
-  );
-
   if (compact) {
     return (
       <div className="flex flex-col gap-1.5">
@@ -342,7 +366,6 @@ export const ImageUploadField = memo(function ImageUploadField({
             {removeButton}
           </div>
         </div>
-        {hiddenInput}
       </div>
     );
   }
@@ -352,7 +375,7 @@ export const ImageUploadField = memo(function ImageUploadField({
       <span className="text-sm font-medium text-foreground">{label}</span>
       {uploadButton}
       {removeButton}
-      {hiddenInput}
     </div>
   );
 });
+

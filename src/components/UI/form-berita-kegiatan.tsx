@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useCallback, memo} from "react";
+import { useState, useCallback, memo} from "react";
 import { Pencil, Trash2, Plus, Eye, Loader2 } from "lucide-react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/UI/table";
 import { Button } from "@/components/UI/button";
@@ -95,8 +95,12 @@ const FormBeritaKegiatan = () => {
   
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null!);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+
+  const handleFileDrop = useCallback((file: File) => {
+    setSelectedFile(file);
+    setPreview(URL.createObjectURL(file));
+  }, []);
 
   const openAdd = useCallback(() => {
     setFormTitle("");
@@ -127,21 +131,11 @@ const FormBeritaKegiatan = () => {
     setModal({ open: false, mode: "add", item: null });
     setPreview(null);
     setSelectedFile(null);
-    if (fileInputRef.current) fileInputRef.current.value = "";
-  }, []);
-
-  const handleImageChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
-      setPreview(URL.createObjectURL(file));
-    }
   }, []);
 
   const handleRemoveImage = useCallback(() => {
     setPreview(null);
     setSelectedFile(null);
-    if (fileInputRef.current) fileInputRef.current.value = "";
   }, []);
 
   const handleSave = useCallback(async () => {
@@ -237,11 +231,10 @@ const FormBeritaKegiatan = () => {
               <ImageUploadField
                 label="Foto Berita Kegiatan"
                 preview={preview}
-                onUploadClick={() => fileInputRef.current?.click()}
+                onFileDrop={handleFileDrop}
                 onRemove={handleRemoveImage}
-                fileInputRef={fileInputRef}
-                onFileChange={handleImageChange}
-                uploadHint="PNG, JPG, WEBP — maks. 5MB"
+                uploadHint="PNG, JPG, WEBP — maks. 1MB"
+                maxSize={1048576}
               />
               <FormInput
                 label="Judul Berita"
