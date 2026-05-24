@@ -11,15 +11,11 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { user, loading } = useAuth();
 
+  // Selama Firebase auth masih memverifikasi status login,
+  // jangan render apapun (null) agar konten admin tidak sempat terlihat (blink).
+  // Middleware sudah menangani redirect server-side, ini sebagai guard client-side.
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00A3CC] mx-auto mb-4"></div>
-          <p className="text-gray-600">Memuat...</p>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   if (!user) {
