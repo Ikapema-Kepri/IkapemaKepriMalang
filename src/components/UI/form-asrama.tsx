@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback  } from "react";
 import {
   Table,
   TableBody,
@@ -14,6 +14,7 @@ import Image from "next/image";
 import type { KontakAsrama } from "@/types";
 import { triggerModal } from "@/store/useModalStore";
 import StatusModal from "@/components/UI/status-modal";
+import { useDropzone } from 'react-dropzone';
 
 interface AsramaFormProps {
   label: string;
@@ -31,6 +32,28 @@ function AsramaForm({ label }: AsramaFormProps) {
 
   const idAsrama = label === "Asrama Putra" ? "asramaPutra" : "asramaPutri";
   const asramaData = label === "Asrama Putra" ? asramaPutra : asramaPutri;
+
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    const file = acceptedFiles[0];
+    if (!file) return;
+    setSelectedFile(file);
+    setPreview(URL.createObjectURL(file));
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    maxSize: 1048576,
+    accept: { 'image/jpeg': [], 'image/png': [], 'image/webp': [] },
+    multiple: false,
+    onDrop,
+    onDropRejected: (fileRejection) => {
+      const code = fileRejection[0]?.errors[0]?.code;
+      if (code === 'file-too-large') {
+        triggerModal('error', 'Ukuran file harus dibawah 5MB');
+      } else {
+        triggerModal('error', 'File ditolak: format tidak didukung');
+      }
+    }
+  })
 
   useEffect(() => {
     if (asramaData) {
@@ -107,9 +130,10 @@ function AsramaForm({ label }: AsramaFormProps) {
                   <span className="text-sm font-bold text-foreground">Foto Asrama</span>
                   <button
                     type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="group relative w-full aspect-video bg-[#F7F5F0] rounded-sm border-2 border-dashed border-border hover:border-[#00CCFF] transition-colors overflow-hidden"
+                    {...getRootProps()} 
+                    className={`group relative w-full aspect-video bg-[#F7F5F0] rounded-sm border-2 border-dashed ${isDragActive ? 'border-[#00CCFF] bg-[#00CCFF]/10' : 'border-border'} transition-colors overflow-hidden`}
                   >
+                    <input {...getInputProps()} />
                     {preview ? (
                       <Image src={preview} alt="Preview" fill className=" object-cover" />
                     ) : (
