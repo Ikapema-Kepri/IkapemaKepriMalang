@@ -51,7 +51,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(user);
       setLoading(false);
       
-      // Update session info in localStorage
+      // Update session info in localStorage dan sinkronisasi cookie
       if (user) {
         const sessionData = {
           uid: user.uid,
@@ -62,6 +62,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       } else {
         localStorage.removeItem('auth_session');
         localStorage.removeItem('auth_remember_me');
+        // Hapus cookie admin_auth agar middleware tidak membiarkan user masuk
+        // dengan cookie yang sudah stale/expired dari Firebase
+        document.cookie = 'admin_auth=; path=/; Max-Age=0; SameSite=Lax';
       }
     });
 

@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { useRouter } from 'next/navigation';
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -11,7 +10,6 @@ const LoginForm: React.FC = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,7 +18,7 @@ const LoginForm: React.FC = () => {
 
     try {
       await login(email, password, rememberMe);
-      router.push('/adminaccess/dashboard');
+      window.location.href = '/adminaccess/dashboard';
     } catch (error: unknown) {
       console.error('Login error:', error);
       
