@@ -124,7 +124,9 @@ export function FormSambutan() {
                     type="button"
                     {...getRootProps()}
                     // onClick={() => fileInputRef.current?.click()}
-                    className="group relative w-full aspect-square bg-[#F7F5F0] rounded-sm border-2 border-dashed border-border hover:border-[#00CCFF] transition-colors overflow-hidden"
+                    className={`group relative w-full aspect-square bg-[#F7F5F0] rounded-sm border-2 border-dashed border-border hover:border-[#00CCFF] transition-colors overflow-hidden ${isDragActive
+                        ? 'border-[#00CCFF] bg-[#E6FAFF]'
+                        : 'bg-[#F7F5F0] border-border hover:border-[#00CCFF]'}`}
                   >
                   <input {...getInputProps()} />
                     {preview ? (
