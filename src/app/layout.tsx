@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Noto_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import LayoutWrapper from "@/components/LayoutWrapper";
@@ -15,6 +16,20 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const notoSans = Noto_Sans({
+  variable: "--font-noto-sans",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+});
+
+const londona = localFont({
+  src: "../../public/fonts/Londona-reguler.otf",
+  variable: "--font-londona-face",
+  display: "swap",
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -86,7 +101,7 @@ export default function RootLayout({
     return (
       <html lang="id" className="w-full max-w-[100vw] overflow-x-hidden">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased w-full max-w-[100vw] overflow-x-hidden min-h-screen`}>
+          className={`${geistSans.variable} ${geistMono.variable} ${notoSans.variable} ${londona.variable} antialiased w-full max-w-[100vw] overflow-x-hidden min-h-screen`}>
           <MaintenancePageComponent />
         </body>
       </html>
@@ -96,7 +111,7 @@ export default function RootLayout({
   return (
     <html lang="id" className="w-full max-w-[100vw] overflow-x-hidden">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased w-full max-w-[100vw] overflow-x-hidden min-h-screen`}>
+        className={`${geistSans.variable} ${geistMono.variable} ${notoSans.variable} ${londona.variable} antialiased w-full max-w-[100vw] overflow-x-hidden min-h-screen`}>
         <SWRProvider>
           <AuthProvider>
             <LayoutWrapper>
