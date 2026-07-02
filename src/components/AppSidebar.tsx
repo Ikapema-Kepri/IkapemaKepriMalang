@@ -11,13 +11,16 @@ import {
   LogOut,
   Home,
   Phone,
-  Settings
+  Settings,
+  Lock,
 } from "lucide-react";
 import { useState, useMemo, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useSidebar } from "@/context/SidebarContext";
 import Image from "next/image";
 import useSWR from "swr";
+import { canAccessPath } from "@/lib/rbacConfig";
 
 interface MenuItem {
   name: string;
@@ -57,11 +60,37 @@ interface NavLinkProps {
   item: MenuItem;
   isActive: boolean;
   collapsed: boolean;
+  isLocked?: boolean;
   onClick?: () => void;
 }
 
-const NavLink = memo(function NavLink({ item, isActive, collapsed, onClick }: NavLinkProps) {
+const NavLink = memo(function NavLink({ item, isActive, collapsed, isLocked, onClick }: NavLinkProps) {
   const Icon = item.icon;
+
+  // ── Menu terkunci: tampil redup + ikon gembok, klik → /unauthorized ──
+  if (isLocked) {
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        title={collapsed ? `${item.name} (Akses Terbatas)` : undefined}
+        className={`
+          flex items-center gap-3 px-3 py-2.5 rounded-lg w-full
+          transition-colors duration-200 cursor-pointer
+          text-gray-500 hover:bg-red-900/20 hover:text-gray-400
+          ${collapsed ? "justify-center" : ""}
+        `}
+      >
+        <Icon size={20} className="shrink-0 opacity-50" />
+        {!collapsed && (
+          <span className="font-medium flex-1 text-left">{item.name}</span>
+        )}
+        {!collapsed && <Lock size={14} className="shrink-0 opacity-50" />}
+      </button>
+    );
+  }
+
+  // ── Menu normal ────────────────────────────────────────────────────
   return (
     <Link
       href={item.href}
@@ -82,10 +111,11 @@ const NavLink = memo(function NavLink({ item, isActive, collapsed, onClick }: Na
 
 const AppSidebar: React.FC = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const { collapsed } = useSidebar();
-  const { logout, user } = useAuth();
+  const { logout, user, role } = useAuth();
 
   // SWR â€” revalidate admin profile (display name / photo from Firebase user token)
   const swrKey = user?.uid ? `/api/auth/profile?uid=${user.uid}` : null;
@@ -100,13 +130,21 @@ const AppSidebar: React.FC = () => {
 
   // useMemo â€” compute active states once per pathname change
   const mainMenuWithActive = useMemo(
-    () => MAIN_MENU_ITEMS.map((item) => ({ ...item, isActive: pathname === item.href })),
-    [pathname]
+    () => MAIN_MENU_ITEMS.map((item) => ({
+      ...item,
+      isActive: pathname === item.href,
+      isLocked: !canAccessPath(role, item.href),
+    })),
+    [pathname, role]
   );
 
   const kelolaMenuWithActive = useMemo(
-    () => KELOLA_WEBSITE_ITEMS.map((item) => ({ ...item, isActive: !!pathname?.startsWith(item.href) })),
-    [pathname]
+    () => KELOLA_WEBSITE_ITEMS.map((item) => ({
+      ...item,
+      isActive: !!pathname?.startsWith(item.href),
+      isLocked: !canAccessPath(role, item.href),
+    })),
+    [pathname, role]
   );
 
   // useCallback â€” stable references for handlers
@@ -122,6 +160,11 @@ const AppSidebar: React.FC = () => {
   const cancelLogout = useCallback(() => setShowLogoutDialog(false), []);
   const openMobile = useCallback(() => setIsOpen(true), []);
   const closeMobile = useCallback(() => setIsOpen(false), []);
+
+  // Handler untuk menu terkunci → redirect ke unauthorized
+  const handleLockedClick = useCallback(() => {
+    router.push('/adminaccess/unauthorized');
+  }, [router]);
 
   return (
     <>
@@ -222,7 +265,14 @@ const AppSidebar: React.FC = () => {
               )}
               <div className="space-y-1">
                 {mainMenuWithActive.map((item) => (
-                  <NavLink key={item.href} item={item} isActive={item.isActive} collapsed={collapsed} />
+                  <NavLink
+                    key={item.href}
+                    item={item}
+                    isActive={item.isActive}
+                    collapsed={collapsed}
+                    isLocked={item.isLocked}
+                    onClick={item.isLocked ? handleLockedClick : undefined}
+                  />
                 ))}
               </div>
             </div>
@@ -237,7 +287,14 @@ const AppSidebar: React.FC = () => {
               {collapsed && <div className="border-t border-[#005266] mb-1" />}
               <div className="space-y-1">
                 {kelolaMenuWithActive.map((item) => (
-                  <NavLink key={item.href} item={item} isActive={item.isActive} collapsed={collapsed} />
+                  <NavLink
+                    key={item.href}
+                    item={item}
+                    isActive={item.isActive}
+                    collapsed={collapsed}
+                    isLocked={item.isLocked}
+                    onClick={item.isLocked ? handleLockedClick : undefined}
+                  />
                 ))}
               </div>
             </div>
