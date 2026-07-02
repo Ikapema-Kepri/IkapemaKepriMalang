@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
 import { 
   User, 
   onAuthStateChanged, 
@@ -74,6 +74,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [sessionExpiresAt, setSessionExpiresAt] = useState<Date | null>(null);
+  const isLoggingInRef = useRef(false);
 
   const forceLogout = useCallback(async () => {
     try {
@@ -106,11 +107,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
+        // Skip session validation saat login sedang berlangsung —
+        // session data belum ditulis ke localStorage pada saat ini
+        if (isLoggingInRef.current) {
+          setUser(firebaseUser);
+          setLoading(false);
+          return;
+        }
+
         const session = getStoredSession();
 
-        // Validasi: apakah session sudah expired?
         if (isSessionExpired(session)) {
-          // Session habis → paksa logout
           forceLogout();
           setLoading(false);
           return;
@@ -156,11 +163,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // ── Login ─────────────────────────────────────────────────────────
   const login = async (email: string, password: string, rememberMe: boolean = false) => {
     try {
-      // Selalu gunakan local persistence — expiry dikelola manual
       await setPersistence(auth, browserLocalPersistence);
       
       localStorage.setItem('auth_remember_me', rememberMe.toString());
       
+      // Set flag SEBELUM signIn agar onAuthStateChanged tidak force-logout
+      isLoggingInRef.current = true;
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       
       // Hitung waktu expiry
@@ -183,7 +191,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const maxAgeSeconds = Math.floor(durationMs / 1000);
       setAuthCookie(maxAgeSeconds);
       
+      // Clear flag setelah semua session data tersimpan
+      isLoggingInRef.current = false;
+      
     } catch (error) {
+      isLoggingInRef.current = false;
       clearSessionStorage();
       throw error;
     }
