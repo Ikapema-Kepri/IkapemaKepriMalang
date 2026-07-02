@@ -1,9 +1,28 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+const ADMIN_ROLES = ['admin', 'superAdmin'];
+
+const ADMIN_ALLOWED_PATHS = [
+  '/adminaccess',
+  '/adminaccess/dashboard',
+  '/adminaccess/berita-kegiatan',
+];
+
+function canAccessPath(role: string | null, pathname: string): boolean {
+  if (role === 'superAdmin') return true;
+  if (role === 'admin') {
+    return ADMIN_ALLOWED_PATHS.some(
+      (allowed) => pathname === allowed || pathname.startsWith(allowed + '/')
+    );
+  }
+  return false;
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  
+
+  // Bypass untuk static assets dan API routes
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
@@ -13,45 +32,61 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Proteksi route adminaccess
-  const isAdminRoute = pathname.startsWith('/adminaccess');
-  const isLoginPage = pathname.startsWith('/adminaccess/login');
-  const isAuthenticated = request.cookies.get('admin_auth')?.value === '1';
+  const isAdminRoute       = pathname.startsWith('/adminaccess');
+  const isLoginPage        = pathname === '/adminaccess/login';
+  const isUnauthorizedPage = pathname === '/adminaccess/unauthorized';
 
-  // 1. Validasi Autentikasi Admin (Jika akses admin tanpa autentikasi, redirect ke login)
-  if (isAdminRoute && !isLoginPage && !isAuthenticated) {
+  // Baca role dari cookie (set oleh AuthContext saat login)
+  const cookieRole = request.cookies.get('admin_auth')?.value ?? null;
+  const isLoggedIn = cookieRole !== null && ADMIN_ROLES.includes(cookieRole);
+
+  // ── Admin Route Protection ─────────────────────────────────────────
+  if (isAdminRoute && !isLoginPage && !isUnauthorizedPage) {
+    // Belum login → redirect ke login
+    if (!isLoggedIn) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/adminaccess/login';
+      return NextResponse.redirect(url);
+    }
+
+    // Login tapi role tidak punya akses ke path ini → redirect unauthorized
+    if (!canAccessPath(cookieRole, pathname)) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/adminaccess/unauthorized';
+      return NextResponse.redirect(url);
+    }
+  }
+
+  // ── Redirect jika sudah login dan ke halaman login ─────────────────
+  if (isLoginPage && isLoggedIn) {
     const url = request.nextUrl.clone();
-    url.pathname = '/adminaccess/login';
+    // Admin biasa langsung diarahkan ke satu-satunya halaman yang boleh diakses
+    url.pathname =
+      cookieRole === 'admin' ? '/adminaccess/berita-kegiatan' : '/adminaccess/dashboard';
     return NextResponse.redirect(url);
   }
 
-  // 2. Redirect jika Admin sudah login dan mencoba akses halaman login
-  if (isLoginPage && isAuthenticated) {
-    const url = request.nextUrl.clone();
-    url.pathname = '/adminaccess/dashboard';
-    return NextResponse.redirect(url);
-  }
-
-  // 3. Kebal Maintenance: Jika yang mengakses adalah routing admin, biarkan lewat sepenuhnya
+  // ── Admin route → lewat sepenuhnya (kebal maintenance) ────────────
   if (isAdminRoute) {
     return NextResponse.next();
   }
 
-  // 4. Periksa Pemeliharaan Website via REST Fetch
+  // ── Maintenance Mode Check ─────────────────────────────────────────
   let isMaintenanceMode = false;
   try {
-     const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
-     if (projectId) {
-       // Melakukan caching selama 30 detik untuk menghindari latency query real-time
-       const res = await fetch(`https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/settings/maintenance`, { next: { revalidate: 30 } });
-       if (res.ok) {
-          const data = await res.json();
-          // API Firestore HTTP mengembalikan format data berjenjang: { fields: { enabled: { booleanValue: true } } }
-          isMaintenanceMode = data.fields?.enabled?.booleanValue === true;
-       }
-     }
-  } catch(e) {
-     console.error('Middleware maintenance fetch error:', e);
+    const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
+    if (projectId) {
+      const res = await fetch(
+        `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/settings/maintenance`,
+        { next: { revalidate: 30 } }
+      );
+      if (res.ok) {
+        const data = await res.json();
+        isMaintenanceMode = data.fields?.enabled?.booleanValue === true;
+      }
+    }
+  } catch (e) {
+    console.error('Middleware maintenance fetch error:', e);
   }
 
   if (isMaintenanceMode && pathname !== '/maintenance') {
