@@ -8,24 +8,33 @@ import {
   signOut,
   setPersistence,
   browserLocalPersistence,
+  getIdTokenResult,
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 
-const SESSION_DURATION_REMEMBER = 7 * 24 * 60 * 60 * 1000; 
-const SESSION_DURATION_DEFAULT  = 4 * 60 * 60 * 1000;       
-const SESSION_CHECK_INTERVAL    = 60 * 1000;                  
+// ── Tipe Role ──────────────────────────────────────────────────────────
+export type UserRole = 'admin' | 'superAdmin' | null;
+
+// ── Session Duration ───────────────────────────────────────────────────
+const SESSION_DURATION_REMEMBER = 7 * 24 * 60 * 60 * 1000; // 7 hari
+const SESSION_DURATION_DEFAULT  = 4 * 60 * 60 * 1000;       // 4 jam
+const SESSION_CHECK_INTERVAL    = 60 * 1000;                 // cek setiap 60 detik
 
 interface SessionData {
   uid: string;
   email: string | null;
-  loginAt: string;       
-  expiresAt: string;    
+  loginAt: string;
+  expiresAt: string;
   rememberMe: boolean;
+  role: UserRole;
 }
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
+  role: UserRole;
+  isAdmin: boolean;
+  isSuperAdmin: boolean;
   login: (email: string, password: string, rememberMe?: boolean) => Promise<void>;
   logout: () => Promise<void>;
   isAuthenticated: boolean;
@@ -42,14 +51,18 @@ export const useAuth = () => {
   return context;
 };
 
-function setAuthCookie(maxAgeSeconds: number) {
-  document.cookie = `admin_auth=1; path=/; SameSite=Lax; Max-Age=${maxAgeSeconds}`;
+// ── Cookie Helpers ────────────────────────────────────────────────────
+// Cookie menyimpan role string (admin/superAdmin) bukan hanya '1'
+// Middleware membaca ini untuk routing decisions (UX only)
+function setAuthCookie(role: string, maxAgeSeconds: number) {
+  document.cookie = `admin_auth=${role}; path=/; SameSite=Lax; Max-Age=${maxAgeSeconds}`;
 }
 
 function clearAuthCookie() {
   document.cookie = 'admin_auth=; path=/; Max-Age=0; SameSite=Lax';
 }
 
+// ── Session Storage Helpers ───────────────────────────────────────────
 function getStoredSession(): SessionData | null {
   try {
     const raw = localStorage.getItem('auth_session');
@@ -70,31 +83,42 @@ function clearSessionStorage() {
   localStorage.removeItem('auth_remember_me');
 }
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [sessionExpiresAt, setSessionExpiresAt] = useState<Date | null>(null);
-  const isLoggingInRef = useRef(false);
+// ── Helper: Baca role dari custom claims ──────────────────────────────
+async function getRoleFromToken(user: User, forceRefresh = false): Promise<UserRole> {
+  try {
+    const tokenResult = await getIdTokenResult(user, forceRefresh);
+    return (tokenResult.claims.role as UserRole) ?? null;
+  } catch {
+    return null;
+  }
+}
 
+// ── Provider ──────────────────────────────────────────────────────────
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [user, setUser]                       = useState<User | null>(null);
+  const [loading, setLoading]                 = useState(true);
+  const [role, setRole]                       = useState<UserRole>(null);
+  const [sessionExpiresAt, setSessionExpiresAt] = useState<Date | null>(null);
+  const isLoggingInRef                        = useRef(false);
+
+  // ── Force Logout ───────────────────────────────────────────────────
   const forceLogout = useCallback(async () => {
-    try {
-      await signOut(auth);
-    } catch {
-     
-    }
+    try { await signOut(auth); } catch { /* ignore */ }
     clearSessionStorage();
     clearAuthCookie();
     setUser(null);
+    setRole(null);
     setSessionExpiresAt(null);
-    
-    if (window.location.pathname.startsWith('/adminaccess') && 
-        window.location.pathname !== '/adminaccess/login') {
+    if (
+      window.location.pathname.startsWith('/adminaccess') &&
+      window.location.pathname !== '/adminaccess/login'
+    ) {
       window.location.href = '/adminaccess/login';
     }
   }, []);
 
+  // ── Auth State Listener ────────────────────────────────────────────
   useEffect(() => {
-    
     const initializePersistence = async () => {
       try {
         await setPersistence(auth, browserLocalPersistence);
@@ -102,13 +126,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         console.error('Error setting persistence:', error);
       }
     };
-
     initializePersistence();
 
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        // Skip session validation saat login sedang berlangsung —
-        // session data belum ditulis ke localStorage pada saat ini
+        // Skip validasi saat proses login sedang berlangsung
         if (isLoggingInRef.current) {
           setUser(firebaseUser);
           setLoading(false);
@@ -116,26 +138,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
 
         const session = getStoredSession();
-
         if (isSessionExpired(session)) {
           forceLogout();
           setLoading(false);
           return;
         }
 
+        // Baca role dari custom claims (pakai cache dari session jika ada)
+        const cachedRole = session?.role ?? null;
         setUser(firebaseUser);
+        setRole(cachedRole);
         setSessionExpiresAt(session ? new Date(session.expiresAt) : null);
 
-        // Refresh cookie Max-Age agar tetap sinkron dengan sisa waktu session
+        // Refresh cookie Max-Age sesuai sisa waktu session
         if (session) {
-          const remainingMs = new Date(session.expiresAt).getTime() - Date.now();
+          const remainingMs  = new Date(session.expiresAt).getTime() - Date.now();
           const remainingSec = Math.max(0, Math.floor(remainingMs / 1000));
-          if (remainingSec > 0) {
-            setAuthCookie(remainingSec);
+          if (remainingSec > 0 && cachedRole) {
+            setAuthCookie(cachedRole, remainingSec);
           }
         }
       } else {
         setUser(null);
+        setRole(null);
         setSessionExpiresAt(null);
         clearSessionStorage();
         clearAuthCookie();
@@ -149,14 +174,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // ── Periodic Session Expiry Check ─────────────────────────────────
   useEffect(() => {
     if (!user) return;
-
     const interval = setInterval(() => {
-      const session = getStoredSession();
-      if (isSessionExpired(session)) {
-        forceLogout();
-      }
+      if (isSessionExpired(getStoredSession())) forceLogout();
     }, SESSION_CHECK_INTERVAL);
-
     return () => clearInterval(interval);
   }, [user, forceLogout]);
 
@@ -164,36 +184,39 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (email: string, password: string, rememberMe: boolean = false) => {
     try {
       await setPersistence(auth, browserLocalPersistence);
-      
       localStorage.setItem('auth_remember_me', rememberMe.toString());
-      
-      // Set flag SEBELUM signIn agar onAuthStateChanged tidak force-logout
+
+      // Flag SEBELUM signIn agar onAuthStateChanged tidak force-logout
       isLoggingInRef.current = true;
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      
-      // Hitung waktu expiry
-      const now = new Date();
+
+      // Baca role dari custom claims (forceRefresh agar dapat claim terbaru)
+      const userRole = await getRoleFromToken(userCredential.user, true);
+
+      // Hitung expiry
+      const now        = new Date();
       const durationMs = rememberMe ? SESSION_DURATION_REMEMBER : SESSION_DURATION_DEFAULT;
-      const expiresAt = new Date(now.getTime() + durationMs);
-      
-      // Simpan session data dengan expiry
+      const expiresAt  = new Date(now.getTime() + durationMs);
+
+      // Simpan session
       const sessionData: SessionData = {
-        uid: userCredential.user.uid,
-        email: userCredential.user.email,
-        loginAt: now.toISOString(),
+        uid:       userCredential.user.uid,
+        email:     userCredential.user.email,
+        loginAt:   now.toISOString(),
         expiresAt: expiresAt.toISOString(),
         rememberMe,
+        role:      userRole,
       };
       localStorage.setItem('auth_session', JSON.stringify(sessionData));
+      setRole(userRole);
       setSessionExpiresAt(expiresAt);
 
-      // Set cookie dengan Max-Age yang sama
+      // Set cookie dengan role sebagai nilai
       const maxAgeSeconds = Math.floor(durationMs / 1000);
-      setAuthCookie(maxAgeSeconds);
-      
-      // Clear flag setelah semua session data tersimpan
+      // Jika user belum punya role claim, set 'admin' sebagai default
+      setAuthCookie(userRole ?? 'admin', maxAgeSeconds);
+
       isLoggingInRef.current = false;
-      
     } catch (error) {
       isLoggingInRef.current = false;
       clearSessionStorage();
@@ -207,6 +230,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       await signOut(auth);
       clearSessionStorage();
       clearAuthCookie();
+      setRole(null);
       setSessionExpiresAt(null);
       window.location.href = '/adminaccess/login';
     } catch (error) {
@@ -215,9 +239,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const value = {
+  const value: AuthContextType = {
     user,
     loading,
+    role,
+    isAdmin:         role === 'admin' || role === 'superAdmin',
+    isSuperAdmin:    role === 'superAdmin',
     login,
     logout,
     isAuthenticated: !!user,

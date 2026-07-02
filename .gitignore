@@ -42,4 +42,6 @@ yarn-error.log*
 Thumbs.db
 
 # Preview page
-src/app/preview/
+src/app/preview/serviceAccountKey.json
+
+serviceAccountKey.json

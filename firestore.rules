@@ -1,0 +1,108 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helper Functions ────────────────────────────────────────────
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function getRole() {
+      return request.auth.token.role;
+    }
+
+    function isSuperAdmin() {
+      return isSignedIn() && getRole() == 'superAdmin';
+    }
+
+    function isAdminOrAbove() {
+      return isSignedIn() && (getRole() == 'admin' || getRole() == 'superAdmin');
+    }
+
+    // ── Koleksi: users ──────────────────────────────────────────────
+    // superAdmin: read/write semua user
+    // admin: hanya bisa baca data dirinya sendiri
+    match /users/{uid} {
+      allow read:  if isSignedIn() && (isSuperAdmin() || request.auth.uid == uid);
+      allow write: if isSuperAdmin();
+    }
+
+    // ── Koleksi: settings ───────────────────────────────────────────
+    // Hanya superAdmin yang bisa ubah settings (maintenance mode, dll)
+    match /settings/{document=**} {
+      allow read:  if isAdminOrAbove();
+      allow write: if isSuperAdmin();
+    }
+
+    // ── Koleksi: anggota ────────────────────────────────────────────
+    // Public read (untuk tampilan publik), write hanya admin ke atas
+    match /anggota/{document=**} {
+      allow read:  if true;
+      allow write: if isAdminOrAbove();
+    }
+
+    // ── Koleksi: alumni ─────────────────────────────────────────────
+    match /alumni/{document=**} {
+      allow read:  if true;
+      allow write: if isAdminOrAbove();
+    }
+
+    // ── Koleksi: berita ─────────────────────────────────────────────
+    match /berita/{document=**} {
+      allow read:  if true;
+      allow write: if isAdminOrAbove();
+    }
+
+    // ── Koleksi: kegiatan ───────────────────────────────────────────
+    match /kegiatan/{document=**} {
+      allow read:  if true;
+      allow write: if isAdminOrAbove();
+    }
+
+    // ── Koleksi: banner ─────────────────────────────────────────────
+    match /banner/{document=**} {
+      allow read:  if true;
+      allow write: if isAdminOrAbove();
+    }
+
+    // ── Koleksi: majalah ────────────────────────────────────────────
+    match /majalah/{document=**} {
+      allow read:  if true;
+      allow write: if isAdminOrAbove();
+    }
+
+    // ── Koleksi: sambutan ───────────────────────────────────────────
+    match /sambutan/{document=**} {
+      allow read:  if true;
+      allow write: if isAdminOrAbove();
+    }
+
+    // ── Koleksi: kontak / contactAsrama ─────────────────────────────
+    // Public bisa kirim pesan (create), admin bisa baca & hapus
+    match /kontak/{document=**} {
+      allow create: if true;
+      allow read:   if isAdminOrAbove();
+      allow update,
+            delete: if isAdminOrAbove();
+    }
+
+    match /contactAsrama/{document=**} {
+      allow create: if true;
+      allow read:   if isAdminOrAbove();
+      allow update,
+            delete: if isAdminOrAbove();
+    }
+
+    // ── Koleksi: asrama ─────────────────────────────────────────────
+    match /asrama/{document=**} {
+      allow read:  if true;
+      allow write: if isAdminOrAbove();
+    }
+
+    // ── Default: tolak semua akses yang tidak terdaftar ─────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
