@@ -3,8 +3,7 @@ import { db } from '../../../../lib/firebase';
 import { doc, updateDoc, getDoc } from 'firebase/firestore';
 import { CloudinaryUploadResult } from '@/types';
 import cloudinary from '../../../../lib/cloudinary';
-
-import { Buffer } from 'buffer';
+import { optimizeImageToWebp } from '@/lib/serverImageUtils';
 
 const handlers = {
   async GET(req: NextRequest, { params }: { params: { id: string } }) {
@@ -83,8 +82,9 @@ const handlers = {
 
       if (file && file.size > 0) {
         // Upload gambar baru ke Cloudinary
-        const arrayBuffer = await file.arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer);
+        // const arrayBuffer = await file.arrayBuffer();
+        // const buffer = Buffer.from(arrayBuffer);
+        const webpBuffer = await optimizeImageToWebp(file);
 
         const uploadResult = await new Promise<CloudinaryUploadResult>((resolve, reject) => {
           cloudinary.uploader.upload_stream(
@@ -96,7 +96,7 @@ const handlers = {
               }
               resolve(result as CloudinaryUploadResult);
             }
-          ).end(buffer);
+          ).end(webpBuffer);
         });
 
         // Hapus gambar lama pakai public_id
