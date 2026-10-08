@@ -106,7 +106,7 @@ export const useAlumni = ({ initialSearch = '', itemsPerPage = 20 }: UseAlumniPr
   const handleDelete = async (id: string) => {
     if (!confirm('Yakin ingin menghapus alumni ini?')) return;
     try {
-      const response = await fetch(`/api/anggota/${id}`, { method: 'DELETE' });
+      const response = await fetch(`/api/alumni/${id}`, { method: 'DELETE' });
       if (!response.ok) {
         const errorData: ApiResponse = await response.json();
         throw new Error(errorData.message || 'Gagal menghapus alumni.');
@@ -152,21 +152,23 @@ export const useAlumni = ({ initialSearch = '', itemsPerPage = 20 }: UseAlumniPr
     setEditData({ ...editData, [e.target.name]: e.target.value });
   };
 
-  const handleEditSubmit = async (e: React.FormEvent) => {
+  const handleEditSubmit = async (e: React.FormEvent, formDataOverride?: FormData) => {
     e.preventDefault();
     if (!editId) return;
     try {
-      // API route menggunakan req.formData(), sehingga payload harus dikirim sebagai FormData
-      const formData = new FormData();
-      if (editData.namaAnggota) formData.append('namaAnggota', editData.namaAnggota);
-      if (editData.universitas) formData.append('universitas', editData.universitas);
-      if (editData.programStudi) formData.append('programStudi', editData.programStudi);
-      if (editData.angkatan) formData.append('angkatan', editData.angkatan);
-      formData.append('isActive', editData.isActive === true || (editData.isActive as unknown) === 'true' ? 'true' : 'false');
+      const body = formDataOverride ?? (() => {
+        const formData = new FormData();
+        if (editData.namaAnggota) formData.append('namaAnggota', editData.namaAnggota);
+        if (editData.universitas) formData.append('universitas', editData.universitas);
+        if (editData.programStudi) formData.append('programStudi', editData.programStudi);
+        if (editData.angkatan) formData.append('angkatan', editData.angkatan);
+        formData.append('isActive', editData.isActive === true || (editData.isActive as unknown) === 'true' ? 'true' : 'false');
+        return formData;
+      })();
 
-      const response = await fetch(`/api/anggota/${editId}`, {
+      const response = await fetch(`/api/alumni/${editId}`, {
         method: 'PUT',
-        body: formData, // Tidak perlu Content-Type header, browser set otomatis untuk FormData
+        body,
       });
       const data: ApiResponse = await response.json();
       if (!response.ok) throw new Error(data.message || 'Gagal mengedit alumni.');
