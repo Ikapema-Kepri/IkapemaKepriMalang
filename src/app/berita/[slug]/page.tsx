@@ -43,6 +43,11 @@ export default function BeritaDetail({ params }: { params: Promise<{ slug: strin
       })
     : "Belum dipublikasi";
 
+  const paragraphs = (detail.content || "")
+    .split(/\r?\n[ \t]*\r?\n/)
+    .map((paragraph) => paragraph.replace(/\s*\r?\n\s*/g, " ").trim())
+    .filter(Boolean);
+
   return (
     <div className="min-h-screen bg-[#F5F9FA] pb-24 pt-28 md:pt-36">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -94,11 +99,19 @@ export default function BeritaDetail({ params }: { params: Promise<{ slug: strin
         </div>
 
         {/* Article Content */}
-        {/* Menggunakan dangerouslySetInnerHTML karena `content` seringnya Rich Text/HTML */}
+        {/* `content` adalah plain text dari textarea. Baris kosong = pemisah paragraf; enter tunggal
+            (sering muncul dari hasil copy-paste yang sudah ter-wrap) digabung agar justify bekerja,
+            karena baris terakhir sebuah blok tidak pernah di-justify. */}
         <article
-          className="prose prose-lg md:prose-xl prose-[#00A3CC] max-w-none text-gray-700 leading-relaxed"
-          dangerouslySetInnerHTML={{ __html: detail.content }}
-        />
+          lang="id"
+          className="max-w-none text-base md:text-lg text-gray-700 leading-relaxed md:leading-loose text-justify hyphens-auto break-words"
+        >
+          {paragraphs.map((paragraph, index) => (
+            <p key={index} className="mb-6 last:mb-0">
+              {paragraph}
+            </p>
+          ))}
+        </article>
 
         {/* Tags */}
         {detail.tags && detail.tags.length > 0 && (

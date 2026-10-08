@@ -3,7 +3,7 @@ import { db } from '../../../../lib/firebase';
 import { doc, deleteDoc, updateDoc, getDoc } from 'firebase/firestore';
 import cloudinary from '../../../../lib/cloudinary';
 import { CloudinaryUploadResult } from '@/types';
-import { Buffer } from 'buffer';
+import { optimizeImageToWebp } from '@/lib/serverImageUtils';
 
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -74,8 +74,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     const deleteImage = formData.get('deleteImage') === 'true';
 
     if (file && file.size > 0) {
-      const arrayBuffer = await file.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
+      const webpBuffer = await optimizeImageToWebp(file);
       const uploadResult = await new Promise<CloudinaryUploadResult>((resolve, reject) => {
         cloudinary.uploader.upload_stream(
           { resource_type: 'auto', folder: 'anggota' },
@@ -83,7 +82,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
             if (error || !result) reject(error || new Error('Upload to Cloudinary failed'));
             else resolve(result as CloudinaryUploadResult);
           }
-        ).end(buffer);
+        ).end(webpBuffer);
       });
 
       if (oldData.anggotaPublicId) {

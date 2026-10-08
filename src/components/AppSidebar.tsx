@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   Users,
   GraduationCap,
+  UserCog,
   Newspaper,
   LogOut,
   Home,
@@ -37,6 +38,7 @@ const KELOLA_WEBSITE_ITEMS: MenuItem[] = [
   { name: "Beranda",         href: "/adminaccess/beranda",         icon: Home },
   { name: "Anggota",         href: "/adminaccess/anggota",         icon: Users },
   { name: "Alumni",          href: "/adminaccess/alumni",          icon: GraduationCap },
+  { name: "Pengurus",        href: "/adminaccess/pengurus",        icon: UserCog },
   { name: "Berita Kegiatan", href: "/adminaccess/berita-kegiatan", icon: Newspaper },
   { name: "Kontak",          href: "/adminaccess/kontak",          icon: Phone },
   { name: "Pengaturan",      href: "/adminaccess/pengaturan",      icon: Settings },
